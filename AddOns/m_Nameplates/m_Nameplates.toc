@@ -1,0 +1,11 @@
+## Interface: 60100
+## Author: Monolit
+## Title: mono|cffffffffNameplates|r
+## Version: 6.0
+## Notes: simple nameplate addon
+## Credits: Dawn, Caellian, shUI
+
+cfg.lua
+Nameplates.lua
+DebuffWhiteList.lua
+showNPdebuff.lua

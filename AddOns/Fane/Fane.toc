@@ -1,0 +1,10 @@
+﻿## Interface: 60100
+## Title: Fane
+## Title-zhTW: Fane
+## Notes: Improved chat tabs!
+## Notes-zhTW: Improved chat tabs!
+## Author: Haste
+## Version: 1.6
+## X-eMail: troeks@gmail.com
+
+tabs.lua

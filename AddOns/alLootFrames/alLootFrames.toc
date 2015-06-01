@@ -1,0 +1,11 @@
+## Interface: 60100
+## Title: |cff777777al|rLootFrames
+## Title-zhTW: |cff777777al|rLootFrames
+## Notes: Loot and roll frames replacement
+## Notes-zhTW: Loot and roll frames replacement
+## Author: Allez
+## Version: 40000.1
+## OptionalDeps: alInterface
+
+Loot.lua
+##LootRoll.lua

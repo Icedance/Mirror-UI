@@ -1,0 +1,10 @@
+﻿## Interface: 60100
+## Title: oUF TotemBar
+## Title-zhTW: oUF TotemBar
+## Notes: Totem bars support for oUF layouts.
+## Notes-zhTW: Totem bars support for oUF layouts.
+## Dependencies: oUF
+## Author: Soeters
+## Version: r4
+
+oUF_TotemBar.lua

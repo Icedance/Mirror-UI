@@ -1,0 +1,11 @@
+﻿## Interface: 60100
+## Title: |cff70C0F5MirrorBuff|r
+## Title-zhTW: |cff70C0F5MirrorBuff|r
+## Notes: Powered By Sora's Buff O(∩_∩)O
+## Notes-zhTW: Powered By Sora's Buff O(∩_∩)O
+## Author: Neavo
+
+## X-Email:neavo7@Gmail.com
+
+Load_Buff.xml
+AuraSource.lua

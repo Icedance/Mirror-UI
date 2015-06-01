@@ -1,0 +1,11 @@
+## Interface: 60100
+## Title: Repz
+## Notes: Auto tracker for reputation gains
+## Author: Weeperman <weeperman@live.co.uk>
+## Version: 1.2
+## DefaultState: enabled
+## LoadOnDemand: 0
+## SavedVariablesPerCharacter: RepzPlusOnly
+
+embeds.xml
+Repz.lua

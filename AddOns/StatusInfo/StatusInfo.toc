@@ -1,0 +1,9 @@
+## Interface: 60100
+## Title: |cffff00ffStatusInfor 2.04
+## Title-zhTW: |cffff00ffStatusInfor 2.04
+## Notes: A simple combat attributes    monitor
+## Notes-zhTW: A simple combat attributes    monitor
+## Author: surgesoft
+## Version: 2.04
+## SavedVariables: StatusSave
+StatusInfo.lua

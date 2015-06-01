@@ -1,0 +1,9 @@
+﻿## Interface: 60100
+## Title: |cff3366CCBlizzard |cff00DBBASCT|r Font Switcher
+## Title-zhTW: |cff3366CCBlizzard |cff00DBBASCT|r Font Switcher
+## Notes: Switches default blizzard sct font (everywhere).
+## Notes-zhTW: Switches default blizzard sct font (everywhere).
+## DefaultState: Enabled
+## Author: Balkeep
+## Version: 1.1
+BlizzSctFont.lua

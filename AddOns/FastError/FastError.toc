@@ -1,0 +1,9 @@
+﻿## Interface: 60100
+## Title: FastError
+## Title-zhTW: FastError
+## Notes: 
+## Notes-zhTW: 
+## Author: AlleyKat
+## Version: 2010.08.29
+
+FastError.lua

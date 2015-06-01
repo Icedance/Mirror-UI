@@ -1,0 +1,13 @@
+## Interface: 60100
+## Title: mono|cffffffffMinimap|r
+## Title-zhTW: mono|cffffffffMinimap|r
+## Notes: Minimap modifications
+## Notes-zhTW: Minimap modifications
+## Author: Monolit
+## Version: 2.0
+## OptionalDeps: Blizzard_TimeManager
+
+m_Minimap.lua
+
+HGarri\Fade.lua
+HGarri\HGarri.lua

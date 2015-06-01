@@ -1,0 +1,16 @@
+## Interface: 60100
+## Author: Dawn
+## Notes: oUF layout ... of slim'ness
+## Title: |cff01DFD7oUF_|r|cffffffffSlim|r
+## OptionalDeps: oUF_CombatFeedback, oUF_SpellRange, oUF_BarFader, oUF_Smooth, oUF_WeaponEnchant
+
+module\oUF_Smooth.lua
+module\oUF_TotemBar.lua
+module\oUF_Harmonyorbs.lua
+module\oUF_Shadoworbs.lua
+module\oUF_WarlockSpecBars.lua
+Slim.xml
+Slim_Config.lua
+Slim_AuraFilterList.lua
+Slim_Tags.lua
+Slim.lua

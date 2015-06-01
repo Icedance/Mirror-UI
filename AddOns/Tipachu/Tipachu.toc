@@ -1,0 +1,7 @@
+## Interface: 60100
+## Title: Tipachu
+## Author: Tuller
+## Notes: Adds an items icon to its tooltip
+## SavedVariables: TipachuSize
+## Version: 5.3.0
+Tipachu.lua

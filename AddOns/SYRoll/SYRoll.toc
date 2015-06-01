@@ -1,0 +1,12 @@
+﻿## Interface: 60100
+## Title: SYRoll
+## Title-zhCN: |cFF71D5FF美化 -|r Roll点框体
+## Title-zhTW: |cFF71D5FF美化 -|r Roll點框體
+## Notes: Skinned roll frames.
+## Notes-zhCN: Roll点框体美化插件
+## Notes-zhTW: Roll點框體美化插件
+## SavedVariables: SYRollDB
+
+API.lua
+Locale.lua
+SYRoll.lua

@@ -1,0 +1,14 @@
+﻿## Interface: 60100
+## Title: CloseUp
+## Title-zhTW: CloseUp
+## Notes: Adds model viewing flexibility
+## Notes-zhTW: Adds model viewing flexibility
+## Author: TotalPackage
+## Version: 4.3.001a
+## X-Category: Interface Enhancements
+## SavedVariables: CU_HideBG
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
+Closeup.lua

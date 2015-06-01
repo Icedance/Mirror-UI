@@ -1,0 +1,11 @@
+﻿## Interface: 60100
+## Title: Durability_Glow
+## Title-zhTW: 
+## Notes: 边框品质着色 + 人物界面耐久度显示
+## Notes-zhTW: 边框品质着色 + 人物界面耐久度显示
+## Tittle:SyDurGlowMod
+## Author: Sayoc
+## X-Mod: Neavo
+
+oGlow.lua
+##Durability.lua

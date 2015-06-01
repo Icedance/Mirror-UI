@@ -1,0 +1,12 @@
+## Interface: 60100
+## X-BigfootType: 4
+## X-BigfootDesc: 没有任何界面，也不用任何设置，装入游戏就可以直接为你屏蔽那些恼人的1级小号在主城交易频道发的那些卖G的广告。
+## Version: 3.2
+## Title: |cff0080ffNGS|r
+## Title-zhCN: |cff0080ffNGS|r 聊天过滤
+## Title-zhTW: |cff0080ffNGS|r 聊天過濾
+## Author: Sonichunter(xingfukaka)
+## Notes: NoGoldSeller:|cff00ff00出售金幣廣告屏蔽插件|r          （|cff3399FFSonicelement|r@地獄吼）
+## Notes-zhCN: NoGoldSeller:|cff00ff00出售金币广告屏蔽插件|r          （|cff3399FFSonicelement|r@TW,地獄吼）
+
+NoGoldSeller.lua

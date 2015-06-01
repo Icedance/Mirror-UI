@@ -1,0 +1,12 @@
+﻿## Interface: 60100
+## Title: |cffaaaaaanib|rEclipse
+## Title-zhTW: |cffaaaaaanib|rEclipse
+## Notes: Simple Druid Eclipse display
+## Notes-zhTW: Simple Druid Eclipse display
+## Author: Nibelheim
+## Version: 1.3
+
+## X-WoWI-ID: 20142
+
+Config.lua
+Core.lua

@@ -1,0 +1,9 @@
+## Interface: 60100
+## Title: |cff70C0F5Freebgrid_Config|r
+## Notes: Freebgrid's configuration gui
+## Dependencies: Freebgrid
+## Author: Freebaser
+## LoadOnDemand: 1
+
+
+..\Freebgrid\config.xml

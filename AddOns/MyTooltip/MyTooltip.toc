@@ -1,0 +1,13 @@
+﻿## Interface: 60100
+## Title: |cff777777My|rTooltip
+## Title-zhTW: |cff777777My|rTooltip
+## Notes: Tooltip styling
+## Notes-zhTW: Tooltip styling
+## Author: Fernir
+## Version: 40000.1
+## OptionalDeps: !MyGUI
+
+MyTooltip.lua
+TipTacTalents.lua 
+##Itemlevel.lua
+ilevel.lua

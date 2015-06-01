@@ -1,0 +1,9 @@
+## Interface: 60000
+
+## Title: |cff1784d1H|rGarri
+## Notes: |cff1784d1H|rGarri |cFFFFFFFF(Hover Over Garrison Button)|r
+## Author: Kkthnx, Shestak
+## Version: 1.0
+
+Fade.lua
+HGarri.lua

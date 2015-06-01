@@ -1,0 +1,13 @@
+﻿## Interface: 60100
+## Title: CombatAlert
+## Title-zhTW: CombatAlert
+## Notes: 很带感的进入/脱离战斗提示
+## Notes-zhTW: 很带感的进入/脱离战斗提示
+## Version: 0.2
+## Author: Ray
+## Title-zhCN: CombatAlert
+## Notes-zhCN: 很带感的进入/脱离战斗提示
+## 57.4F.57.45.59.45.53.53.42 beta
+
+config.lua
+CombatAlert.lua

@@ -1,0 +1,10 @@
+﻿## Interface: 60100
+## Title: pawsCombo
+## Title-zhTW: pawsCombo
+## Notes: 
+## Notes-zhTW: 
+## Title-zhCN: 爪子连击点
+## Author: Ray - based on draeFrames
+## Author-zhCN: Ray ( 提取自draeFrames )
+
+core.lua

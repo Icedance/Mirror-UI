@@ -1,0 +1,7 @@
+## Interface: 60100
+## Title: ncHoverName
+## Author: Nightcracker
+## Version: 1.0
+## Notes: Addon that shows the names of players and NPC's if you hover over them
+
+ncHoverName.lua

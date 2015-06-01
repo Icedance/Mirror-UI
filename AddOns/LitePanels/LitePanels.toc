@@ -1,0 +1,10 @@
+﻿## Interface: 60100
+## Title: Lite|cff44CCFFPanels|r
+## Title-zhTW: Lite|cff44CCFFPanels|r
+## Notes: Lightweight Panels of Awesomeness
+## Notes-zhTW: Lightweight Panels of Awesomeness
+## Author: Jon Crenshaw (revrii@gmail.com)
+## Version: 40000.1
+
+core.lua
+layout.lua

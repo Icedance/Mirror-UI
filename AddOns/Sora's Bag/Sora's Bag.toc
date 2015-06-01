@@ -1,0 +1,6 @@
+﻿## Interface: 60100
+## Title: |cff70C0F5Sora's|r Bag
+## Notes: Sora's O(∩_∩)O
+## Author: Neavo
+
+Load_Bag.xml

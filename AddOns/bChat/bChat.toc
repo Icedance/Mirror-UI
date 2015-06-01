@@ -1,0 +1,10 @@
+﻿## Interface: 60100
+## Title: |cff3399FF b|rChat
+## Title-zhTW: |cff3399FF b|rChat
+## Notes: 
+## Notes-zhTW: 
+## DefaultState: Enabled
+## LoadOnDemand: 0
+QQChat.lua
+channelreplacements.lua
+AceTimer-3.0.lua

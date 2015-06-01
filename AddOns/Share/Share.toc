@@ -1,0 +1,32 @@
+﻿## Interface: 60100
+## Title: |cff3399FF Share
+## Title-zhTW: |cff3399FF Share
+## Notes: Nga众分享的各种小段实用代码
+## Notes-zhTW: Nga众分享的各种小段实用代码
+## Author: Nga
+## Version: 1.0
+## LoadOnDemand: 0
+
+
+##小代码合集
+share.lua
+##经验条
+TuExp.lua
+##聊天按钮
+##chatbar.lua
+##快速焦点
+Focuser.lua
+##任务追踪美化
+vQuestmove.lua
+##大地图去除迷雾
+Foglight.lua
+##显示Buff施法者 
+CastBy.lua
+##伤害发布合并
+damagemeters.lua
+##战斗中隐藏要塞任务完成提示
+MissionHush.lua
+##专业技能面板标签 
+TradeTabs.lua
+##拍卖行增强
+AuctionPlus.lua

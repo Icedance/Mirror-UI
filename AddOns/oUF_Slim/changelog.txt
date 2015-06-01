@@ -1,0 +1,170 @@
+oUF_Slim is based on oUF_Nivea and updated to work with oUF 1.5+ for WoW patch 4.x+ / Cataclysm.
+
+r15
+* TOC update for 4.1
+* removed pet happiness
+* added more PvP relevant auras to the whitelist filter (Throwdown, Skull Bash, Hungering Cold, Ring of Frost, Smoke Bomb, etc.)
+
+
+r14
+* improved mouseover highlight appearance
+* tweaked raidframes
+- added an option to set the maximum number of debuffs visible on raidframes (default: cfg.RaidDebuffNumb = 2)
+- changed debuff and name position
+- added Fear Ward to priest's class tags (red "FW")
+* added experience and reputation info on player
+- no plugin required, thanks to Hank for inspiration and animation code <3
+- can be disabled via config (cfg.showXpRep)
+- there's a delay of 2 seconds until rep/xp info will show on mouseover (player)
+- the delay can be changed via config (cfg.delay)
+- xp display is hidden at max lvl
+- capable of tracking xp and rep at once
+
+r13
+* added some Cataclysm raid spell IDs to the aura filter list, thanks to breor
+* removed Lady Deathwhisper's Frost Feaver spell ID from IC - since it keeps poping up from any ordinary Deathknight in PvP ...
+
+r12
+* changed background texture to a plain white one and increased alpha 
+* tweaked player cast time position (should no longer overlap spell text with certain fonts)
+* changed player and target default position
+* added an option to change the aura size (default: cfg.buSize = 30)
+* added an option to adjust the aura height	(default: cfg.buHeightMulti = 0.8)
+- this option allows for rectangle buffs/debuffs, instead of just square ones
+- set to 1 for square auras
+
+r11
+* changed folder structure
+- made media folder separate, one folder to be used for all of my addons
+- added alternative non-pixel font to dMedia: SF New Republic Bold.ttf ... works fine for everything, with THINOUTLINE and size 11+
+* some tweaks to castbar time's font string Set Points
+- should work better for different fonts
+* added an option (hpNumbFS) to change the font size of health value (player, target, focus), independent from NumbFS (i.e. power value, etc.)
+* added an option to enable/disable blizzards raidframe manager (disabled by default)
+* improved raid frames
+- splitted raid frames in 2 groups
+>> cfg.RaidFrames = 25 people in group 1-5 and cfg.RaidFrames2 = 26-40 people in group 6-8
+- you can separately enable/disable groups 1-5 and/or 6-8
+- mana bar is now inside the healthbar and shorter
+- increased default health height
+- changed some things around
+* cfg.PPyOffset is working again...
+* class points font size is now also defined by cfg.ComboFS
+* removed cfg.PlayerBuffsOnPlayerFrame option, as there are no player buffs since r1 ... oUF_Nivea leftover
+
+note: 
+The change to raid frame display means, that people in group 6-8 will not show up at all UNLESS your raid group is larger than 25 people. People moved to these groups will be hidden.
+
+r10 
+* changed how transparent mode works and thus got smooth healthbar updates working for it, too *yey*
+* added options to change the healthbar color and alpha in Transparency Mode
+* disabled smooth bar update for raid frames
+* added Class Colors support, you can get it on WoWinterface (by Phanx)
+- makes it possible to change class colors without taint, in game
+
+r9 
+* hide level when casting ...
+
+r8
+* fixed string error on level up
+* changed AnyDown to AnyUp
+
+r7
+* embedded oUF_Smooth
+* removed some reduntant variables from config
+* added "Transparency Mode" - transparent healthbars, with class/reaction colored background. Besides looking nifty, it's especially nice for healers.
+* added an option to enable/disable Transparency Mode - enabled by default
+
+Note: The healthbar's filling/depleting won't be "smoothed" (through oUF_Smooth) in transparency mode, at least for now.
+
+r6
+* changed threat and debuff highlight appearance ... might be even final now :p
+* changed, removed some name abbreviation code
+- possibly fixed erratic name string error on level up *crosses fingers*
+* added gradient to target and player frame
+* un-interruptable casts got a purple castbar color
+* no longer show player in party by default - this time for real ... really ... I swear! *cough*
+* several tweaks
+
+r5
+* some more tweaks to aura appearance (different default border texture, etc.)
+* no longer show player in party by default
+* changed threat highlight to highlight the unit's healthbar border
+
+r4
+* fixed Shaman Maelstrom display
+* changed frame strata for icons (player, target, focus)
+* tweaked aura appearance
+* tweaked mirror bar(s) appearance
+* ugly red border around non magic/curse/disease/poison buff/debuffs be gone!
+
+r3
+* updated maintank and boss frame appearance
+* updated raid frame appearance
+* added afkdnd tag to raid frames
+* no longer hides blizzards player auras by default
+* added castbar spark
+* changed castbar to overlay health instead of power, changed transparency to 70%, changed default castbar color, removed background
+
+r2
+* renamed pClassbar frame to pClassPoints - contains holy power counter, shadow orb counter, etc.
+* added Evangelism/Dark Evangelism, Shadow Orb and Maelstrom tracking (Maelstrom is untested)
+* fix error with TotemBar plugin
+* updated TotemBar appearance
+* smaller party health and mana value (name font size)
+* some code clean up
+
+r1
+* initial release
+
+note: 
+This is an initial release, there might be some errors or glitches. Mainly with party, raid, boss, maintank and/or arena frames. Since all those frames are untested, yet. Feel free to report them. ;)
+
+
+Features
+* easily customizable, with lots of options - frame size, fonts, textures, enable/disable features  ...
+* set/clear Focus via Shift + Left Click (set/clear focus are removed from right click menu to prevent errors)
+* moveable frames - via oUF_MoveableFrames by haste
+* boss and main tank frames
+* player, focus and target castbar
+* Soul Shards, Holy Power, Druid mana, Evangelism/Dark Evangelism, Shadow Orb and Maelstrom tracking 
+- separately moveable via oUF_MoveableFrames by haste (pClassPoints frame)
+* Runes, Eclipse bar support
+* Totembar support (via oUF_TotemBar plugin)
+* combo points
+* health value's color changes for low health
+- current health value is colored yellow between 35% and 25% health
+- current health value is colored orange between 25% and 20% health
+- current health value is colored red below 20% health
+* built-in aggro highlight
+* built-in debuff highlight
+* advanced raid and party frames, with aura filtering and more ...
+* vehicle support (incl. raid and party)
+* featured hankthetank's raid icon textures
+* optionally hides Blizzard Auras
+* hides blizzards raid frame manager
+
+
+Supported frames
+* player
+* player pet
+* target
+* target of target
+* focus
+* party
+* party pets
+* raid
+* boss frames
+* main tank - can be set via /maintank, /ma
+* main tank target
+* arena frames + targets
+
+
+Plugin support
+* oUF_CombatFeedback
+* oUF_SpellRange - highly recommended
+* oUF_Smooth Update - a customized version is included
+* oUF_BarFader
+* oUF_MoveableFrames - highly recommended
+* oUF_TotemBar
+* oUF_WeaponEnchant

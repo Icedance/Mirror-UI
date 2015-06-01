@@ -1,0 +1,9 @@
+﻿## Interface: 60100
+## Title: Baud Error Frame
+## Title-zhTW: Baud Error Frame
+## Notes: Improved error reporting
+## Notes-zhTW: Improved error reporting
+## Author: Baudzilla, wolftankk, Affli@RU-Howling Fjord
+## Version: 1.4
+
+BaudErrorFrame.xml

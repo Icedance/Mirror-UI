@@ -1,0 +1,11 @@
+## Interface: 60100
+## Title: DragEmAll
+## Notes: Makes most default frames movable (mailbox, achievements window etc.)
+## Author: emelio
+## Version: 1.0.6
+## X-Curse-Packaged-Version: 1.0.6
+## X-Curse-Project-Name: DragEmAll
+## X-Curse-Project-ID: drag-em-all
+## X-Curse-Repository-ID: wow/drag-em-all/mainline
+
+DragEmAll.lua

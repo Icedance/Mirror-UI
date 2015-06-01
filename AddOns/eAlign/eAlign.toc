@@ -1,0 +1,11 @@
+﻿## Interface: 60100
+## Title: eAlign
+## Title-zhTW: eAlign
+## Notes: Alignment grid.
+## Notes-zhTW: Alignment grid.
+## Author: Eurytus
+## X-Curse-Packaged-Version: 4.0.2
+## X-Curse-Project-Name: eAlign
+## X-Curse-Project-ID: ealign
+## X-Curse-Repository-ID: wow/ealign/mainline
+eAlign.lua
