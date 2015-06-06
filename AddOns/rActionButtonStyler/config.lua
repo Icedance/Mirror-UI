@@ -25,17 +25,17 @@
     equipped          = "Interface\\AddOns\\rActionButtonStyler\\media\\gloss_grey",
     buttonback        = "Interface\\AddOns\\rActionButtonStyler\\media\\button_background",
     buttonbackflat    = "Interface\\AddOns\\rActionButtonStyler\\media\\button_background_flat",
-    outer_shadow      = "Interface\\AddOns\\rActionButtonStyler\\media\\outer_shadow",
+    --outer_shadow      = "Interface\\AddOns\\rActionButtonStyler\\media\\outer_shadow",
   }
 
   cfg.background = {
     showbg            = true,  --show an background image?
-    showshadow        = false,   --show an outer shadow?
+    showshadow        = true,   --show an outer shadow?
     useflatbackground = false,  --true uses plain flat color instead
     backgroundcolor   = { r = 0.2, g = 0.2, b = 0.2, a = 0.3},
     shadowcolor       = { r = 0, g = 0, b = 0, a = 0.9},
     classcolored      = false,
-    inset             = 6,
+    inset             = 5,
   }
 
   cfg.color = {
@@ -65,7 +65,7 @@
   }
 
   cfg.cooldown = {
-    spacing         = 0,
+    spacing         = 2,
   }
 
   cfg.font = "Interface\\AddOns\\rActionButtonStyler\\media\\FONTS.TTF"

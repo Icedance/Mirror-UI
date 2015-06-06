@@ -85,8 +85,7 @@
     bu:SetNormalTexture(cfg.textures.normal)
     local nt = bu:GetNormalTexture()
     nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
-    nt:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
+    nt:SetAllPoints(bu)
     --apply background
     if not bu.bg then applyBackground(bu) end
     bu.rabs_styled = true
@@ -145,22 +144,14 @@
     bu:SetPushedTexture(cfg.textures.pushed)
     bu:SetCheckedTexture(cfg.textures.checked)
     bu:SetNormalTexture(cfg.textures.normal)
-	local hl = bu:GetHighlightTexture()
-    hl:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    hl:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
-	local ps = bu:GetPushedTexture()
-    ps:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    ps:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
-	local ck = bu:GetCheckedTexture()
-    ck:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    ck:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
     if not nt then
       --fix the non existent texture problem (no clue what is causing this)
       nt = bu:GetNormalTexture()
     end
     --cut the default border of the icons and make them shiny
     ic:SetTexCoord(0.1,0.9,0.1,0.9)
-    ic:SetAllPoints(bu)
+    ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
+    ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
     --adjust the cooldown frame
     cd:SetPoint("TOPLEFT", bu, "TOPLEFT", cfg.cooldown.spacing, -cfg.cooldown.spacing)
     cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -cfg.cooldown.spacing, cfg.cooldown.spacing)
@@ -173,9 +164,7 @@
       nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
     end
     --make the normaltexture match the buttonsize
-	nt:SetAllPoints(bu)
-    nt:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
+    nt:SetAllPoints(bu)
     --hook to prevent Blizzard from reseting our colors
     hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b, a)
       local bu = nt:GetParent()
@@ -221,8 +210,7 @@
     local ic  = _G[name.."Icon"]
     local fl  = _G[name.."Flash"]
     local nt  = _G[name.."NormalTexture2"]
-    nt:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
+    nt:SetAllPoints(bu)
     --applying color
     nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
     --setting the textures
@@ -239,7 +227,8 @@
     end)
     --cut the default border of the icons and make them shiny
     ic:SetTexCoord(0.1,0.9,0.1,0.9)
-    ic:SetAllPoints(bu)
+    ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
+    ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
     --shadows+background
     if not bu.bg then applyBackground(bu) end
     bu.rabs_styled = true
@@ -252,8 +241,7 @@
     local ic  = _G[name.."Icon"]
     local fl  = _G[name.."Flash"]
     local nt  = _G[name.."NormalTexture2"]
-    nt:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
+    nt:SetAllPoints(bu)
     --applying color
     nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
     --setting the textures
@@ -264,7 +252,8 @@
     bu:SetNormalTexture(cfg.textures.normal)
     --cut the default border of the icons and make them shiny
     ic:SetTexCoord(0.1,0.9,0.1,0.9)
-    ic:SetAllPoints(bu)
+    ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
+    ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
     --shadows+background
     if not bu.bg then applyBackground(bu) end
     bu.rabs_styled = true
@@ -277,8 +266,7 @@
     local ic  = _G[name.."Icon"]
     local fl  = _G[name.."Flash"]
     local nt  = _G[name.."NormalTexture"]
-    nt:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 2)
-    nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 2, -2)
+    nt:SetAllPoints(bu)
     --applying color
     nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
     --setting the textures
@@ -289,7 +277,8 @@
     bu:SetNormalTexture(cfg.textures.normal)
     --cut the default border of the icons and make them shiny
     ic:SetTexCoord(0.1,0.9,0.1,0.9)
-    ic:SetAllPoints(bu)
+    ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
+    ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
     --shadows+background
     if not bu.bg then applyBackground(bu) end
     bu.rabs_styled = true
@@ -333,7 +322,7 @@
     SpellFlyoutHorizontalBackground:SetTexture(nil)
     SpellFlyoutVerticalBackground:SetTexture(nil)
     local function checkForFlyoutButtons(self)
-      local NUM_FLYOUT_BUTTONS = 20
+      local NUM_FLYOUT_BUTTONS = 10
       for i = 1, NUM_FLYOUT_BUTTONS do
         styleActionButton(_G["SpellFlyoutButton"..i])
       end
