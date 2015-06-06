@@ -13,7 +13,7 @@ ns.db = {}
 ns.general = {}
 
 ns.PowerBarColor = {
-	["MANA"] = { r = 0.00, g = 0.00, b = 1.00 },
+	["MANA"] = { r = 0.31, g = 0.45, b = 0.63 },
 	["RAGE"] = { r = 1.00, g = 0.00, b = 0.00 },
 	["FOCUS"] = { r = 1.00, g = 0.50, b = 0.25 },
 	["ENERGY"] = { r = 1.00, g = 1.00, b = 0.00 },
