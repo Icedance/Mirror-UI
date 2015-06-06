@@ -25,8 +25,8 @@
       scale           = 1.3,
       padding         = 2, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = -112, y = 45 },
       userplaced      = {
@@ -49,8 +49,8 @@
       scale           = 1.3,
       padding         = 2, --frame padding
       buttons         = {
-        size            = 36,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = -52, y = 80 },
       userplaced      = {
@@ -74,8 +74,8 @@
       scale           = 1.3,
       padding         = 2, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = -112, y = 17 },
       userplaced      = {
@@ -99,10 +99,10 @@
 	  uselayout2x6    = true,
       padding         = 2, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
-      pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = 101, y = 31 },
+      pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = 105.5, y = 31 },
       userplaced      = {
         enable          = false,
       },
@@ -124,8 +124,8 @@
       scale           = 1.1,
       padding         = 10, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "RIGHT", a2 = "RIGHT", af = "UIParent", x = -5, y = -55 },
       userplaced      = {
@@ -148,8 +148,8 @@
       scale           = 0.82,
       padding         = 10, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "RIGHT", a2 = "RIGHT", af = "UIParent", x = -36, y = 0 },
       userplaced      = {
@@ -195,13 +195,13 @@
     stancebar = {
       enable          = true, --enable module
       show            = true, --true/false
-      scale           = 1.4,
+      scale           = 1.3,
       padding         = 2, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
-      pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = -130, y = 70 },
+      pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = -133, y = 70 },
       userplaced      = {
         enable          = true,
       },
@@ -222,8 +222,8 @@
       scale           = 1.4,
       padding         = 10, --frame padding
       buttons         = {
-        size            = 26,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = 200, y = 63 },
       userplaced      = {
@@ -241,8 +241,8 @@
       scale           = 1.5,
       padding         = 10, --frame padding
       buttons         = {
-        size            = 36,
-        margin          = 2,
+        size            = 23,
+        margin          = 5,
       },
       pos             = { a1 = "BOTTOM", a2 = "BOTTOM", af = "UIParent", x = 30, y = 60 },
       userplaced      = {
