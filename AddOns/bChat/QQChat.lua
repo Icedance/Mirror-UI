@@ -379,7 +379,7 @@ end
 
 local addon = CreateFrame("Frame")
 
-local soundfile = tostring("Interface\\AddOns\\ShiGuang\\Media\\sound\\Whisper.ogg")
+local soundfile = tostring("Interface\\AddOns\\ShiGuang\\bChat\\Whisper.ogg")
 
 function addon:CHAT_MSG_WHISPER()
 		PlaySoundFile(soundfile)

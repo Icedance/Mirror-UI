@@ -16,6 +16,7 @@ local frames = {
   ["SpellBookFrame"] = false,
   ["QuestLogFrame"] = false,
   ["QuestLogDetailFrame"] = false,
+  ["QuestLogPopupDetailFrame"] = false,
   ["FriendsFrame"] = false,
   ["KnowledgeBaseFrame"] = true,
   ["HelpFrame"] = false,
@@ -76,6 +77,7 @@ local frames = {
 
   -- AddOns
   ["LudwigFrame"] = false,
+  ["BaudErrorFrame"] = false,
 }
 
 if not mop then
@@ -122,11 +124,12 @@ local lodFrames = {
   Blizzard_EncounterJournal = { ["EncounterJournal"] = false }, -- as of 4.3
 
   -- New frames in MoP
-  Blizzard_PetJournal = { ["PetJournalParent"] = false },
+  Blizzard_Collections = { ["CollectionsJournal"] = false },
   Blizzard_BlackMarketUI = { ["BlackMarketFrame"] = false }, -- UNTESTED
   Blizzard_ChallengesUI = { ["ChallengesLeaderboardFrame"] = false }, -- UNTESTED
-  Blizzard_ItemUpgradeUI = { ["ItemUpgradeFrame"] = false, }, -- UNTESTED
-
+  Blizzard_ItemUpgradeUI = { ["ItemUpgradeFrame"] = false },
+  Blizzard_GarrisonUI = { ["GarrisonLandingPage"] = false, ["GarrisonMissionFrame"] = false, ["GarrisonBuildingFrame"] = false,
+						["GarrisonRecruiterFrame"] = false, ["GarrisonRecruitSelectFrame"] = false, ["GarrisonCapacitiveDisplayFrame"] = false,},
 }
 
 if not wod then

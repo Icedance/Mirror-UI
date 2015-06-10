@@ -5,6 +5,6 @@
 ## Notes-zhTW: 
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
+
 QQChat.lua
-channelreplacements.lua
 AceTimer-3.0.lua

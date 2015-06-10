@@ -52,55 +52,55 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                 local PlayAs=2--1Melee DPS,2:spellsDPS,3:healer, 4 tanker5 ,hunter
 
                 local enUS={
-                    ["AttactPower"]="攻击强度",
-                    ["Mastery"]="精通",
-                    ["Crit"]="暴击",
-                    ["AttackSpeed"]="攻击速度",
-                    ["SpellPower"]="法术强度",
-                    ["Haste"]="急速",
-                    ["ManaRegen"]="法力回复",
-                    ["Dodge"]="闪避",
-                    ["Parry"]="招架",
-                    ["Block"]="格挡",
-                    ["Armor"]="护甲",
-                    ["Hit"]="命中",
-                    ["Multistrike"]="溅射",
-                    ["OK"]="确定",
-                    ["Threshold"]="阈值",
+                   ["Armor"]="Armor",
+	["AttackSpeed"]="AttackSpeed",
+	["AttackPower"]="AttackPower",
+	["Block"]="Block",
+	["Crit"]="Crit",
+	["Dodge"]="Dodge",
+	["Haste"]="Haste",
+	["ManaRegen"]="ManaRegen",
+	["Mastery"]="Mastery",
+	["Multistrike"]="Multistrike",
+	["OK"]="OK",
+	["Parry"]="Parry",
+	["SpellPower"]="SpellPower",
+	["Threshold"]="Threshold",
+	["Versatility"]="Versatility",
                 }
                 local zhCN={
-                    ["AttactPower"]="攻击强度",
-                    ["Mastery"]="精通",
-                    ["Crit"]="暴击",
-                    ["AttackSpeed"]="攻击速度",
-                    ["SpellPower"]="法术强度",
-                    ["Haste"]="急速",
-                    ["ManaRegen"]="法力回复",
-                    ["Dodge"]="闪避",
-                    ["Parry"]="招架",
-                    ["Block"]="格挡",
                     ["Armor"]="护甲",
-                    ["Hit"]="命中",
-                    ["Multistrike"]="溅射",
-                    ["OK"]="确定",
-                    ["Threshold"]="阈值",
+	["AttackSpeed"]="攻击速度",
+	["AttackPower"]="攻击强度",
+	["Block"]="格挡",
+	["Crit"]="暴击",
+	["Dodge"]="闪避",
+	["Haste"]="急速",
+	["ManaRegen"]="法力回复",
+	["Mastery"]="精通",
+	["Multistrike"]="溅射",
+	["OK"]="确定",
+	["Parry"]="招架",
+	["SpellPower"]="法术强度",
+	["Threshold"]="阈值",
+	["Versatility"]="全能",
                 }
                 local zhTW={
-                    ["AttactPower"]="攻擊強度",
-                    ["Mastery"]="精通",
-                    ["Crit"]="暴擊",
-                    ["AttackSpeed"]="攻擊速度",
-                    ["SpellPower"]="法術強度",
-                    ["Haste"]="急速",
-                    ["ManaRegen"]="法力恢復",
-                    ["Dodge"]="躲閃",
-                    ["Parry"]="招架",
-                    ["Block"]="格擋",
                     ["Armor"]="護甲",
-                    ["Hit"]="命中",
-                    ["Multistrike"]="溅射",
-                    ["OK"]="確定",
-                    ["Threshold"]="閾值",
+	["AttackSpeed"]="攻擊速度",
+	["AttackPower"]="攻擊強度",
+	["Block"]="格擋",
+	["Crit"]="致命",
+	["Dodge"]="閃躲",
+	["Haste"]="加速",
+	["ManaRegen"]="法力恢復",
+	["Mastery"]="精通",
+	["Multistrike"]="雙擊",
+	["OK"]="確定",
+	["Parry"]="招架",
+	["SpellPower"]="法术强度",
+	["Threshold"]="閾值",
+	["Versatility"]="臨機應變",
                 }
                 local L=zhCN
                 local function GetCurrentInfo()
@@ -196,7 +196,7 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                         local base, posBuff, negBuff = UnitAttackPower("player");
                         local effective = base + posBuff + negBuff;
                         --statuMain:SetFont(NumbFont, NumbFS*2, FontF)
-                        statuMain:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
+                        statuMain:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
                         statu2:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                         statu3:SetText("|cffffffcc "..Monitor(L["Crit"],GetCritChance()))
                         mainSpeed, offSpeed = UnitAttackSpeed("player");
@@ -206,7 +206,7 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                             statu4:SetText(format("|cffffff66 %.2f",mainSpeed))
                         end
                         statu5:SetText(format("|cffcc9966%.2f%%",GetMultistrike()))
-                        statuMainDes:SetText(L["AttactPower"])
+                        statuMainDes:SetText(L["AttackPower"])
                         statu2Des:SetText(L["Mastery"])
                         statu3Des:SetText(L["Crit"])
                         statu4Des:SetText(L["AttackSpeed"])
@@ -273,13 +273,13 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                                         statu4Des:SetText(L["Block"])
                                         statu5:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                         statu5Des:SetText(L["Mastery"])
-                                        statu6:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                        statu6Des:SetText(L["AttactPower"])
+                                        statu6:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                        statu6Des:SetText(L["AttackPower"])
                                     else
                                         statu4:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                         statu4Des:SetText(L["Mastery"])
-                                        statu5:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                        statu5Des:SetText(L["AttactPower"])
+                                        statu5:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                        statu5Des:SetText(L["AttackPower"])
                                         statu6:SetText()
                                         statu6Des:SetText()
                                     end
@@ -289,15 +289,15 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                                     statu3Des:SetText(L["Block"])
                                     statu4:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                     statu4Des:SetText(L["Mastery"])
-                                    statu5:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                    statu5Des:SetText(L["AttactPower"])
+                                    statu5:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                    statu5Des:SetText(L["AttackPower"])
                                     statu6:SetText()
                                      statu6Des:SetText()
                                 else
                                     statu3:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                     statu3Des:SetText(L["Mastery"])
-                                    statu4:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                    statu4Des:SetText(L["AttactPower"])
+                                    statu4:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                    statu4Des:SetText(L["AttackPower"])
                                     statu5:SetText()
                                     statu5Des:SetText()
                                     statu6:SetText()
@@ -313,15 +313,15 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                                         statu3Des:SetText(L["Block"])
                                         statu4:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                         statu4Des:SetText(L["Mastery"])
-                                        statu5:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                        statu5Des:SetText(L["AttactPower"])
+                                        statu5:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                        statu5Des:SetText(L["AttackPower"])
                                         statu6:SetText()
                                     statu6Des:SetText()
                                     else
                                         statu3:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                         statu3Des:SetText(L["Mastery"])
-                                        statu4:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                        statu4Des:SetText(L["AttactPower"])
+                                        statu4:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                        statu4Des:SetText(L["AttackPower"])
                                          statu5:SetText()
                                     statu5Des:SetText()
                                     statu6:SetText()
@@ -333,8 +333,8 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                                     statu2Des:SetText(L["Block"])
                                     statu3:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                     statu3Des:SetText(L["Mastery"])
-                                    statu4:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                    statu4Des:SetText(L["AttactPower"])
+                                    statu4:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                    statu4Des:SetText(L["AttackPower"])
                                     statu5:SetText()
                                     statu5Des:SetText()
                                     statu6:SetText()
@@ -342,8 +342,8 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                                 else
                                     statu2:SetText("|cff00ffff"..Monitor(L["Mastery"],GetMasteryEffect()).."%")
                                     statu2Des:SetText(L["Mastery"])
-                                    statu3:SetText("|cffff3333"..Monitor(L["AttactPower"],effective))
-                                    statu3Des:SetText(L["AttactPower"])
+                                    statu3:SetText("|cffff3333"..Monitor(L["AttackPower"],effective))
+                                    statu3Des:SetText(L["AttackPower"])
                                     statu4:SetText()
                                     statu4Des:SetText()
                                     statu5:SetText()
@@ -363,7 +363,7 @@ insets = {left = -1, right = -1, top = -1, bottom = -1},
                         speed, lowDmg, hiDmg, posBuff, negBuff, percent = UnitRangedDamage("player")
                         statu4:SetText(format("|cffffff66 %.2f",speed))
                         statu5:SetText(format("|cffcc9966%.2f%%",GetMultistrike()))
-                        statuMainDes:SetText(L["AttactPower"])
+                        statuMainDes:SetText(L["AttackPower"])
                         statu2Des:SetText(L["Mastery"])
                         statu3Des:SetText(L["Crit"])
                         statu4Des:SetText(L["AttackSpeed"])

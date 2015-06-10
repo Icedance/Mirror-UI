@@ -307,10 +307,7 @@ anchor:SetScript("OnEvent", function(frame, event, addon)
 	anchor:SetPoint("CENTER", UIParent, anchor.db.x and "BOTTOMLEFT" or "CENTER", anchor.db.x or 0, anchor.db.y or 300)
 end)
 
-SlashCmdList["SYROLL"] = function() if anchor:IsVisible() then anchor:Hide() else anchor:Show() end end
-SLASH_SYROLL1 = "/syroll"
-
-SlashCmdList["LFrames"] = function(msg)
+SlashCmdList["SYROLL"] = function() if anchor:IsVisible() then anchor:Hide() else anchor:Show() end
 	if not testmode then
 		testmode = true
 		local f = GetFrame()
@@ -329,4 +326,6 @@ SlashCmdList["LFrames"] = function(msg)
 		testmode = false
 	end
 end
-SLASH_LFrames1 = "/lframes"
+SLASH_SYROLL1 = "/syroll"
+
+

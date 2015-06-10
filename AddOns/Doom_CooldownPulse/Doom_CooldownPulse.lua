@@ -1,4 +1,4 @@
-local fadeInTime, fadeOutTime, maxAlpha, animScale, iconSize, holdTime, ignoredSpells
+﻿local fadeInTime, fadeOutTime, maxAlpha, animScale, iconSize, holdTime, ignoredSpells
 local cooldowns, animating, watching = { }, { }, { }
 local GetTime = GetTime
 
@@ -254,39 +254,39 @@ SLASH_DOOMCOOLDOWNPULSE3 = "/doomcooldownpulse"
 
 function DCP:CreateOptionsFrame()
     local sliders = {
-        { text = "Icon Size", value = "iconSize", min = 30, max = 125, step = 5 },
-        { text = "Fade In Time", value = "fadeInTime", min = 0, max = 1.5, step = 0.1 },
-        { text = "Fade Out Time", value = "fadeOutTime", min = 0, max = 1.5, step = 0.1 },
-        { text = "Max Opacity", value = "maxAlpha", min = 0, max = 1, step = 0.1 },
-        { text = "Max Opacity Hold Time", value = "holdTime", min = 0, max = 1.5, step = 0.1 },
-        { text = "Animation Scaling", value = "animScale", min = 0, max = 2, step = 0.1 },
+        { text = "图标大小", value = "iconSize", min = 30, max = 125, step = 5 },
+        { text = "淡入时间", value = "fadeInTime", min = 0, max = 1.5, step = 0.1 },
+        { text = "淡出时间", value = "fadeOutTime", min = 0, max = 1.5, step = 0.1 },
+        { text = "图标透明度", value = "maxAlpha", min = 0, max = 1, step = 0.1 },
+        { text = "图标持续时间", value = "holdTime", min = 0, max = 1.5, step = 0.1 },
+        { text = "动画缩放", value = "animScale", min = 0, max = 2, step = 0.1 },
     }
     
     local buttons = {
-        { text = "Close", func = function(self) self:GetParent():Hide() end },
-        { text = "Test", func = function(self) 
-            DCP_OptionsFrameButton3:SetText("Unlock") 
+        { text = "关闭", func = function(self) self:GetParent():Hide() end },
+        { text = "测试", func = function(self) 
+            DCP_OptionsFrameButton3:SetText("解锁") 
             DCP:EnableMouse(false) 
             RefreshLocals() 
             tinsert(animating,{"Interface\\Icons\\Spell_Nature_Earthbind"}) 
             DCP:SetScript("OnUpdate", OnUpdate) 
             end },
-        { text = "Unlock", func = function(self) 
-            if (self:GetText() == "Unlock") then
+        { text = "解锁", func = function(self) 
+            if (self:GetText() == "解锁") then
                 RefreshLocals()
                 DCP:SetWidth(iconSize) 
                 DCP:SetHeight(iconSize) 
-                self:SetText("Lock") 
+                self:SetText("锁定") 
                 DCP:SetScript("OnUpdate", nil) 
                 DCP:SetAlpha(1) 
                 DCPT:SetTexture("Interface\\Icons\\Spell_Nature_Earthbind") 
                 DCP:EnableMouse(true) 
             else 
                 DCP:SetAlpha(0) 
-                self:SetText("Unlock") 
+                self:SetText("解锁") 
                 DCP:EnableMouse(false) 
             end end },
-        { text = "Defaults", func = function(self) 
+        { text = "默认", func = function(self) 
             for i,v in pairs(defaultsettings) do 
                 DCP_Saved[i] = v 
             end 
@@ -356,7 +356,7 @@ function DCP:CreateOptionsFrame()
     
     local ignoretext = optionsframe:CreateFontString(nil,"ARTWORK","GameFontNormalSmall")
     ignoretext:SetPoint("TOPLEFT","DCP_OptionsFrameSlider"..#sliders,"BOTTOMLEFT",-15,-25)
-    ignoretext:SetText("Cooldowns to ignore:")
+    ignoretext:SetText("屏蔽的技能:")
     
     local ignorebox = CreateFrame("EditBox","DCP_OptionsFrameIgnoreBox",optionsframe,"InputBoxTemplate")
     ignorebox:SetAutoFocus(false)
@@ -364,7 +364,7 @@ function DCP:CreateOptionsFrame()
     ignorebox:SetWidth(180)
     ignorebox:SetHeight(32)
     ignorebox:SetText(DCP_Saved.ignoredSpells)
-    ignorebox:SetScript("OnEnter",function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR") GameTooltip:SetText("Note: Separate multiple spells with commas") end)
+    ignorebox:SetScript("OnEnter",function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR") GameTooltip:SetText("提示：用逗号分隔多个法术，注意要小写") end)
     ignorebox:SetScript("OnLeave",function(self) GameTooltip:Hide() end)
     ignorebox:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
     ignorebox:SetScript("OnEditFocusLost",function(self)
@@ -374,7 +374,7 @@ function DCP:CreateOptionsFrame()
     
     local pettext = optionsframe:CreateFontString(nil,"ARTWORK","GameFontNormalSmall")
     pettext:SetPoint("TOPLEFT",ignorebox,"BOTTOMLEFT",0,-5)
-    pettext:SetText("Pet color overlay:")
+    pettext:SetText("宠物技能颜色冷却覆盖:")
     
     local petcolorselect = CreateFrame('Button',"DCP_OptionsFramePetColorBox",optionsframe)
     petcolorselect:SetPoint("LEFT",pettext,"RIGHT",5,-2)
@@ -382,7 +382,7 @@ function DCP:CreateOptionsFrame()
     petcolorselect:SetHeight(20)
 	petcolorselect:SetNormalTexture('Interface/ChatFrame/ChatFrameColorSwatch')
     petcolorselect:GetNormalTexture():SetVertexColor(unpack(DCP_Saved.petOverlay))
-    petcolorselect:SetScript("OnEnter",function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR") GameTooltip:SetText("Note: Use white if you don't want any overlay for pet cooldowns") end)
+    petcolorselect:SetScript("OnEnter",function(self) GameTooltip:SetOwner(self, "ANCHOR_CURSOR") GameTooltip:SetText("提示:使用白色不进行宠物技能颜色覆盖") end)
     petcolorselect:SetScript("OnLeave",function(self) GameTooltip:Hide() end)
     petcolorselect:SetScript('OnClick', function(self) 
         self.r,self.g,self.b = unpack(DCP_Saved.petOverlay) 

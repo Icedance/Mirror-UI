@@ -1,6 +1,0 @@
-## Interface: 60100
-## Title: AuctionPlus
-## Notes: 拍卖行增强
-## Version: 1.0
-
-AuctionPlus.lua

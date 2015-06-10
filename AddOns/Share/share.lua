@@ -1,9 +1,9 @@
---ËõÐ´ÖØÖÃÃüÁî
+ï»¿--ç¼©å†™é‡ç½®å‘½ä»¤
 SlashCmdList['RELOAD'] = function() ReloadUI() end
 
 SLASH_RELOAD1 = '/rl'
 
---³¬¹ýÒ»¶¨ÊÂ¼þ×Ô¶¯»ØÊÕÄÚ´æ
+--è¶…è¿‡ä¸€å®šäº‹ä»¶è‡ªåŠ¨å›žæ”¶å†…å­˜
 local eventcount = 0
 local a = CreateFrame("Frame")
 a:RegisterAllEvents()
@@ -16,7 +16,7 @@ a:SetScript("OnEvent", function(self, event)
    end
 end)
 
---³É¾Í×Ô¶¯½ØÍ¼
+--æˆå°±è‡ªåŠ¨æˆªå›¾
 local function TakeScreen(delay, func, ...)
 local waitTable = {}
 local waitFrame = CreateFrame("Frame", "WaitFrame", UIParent)
@@ -46,7 +46,7 @@ local AchScreen = CreateFrame("Frame")
 AchScreen:RegisterEvent("ACHIEVEMENT_EARNED")
 AchScreen:SetScript("OnEvent", OnEvent)
 
---ÐÞÕýBLZµã»÷µôÂäµÄÒ»¸ö±¨´í
+--ä¿®æ­£BLZç‚¹å‡»æŽ‰è½çš„ä¸€ä¸ªæŠ¥é”™
 hooksecurefunc("EncounterJournal_LoadUI", function()
     function EncounterJournal_Loot_OnUpdate(self)
         if GameTooltip:IsOwned(self) then
@@ -68,7 +68,7 @@ hooksecurefunc("EncounterJournal_LoadUI", function()
     end
 end)
 
---AHËÑË÷ÉÏ»õºÍÖ±½ÓÓÊ¼ÄÎïÆ·
+--AHæœç´¢ä¸Šè´§å’Œç›´æŽ¥é‚®å¯„ç‰©å“
 local  bag, slot
 hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", function(self, button)
       bag, slot = self:GetParent():GetID(), self:GetID()
@@ -103,7 +103,7 @@ end)
 f:RegisterEvent('AUCTION_HOUSE_SHOW')
 f:RegisterEvent('AUCTION_HOUSE_CLOSED')
 
---[[WorldStateUpFrame Mover by Sniffles ÒÆ¶¯Õ½³¡ÐÅÏ¢±êÇ©(°üÀ¨·µ»ØÄ¹µØ±êÇ©)
+--[[WorldStateUpFrame Mover by Sniffles ç§»åŠ¨æˆ˜åœºä¿¡æ¯æ ‡ç­¾(åŒ…æ‹¬è¿”å›žå¢“åœ°æ ‡ç­¾)
 
 Credits: 
 blooblahguy (move func) 
@@ -119,7 +119,7 @@ local function dummy() end
 local function WorldStateAlwaysUpFrame_Update()  
 _G["WorldStateAlwaysUpFrame"]:ClearAllPoints() 
 _G["WorldStateAlwaysUpFrame"].ClearAllPoints = dummy 
-_G["WorldStateAlwaysUpFrame"]:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT", -180, -30) --ß@ÑeÐÞ¸ÄÎ»ÖÃ£¬½›œyÔ‡.. »Øµ½Ä¹µØÄÇ‚€ÍæÒâƒºÒ²ÊÜß@‚€Ó°í‘ 
+_G["WorldStateAlwaysUpFrame"]:SetPoint("TOPRIGHT",UIParent,"TOPRIGHT", -180, -30) --é€™è£¡ä¿®æ”¹ä½ç½®ï¼Œç¶“æ¸¬è©¦.. å›žåˆ°å¢“åœ°é‚£å€‹çŽ©æ„å…’ä¹Ÿå—é€™å€‹å½±éŸ¿ 
 _G["WorldStateAlwaysUpFrame"].SetPoint = dummy 
 local alwaysUpShown = 1  
 for i = alwaysUpShown, NUM_ALWAYS_UP_UI_FRAMES do  
@@ -128,7 +128,7 @@ end
 end 
 hooksecurefunc("WorldStateAlwaysUpFrame_Update", WorldStateAlwaysUpFrame_Update) 
 
-  -- ÈÎÎñ×·×ÙÒÆ¶¯
+  --[[ ä»»åŠ¡è¿½è¸ªç§»åŠ¨
   -- // rObjectiveTrackerMover
   -- // zork - 2014
 
@@ -172,9 +172,9 @@ hooksecurefunc("WorldStateAlwaysUpFrame_Update", WorldStateAlwaysUpFrame_Update)
     end
   end)
   
-  frame:RegisterEvent("PLAYER_LOGIN")
+  frame:RegisterEvent("PLAYER_LOGIN")]]
 
---[[ ¸±±¾ÄÚ×Ô¶¯ÊÕÆðÈÎÎñ×·×Ù ]] 
+--[[ å‰¯æœ¬å†…è‡ªåŠ¨æ”¶èµ·ä»»åŠ¡è¿½è¸ª  
 local autocollapse = CreateFrame("Frame") 
 autocollapse:RegisterEvent("ZONE_CHANGED_NEW_AREA") 
 autocollapse:RegisterEvent("PLAYER_ENTERING_WORLD") 
@@ -186,9 +186,9 @@ else
 ObjectiveTrackerFrame.userCollapsed = nil 
 ObjectiveTracker_Expand() 
 end 
-end)
+end)]]
 
--- Remove standard Boss frames ÒÆ³ýÏµÍ³×Ô´øBOSS¿ò¼Ü
+-- Remove standard Boss frames ç§»é™¤ç³»ç»Ÿè‡ªå¸¦BOSSæ¡†æž¶
 for i = 1,MAX_BOSS_FRAMES do
    local t_boss = _G["Boss"..i.."TargetFrame"]
    t_boss:UnregisterAllEvents()
@@ -197,7 +197,7 @@ for i = 1,MAX_BOSS_FRAMES do
    _G["Boss"..i.."TargetFrame".."HealthBar"]:UnregisterAllEvents()
    _G["Boss"..i.."TargetFrame".."ManaBar"]:UnregisterAllEvents()
 end
---Mapcoordtext(´óµØÍ¼ÏÔÊ¾×ø±ê(×Ô¼º&Ä¿±ê))
+--Mapcoordtext(å¤§åœ°å›¾æ˜¾ç¤ºåæ ‡(è‡ªå·±&ç›®æ ‡))
 --[[WorldMapButton:HookScript("OnUpdate", function(self) 
    if not self.coordText then 
       self.coordText = WorldMapFrameCloseButton:CreateFontString(nil, "OVERLAY", "GameFontGreen") 
@@ -211,14 +211,14 @@ end
    if px == 0 and py == 0 and (x > 1 or y > 1 or x < 0 or y < 0) then 
       self.coordText:SetText("") 
    elseif px == 0 and py == 0 then 
-      self.coordText:SetText(format("µ±Ç°: %d, %d", x*100, y*100)) 
+      self.coordText:SetText(format("å½“å‰: %d, %d", x*100, y*100)) 
    elseif x > 1 or y > 1 or x < 0 or y < 0 then 
-      self.coordText:SetText(format("Íæ¼Ò: %d, %d", px*100, py*100)) 
+      self.coordText:SetText(format("çŽ©å®¶: %d, %d", px*100, py*100)) 
    else 
-      self.coordText:SetText(format("Íæ¼Ò: %d, %d µ±Ç°: %d, %d", px*100, py*100, x*100, y*100)) 
+      self.coordText:SetText(format("çŽ©å®¶: %d, %d å½“å‰: %d, %d", px*100, py*100, x*100, y*100)) 
    end 
 end)]]--
- --×Ô¶¯Âô»Ò
+ --è‡ªåŠ¨å–ç°
 local frame = CreateFrame('Frame') 
 frame:RegisterEvent('MERCHANT_SHOW') 
 frame:SetScript('OnEvent', function (frame, event, ...) 
@@ -238,7 +238,7 @@ end)
 
 
 
---Òþ²ØÏµÍ³×Ô´øÍÅ¶Ó¿òÌå
+--éšè—ç³»ç»Ÿè‡ªå¸¦å›¢é˜Ÿæ¡†ä½“
 --local frame = CompactRaidFrameManager
    --frame:UnregisterAllEvents()
    --frame.Show = function() end
@@ -249,7 +249,7 @@ end)
    --frame.Show = function() end
    --frame:Hide() 
 
--- make alt power moveable and scale it down ÒÆ¶¯BOSSÌØÊâÄÜÁ¿Ìõ(Òô²¨Öµ/¸¯»¯ÖµµÈ)
+-- make alt power moveable and scale it down ç§»åŠ¨BOSSç‰¹æ®Šèƒ½é‡æ¡(éŸ³æ³¢å€¼/è…åŒ–å€¼ç­‰)
 _G["PlayerPowerBarAlt"]:HookScript("OnShow", function(self) self:ClearAllPoints() self:SetPoint("BOTTOM", 60, 120) self.SetPoint = function() end end)
 
 --[[PlayerPowerBarAlt:SetScale(0.7)
@@ -282,7 +282,7 @@ a:Hide()
 SlashCmdList["MOVEPOWERBARALT"]=function() a[a:IsShown() and "Hide" or "Show"](a) end
 SLASH_MOVEPOWERBARALT1 = "/mpba"
 ]]
---altÅúÁ¿¹ºÂò
+--altæ‰¹é‡è´­ä¹°
 PlayerPowerBarAlt:SetScript('OnMouseUp', function(self, button)
 PlayerPowerBarAlt:StopMovingOrSizing()
 end)
@@ -300,14 +300,14 @@ function MerchantItemButton_OnModifiedClick(self, ...)
    savedMerchantItemButton_OnModifiedClick(self, ...)
 end
 
---Ê¼ÖÕÏÔÊ¾Õ½¶·ÐÅÏ¢
+--å§‹ç»ˆæ˜¾ç¤ºæˆ˜æ–—ä¿¡æ¯
 SetCVar("CombatLogPeriodicSpells",1)
 	SetCVar("PetMeleeDamage",1)
 	SetCVar("CombatDamage",1)
 	--SetCVar("CombatHealing",0)
 
 
---ÁÄÌì¿ò×ÖÌåÃè±ß
+--èŠå¤©æ¡†å­—ä½“æè¾¹
 for i = 1, 7 do
    local chat = _G["ChatFrame"..i]
    local font, size = chat:GetFont()
@@ -316,10 +316,10 @@ for i = 1, 7 do
    chat:SetShadowColor(0, 0, 0, 0)
 end
 
---ÉËº¦Êý×Ö×ÖÌå´óÐ¡
+--ä¼¤å®³æ•°å­—å­—ä½“å¤§å°
 --CombatTextFont:SetFont(font,100)
 
---ÏÔÊ¾Ë­ÔÚµãÐ¡µØÍ¼
+--æ˜¾ç¤ºè°åœ¨ç‚¹å°åœ°å›¾
 --[[Minimap:SetScript("OnMouseUp", function(self, btn)
    if btn == "RightButton" then
       ToggleDropDownMenu(1, nil, MiniMapTrackingDropDown, "MiniMapTracking", 0, -5)
@@ -330,41 +330,41 @@ end
 end)
 ]]
 --[[
---ÁÄÌìÄÚÈÝËõÐ´
---Ê°È¡ ÄãÊ°È¡ÁË£ºËª¼y²¼¡£¡ú+Ëª¼y²¼ Ê°È¡½ðåX ÄãÊ°È¡ÁË2ã~ŽÅ¡£¡ú+2O
+--èŠå¤©å†…å®¹ç¼©å†™
+--æ‹¾å– ä½ æ‹¾å–äº†ï¼šéœœç´‹å¸ƒã€‚â†’+éœœç´‹å¸ƒ æ‹¾å–é‡‘éŒ¢ ä½ æ‹¾å–äº†2éŠ…å¹£ã€‚â†’+2O
 LOOT_ITEM = "%s + %s"
 LOOT_ITEM_MULTIPLE = "%s + % sx%d"
-LOOT_ITEM_SELF = "Äã + %s"
-LOOT_ITEM_SELF_MULTIPLE = "Äã + %s x%d"
-LOOT_ITEM_PUSHED_SELF = "Äã + %s"
-LOOT_ITEM_PUSHED_SELF_MULTIPLE = "Äã + %s x%d"
+LOOT_ITEM_SELF = "ä½  + %s"
+LOOT_ITEM_SELF_MULTIPLE = "ä½  + %s x%d"
+LOOT_ITEM_PUSHED_SELF = "ä½  + %s"
+LOOT_ITEM_PUSHED_SELF_MULTIPLE = "ä½  + %s x%d"
 --LOOT_MONEY = "|cff00a956+|r |cffffffff%s"
 --YOU_LOOT_MONEY = "|cff00a956+|r |cffffffff%s"
 --LOOT_MONEY_SPLIT = "|cff00a956+|r |cffffffff%s"
 
-LOOT_ROLL_ALL_PASSED = "È«Ìå·ÅÆú %s"
-LOOT_ROLL_PASSED_AUTO = "%s ·ÅÆú %s (auto)"
-LOOT_ROLL_PASSED_SELF_AUTO = "·ÅÆú %s (auto)"
-LOOT_ROLL_WON = "%s Ó®µÃ %s"
-LOOT_ROLL_YOU_WON = "ÄãÓ®µÃ %s"
-LOOT_ROLL_WON_NO_SPAM_DE = "%1$s Ó®µÃ %3$s |cff818181(de %2$d)|r"
-LOOT_ROLL_WON_NO_SPAM_NEED = "%1$s Ó®µÃ %3$s |cff818181(need %2$d)|r"
-LOOT_ROLL_WON_NO_SPAM_GREED = "%1$s Ó®µÃ %3$s |cff818181(greed %2$d)|r"
-LOOT_ROLL_YOU_WON_NO_SPAM_DE = "ÄãÓ®µÃ %2$s |cff818181(de %1$d)|r"
-LOOT_ROLL_YOU_WON_NO_SPAM_NEED = "ÄãÓ®µÃ %2$s |cff818181(need %1$d)|r"
-LOOT_ROLL_YOU_WON_NO_SPAM_GREED = "ÄãÓ®µÃ %2$s |cff818181(greed %1$d)|r"
+LOOT_ROLL_ALL_PASSED = "å…¨ä½“æ”¾å¼ƒ %s"
+LOOT_ROLL_PASSED_AUTO = "%s æ”¾å¼ƒ %s (auto)"
+LOOT_ROLL_PASSED_SELF_AUTO = "æ”¾å¼ƒ %s (auto)"
+LOOT_ROLL_WON = "%s èµ¢å¾— %s"
+LOOT_ROLL_YOU_WON = "ä½ èµ¢å¾— %s"
+LOOT_ROLL_WON_NO_SPAM_DE = "%1$s èµ¢å¾— %3$s |cff818181(de %2$d)|r"
+LOOT_ROLL_WON_NO_SPAM_NEED = "%1$s èµ¢å¾— %3$s |cff818181(need %2$d)|r"
+LOOT_ROLL_WON_NO_SPAM_GREED = "%1$s èµ¢å¾— %3$s |cff818181(greed %2$d)|r"
+LOOT_ROLL_YOU_WON_NO_SPAM_DE = "ä½ èµ¢å¾— %2$s |cff818181(de %1$d)|r"
+LOOT_ROLL_YOU_WON_NO_SPAM_NEED = "ä½ èµ¢å¾— %2$s |cff818181(need %1$d)|r"
+LOOT_ROLL_YOU_WON_NO_SPAM_GREED = "ä½ èµ¢å¾— %2$s |cff818181(greed %1$d)|r"
 
 COPPER_AMOUNT = "%d\124TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0\124t"
 SILVER_AMOUNT = "%d\124TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0\124t"
 GOLD_AMOUNT = "%d\124TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0\124t"
 
---- ÌáÊ¾AHÙu³ö
-ERR_AUCTION_SOLD_S = "|cff1eff00%s|r |cffffffffÒÑÂô³ö.|r"
+--- æç¤ºAHè³£å‡º
+ERR_AUCTION_SOLD_S = "|cff1eff00%s|r |cffffffffå·²å–å‡º.|r"
 
---- Œ£˜I¼¼ÄÜÌáÉý [ÄãµÄ¸½Ä§¼¼ÄÜÌáÉýµ½102¡ú¸½Ä§ 102]
-ERR_SKILL_UP_SI = "%s¡ú |cff1eff00%d|r"
+--- å°ˆæ¥­æŠ€èƒ½æå‡ [ä½ çš„é™„é­”æŠ€èƒ½æå‡åˆ°102â†’é™„é­” 102]
+ERR_SKILL_UP_SI = "%sâ†’ |cff1eff00%d|r"
 
---- ¸Ä×ƒîlµÀÌáÊ¾ [¼ÓÈëîlµÀ¡ú+][ëxé_îlµÀ¡ú-][¸Ä×ƒîlµÀ¡ú=]
+--- æ”¹è®Šé »é“æç¤º [åŠ å…¥é »é“â†’+][é›¢é–‹é »é“â†’-][æ”¹è®Šé »é“â†’=]
 CHAT_YOU_CHANGED_NOTICE = "=|Hchannel:%d|h[%s]|h";
 CHAT_YOU_CHANGED_NOTICE_BN = "=|Hchannel:CHANNEL:%d|h[%s]|h";
 CHAT_YOU_JOINED_NOTICE = "+|Hchannel:%d|h[%s]|h";
@@ -372,17 +372,17 @@ CHAT_YOU_JOINED_NOTICE_BN = "+|Hchannel:CHANNEL:%d|h[%s]|h";
 CHAT_YOU_LEFT_NOTICE = "-|Hchannel:%d|h[%s]|h";
 CHAT_YOU_LEFT_NOTICE_BN = "-|Hchannel:CHANNEL:%d|h[%s]|h";
 
---- ÉÏÏÂ¾€ÌáÊ¾£¬ÏÂ¾€¼tÉ«ÉÏ¾€¾GÉ«
-BN_INLINE_TOAST_FRIEND_OFFLINE = "\124TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61\124t%s|cffFF7F50ÀëÏß|r."
-BN_INLINE_TOAST_FRIEND_ONLINE = "\124TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61\124t%s|cff00C957ÉÏÏß|r."
+--- ä¸Šä¸‹ç·šæç¤ºï¼Œä¸‹ç·šç´…è‰²ä¸Šç·šç¶ è‰²
+BN_INLINE_TOAST_FRIEND_OFFLINE = "\124TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61\124t%s|cffFF7F50ç¦»çº¿|r."
+BN_INLINE_TOAST_FRIEND_ONLINE = "\124TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61\124t%s|cff00C957ä¸Šçº¿|r."
 
-ERR_FRIEND_OFFLINE_S = "%s|cffFF7F50ÀëÏß|r."
-ERR_FRIEND_ONLINE_SS = "|Hplayer:%s|h[%s]|h|cff00C957ÉÏÏß|r."
+ERR_FRIEND_OFFLINE_S = "%s|cffFF7F50ç¦»çº¿|r."
+ERR_FRIEND_ONLINE_SS = "|Hplayer:%s|h[%s]|h|cff00C957ä¸Šçº¿|r."
 
---- «@µÃ³É¾Í
-ACHIEVEMENT_BROADCAST = "%s»ñµÃ%s!"
+--- ç²å¾—æˆå°±
+ACHIEVEMENT_BROADCAST = "%sèŽ·å¾—%s!"
 
---ÁÄÌì¸´ÖÆ
+--èŠå¤©å¤åˆ¶
 
 local _AddMessage = ChatFrame1.AddMessage
 local _SetItemRef = SetItemRef
@@ -454,11 +454,11 @@ SetItemRef = function(link, text, button, ...)
 	end
 end
 ]]
---CancelAucÒ»¼üÈ¡ÏûÅÄÂô
+--CancelAucä¸€é”®å–æ¶ˆæ‹å–
 --[[local g = getfenv(0)
 
 local function Print(aucid)
-    DEFAULT_CHAT_FRAME:AddMessage("ÒÑÈ¡ÏûÅÄÂôÎïÆ· "..GetAuctionItemLink("owner", aucid))
+    DEFAULT_CHAT_FRAME:AddMessage("å·²å–æ¶ˆæ‹å–ç‰©å“ "..GetAuctionItemLink("owner", aucid))
 end
 
 for i = 1, 9 do
@@ -485,15 +485,15 @@ for i = 1, 9 do
 end--]]
 
 
---È«ÆÁÄ»½¥Òþ
+--å…¨å±å¹•æ¸éš
 
---Ë®ÔÂµÄ´úÂë£¬½öÏÞÓÚalt+ZºóµÄ³öÏÖ
+--æ°´æœˆçš„ä»£ç ï¼Œä»…é™äºŽalt+ZåŽçš„å‡ºçŽ°
 --[[lpanels:ApplyLayout(nil, "View")
 
 UIParent:SetScript("OnShow", function() 
 	UIFrameFadeIn(UIParent, 1, 0, 1) 
 end)--]]
---NeaµÄ´úÂë
+--Neaçš„ä»£ç 
 --[[local Event = CreateFrame("Frame")
 Event:RegisterEvent("PLAYER_ENTERING_WORLD")
 Event:SetScript("OnEvent", function(self, elasped)
