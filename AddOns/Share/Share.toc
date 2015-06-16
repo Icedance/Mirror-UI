@@ -30,3 +30,5 @@ MissionHush.lua
 TradeTabs.lua
 ##拍卖行增强
 AuctionPlus.lua
+##观察问题修复
+InspectFix.lua

@@ -8,6 +8,6 @@
 ## OptionalDeps: !MyGUI
 
 MyTooltip.lua
-TipTacTalents.lua 
-##Itemlevel.lua
-ilevel.lua
+CloudyUnitInfo.lua
+##TipTacTalents.lua
+##ilevel.lua

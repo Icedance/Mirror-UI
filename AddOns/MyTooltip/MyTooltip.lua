@@ -4,7 +4,7 @@
 local config = {
 	cursor = false,	--跟随鼠标
 	colorStatusBar = true,	--血条职业染色
-	["Debug"] = true,	--显示物品ID,法术ID
+	Debug = true,	--显示buff的法术ID
 	-- hideincombat = true, --战斗中隐藏
 	}
 -------------------------------------------------------------------------------------
@@ -325,16 +325,8 @@ end
 		v.bg:SetBackdropColor(unpack(bdcRGB))
 		v.bg:SetBackdropBorderColor(unpack(bdbcRGB))
 		
-		
-		for i = 1, select('#', v:GetRegions()) do
-		  local obj = select(i, v:GetRegions())
-		  if (obj and obj:GetObjectType() == 'FontString') then
-				obj:SetFontObject("GameFontNormal")
-				obj:GetParent():SetScale(1)
-		  end
-		end
 		-- SpellID
-		if config["Debug"] == true then
+		if config.Debug == true then
 			hooksecurefunc(v,"SetUnitAura", function(self, unit, index, filter)
 				local _, _, _, _, _, _, _, _, _, _, spell = UnitAura(unit, index, filter)
 				if spell then
@@ -347,10 +339,6 @@ end
 		v:SetScript("OnShow", function(self)
 			local name, item = self:GetItem()
 			if item then
-				local _, _, Color, Ltype, itemID, Enchant, Gem1, Gem2, Gem3, Gem4, Suffix, Unique, LinkLvl, Name = item:find( "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
-
-				self:AddDoubleLine("Item ID", itemID)
-			
 				local quality = select(3, GetItemInfo(item))
 				if(quality) then
 					local r, g, b = GetItemQualityColor(quality)
@@ -380,6 +368,18 @@ end
 				self.bg:SetBackdropBorderColor(unpack(bdbcRGB))
 			end
 		end)
+		
+		local set = v:GetScript("OnTooltipSetItem")
+		v:SetScript("OnTooltipSetItem", function(self, ...)
+			if set then
+				set(self, ...)
+			end
+			local name, item = self:GetItem()
+			if item then
+				local _, _, Color, Ltype, itemID, Enchant, Gem1, Gem2, Gem3, Gem4, Suffix, Unique, LinkLvl, Name = item:find( "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
+				self:AddDoubleLine("Item ID", itemID)
+			end
+		end)
 	end
 
 	local anchorframe = CreateFrame("Frame", "Tooltip anchor", UIParent)
@@ -404,51 +404,5 @@ end
 					end
 				end
 			end)
-		end
-	end)
-
-	--[[ Shadow, Mal'Ganis (US)	物品ID]] 
-
-	hooksecurefunc("SetItemRef", function(link, text, button)
-		local icon
-		local type, id = string.match(link, "^([a-z]+):(%d+)")
-		if( type == "item" ) then
-			icon = select(10, GetItemInfo(link))
-		elseif( type == "spell" or type == "enchant" ) then
-			icon = select(3, GetSpellInfo(id))
-		elseif( type == "achievement" ) then
-			icon = select(10, GetAchievementInfo(id))
-		end	
-		
-		if( not icon ) then
-			ItemRefTooltipTexture10:Hide()
-
-			ItemRefTooltipTextLeft1:ClearAllPoints()
-			ItemRefTooltipTextLeft1:SetPoint("TOPLEFT", ItemRefTooltip, "TOPLEFT", 8, -10)
-
-			ItemRefTooltipTextLeft2:ClearAllPoints()
-			ItemRefTooltipTextLeft2:SetPoint("TOPLEFT", ItemRefTooltipTextLeft1, "BOTTOMLEFT", 0, -2)
-			return
-		end
-
-		ItemRefTooltipTexture10:ClearAllPoints()
-		ItemRefTooltipTexture10:SetPoint("TOPLEFT", ItemRefTooltip, "TOPLEFT", 8, -7)
-		ItemRefTooltipTexture10:SetTexture(icon)
-		ItemRefTooltipTexture10:SetHeight(20)
-		ItemRefTooltipTexture10:SetWidth(20)
-		ItemRefTooltipTexture10:Show()
-		ItemRefTooltipTexture10:SetTexCoord(.1,.9,.1,.9)
-		
-		ItemRefTooltipTextLeft1:ClearAllPoints()
-		ItemRefTooltipTextLeft1:SetPoint("TOPLEFT", ItemRefTooltipTexture10, "TOPLEFT", 24, -2)
-
-		ItemRefTooltipTextLeft2:ClearAllPoints()
-		ItemRefTooltipTextLeft2:SetPoint("TOPLEFT", ItemRefTooltip, "TOPLEFT", 8, -28)
-		
-		local textRight = ItemRefTooltipTextLeft1:GetRight()
-		local closeLeft = ItemRefCloseButton:GetLeft()
-		
-		if( closeLeft <= textRight ) then
-			ItemRefTooltip:SetWidth(ItemRefTooltip:GetWidth() + (textRight - closeLeft))
 		end
 	end)

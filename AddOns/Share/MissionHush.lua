@@ -7,7 +7,7 @@ Created by Shadowmage - Stormrage EU
 ]]
 
 --[[ Gather the locals! ]]
-local fontpath = "Fonts\\FRIZQT__.TTF"
+local fontpath = "Fonts\\ARHei.TTF"
 local F,C
 local trigger = false
 local missioncount = 0
