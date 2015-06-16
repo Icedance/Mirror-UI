@@ -8,8 +8,8 @@
 
 local cfg = CreateFrame("Frame")
 local Media = "Interface\\Addons\\MirrorBuff\\media\\"
-cfg.Font = Media.."Hooge.ttf"
-cfg.ROADWAY = Media.."Hooge.ttf"
+cfg.Font = "Interface\\Addons\\dMedia\\Hooge.ttf"
+cfg.ROADWAY = "Interface\\Addons\\dMedia\\Hooge.ttf"
 cfg.GlowTex = Media.."solid"
 cfg.IconSize = 32 											-- 图标大小
 cfg.Spacing = 2												-- 图标间距

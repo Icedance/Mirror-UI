@@ -68,7 +68,7 @@
     spacing         = 0,
   }
 
-  cfg.font = "Interface\\AddOns\\rActionButtonStyler\\media\\FONTS.TTF"
+  cfg.font = "Interface\\AddOns\\dMedia\\FONTS.TTF"
 
   -----------------------------
   -- HANDOVER

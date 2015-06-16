@@ -56,7 +56,7 @@ cfg.Durability = true
 cfg.DurabilityPoint = {"right", UIParent, "topright", -455, -20}
 
 --Fonts and Colors
-cfg.Fonts = {"Interface\\Addons\\diminfo\\fzcy.ttf", 14, "thinoutline"}
+cfg.Fonts = {"Interface\\Addons\\dMedia\\fzcy.ttf", 14, "thinoutline"}
 cfg.ColorClass = false
 
 

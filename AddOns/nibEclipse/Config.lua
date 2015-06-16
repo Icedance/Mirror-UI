@@ -31,7 +31,7 @@ colors = {
 -- Font
 font = {
 	hidetext = false,				-- Show/Hide the Text display
-	name = "Interface\\AddOns\\nibEclipse\\Hooge.ttf",	-- Path to font. Ie "Interface\\AddOns\\MyMedia\\font.ttf".
+	name = "Interface\\Addons\\dMedia\\Hooge.ttf",	-- Path to font. Ie "Interface\\AddOns\\MyMedia\\font.ttf".
 	size = 9,
 	tags = "MONOCHROMETHINOUTLINE",
 	vertoffset = 1,
