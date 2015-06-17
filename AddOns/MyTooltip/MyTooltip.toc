@@ -9,5 +9,4 @@
 
 MyTooltip.lua
 CloudyUnitInfo.lua
-##TipTacTalents.lua
 ##ilevel.lua
