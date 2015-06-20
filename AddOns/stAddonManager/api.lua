@@ -3,7 +3,7 @@ local addon, API = ...
 ---------------------------------------------------------
 -- Pulling in some Tukui functions for easier skinning --
 ---------------------------------------------------------
-API.pixelfont = {format('Interface\\AddOns\\%s\\media\\visitor.ttf', addon), 12, 'MONOCHROMEOUTLINE'}
+API.pixelfont = {format('Fonts\\FRIZQT__.TTF', addon), 10, 'THINOUTLINE'}
 API.normalfont = {'Fonts\\FRIZQT__.TTF', 10, 'THINOUTLINE'}
 API.font = API.pixelfont
 API.barTex = format('Interface\\AddOns\\%s\\media\\normTex.tga', addon)

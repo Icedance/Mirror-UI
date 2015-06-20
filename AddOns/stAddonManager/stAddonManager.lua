@@ -247,17 +247,17 @@ function stAM.LoadWindow(self)
 	self.close = st.CreateButton(title:GetName()..'_CloseButton', title, 18, 18, {'TOPRIGHT', -2, -2}, 'x', function() stAM:Hide() end)
 
 	--Profiles button
-	self.profiles = st.CreateButton(self:GetName()..'ProfilesButton', self, 70, 20, {'TOPRIGHT', title, 'BOTTOMRIGHT', -10, -5}, 'Profiles', function() stAM:ToggleProfiles() end)
+	self.profiles = st.CreateButton(self:GetName()..'ProfilesButton', self, 70, 20, {'TOPRIGHT', title, 'BOTTOMRIGHT', -10, -5}, '配置', function() stAM:ToggleProfiles() end)
 
 	--Search Bar
 	local search = st.CreateEditBox(self:GetName()..'_SearchBar', self, 1, 20)
 	search:SetPoint('TOPLEFT', self.title, 'BOTTOMLEFT', 10, -5)
 	search:SetPoint('BOTTOMRIGHT', self.profiles, 'BOTTOMLEFT', -5, 0)
-	search:SetText("Search")
+	search:SetText("搜索")
 	search:SetScript("OnEnterPressed", function(self)
 		if strlen(strtrim(self:GetText())) == 0 then
 			stAM:UpdateAddonList()
-			self:SetText("Search")
+			self:SetText("搜索")
 		end
 	end)
 	search:HookScript('OnEscapePressed', function(self) stAM:UpdateAddonList(); self:SetText("Search") end)

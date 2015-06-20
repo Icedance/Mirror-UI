@@ -15,8 +15,8 @@ end
 --[[ "DELETE PROFILE" DIALOG ]]
 StaticPopupDialogs['STADDONMANAGER_OVERWRITEPROFILE'] = {
 	text = "There is already a profile named ??????, Do you want to overwrite it?",
-	button1 = 'Overwrite',
-	button2 = 'Cancel',
+	button1 = '覆盖',
+	button2 = '取消',
 	timeout = 0,
 	whileDead = true,
 	hideOnEscape = true,
@@ -48,8 +48,8 @@ end
 
 StaticPopupDialogs['STADDONMANAGER_NEWPROFILE'] = {
 	text = "Enter a name for your new Addon Profile:",
-	button1 = 'Create',
-	button2 = 'Cancel',
+	button1 = '创建',
+	button2 = '取消',
 	timeout = 0,
 	hasEditBox = true,
 	whileDead = true,
@@ -76,7 +76,7 @@ function stAM:InitProfiles()
 	pullout:Hide()
 	
 	--[[ "SET TO" BUTTON ]]
-	pullout.setTo = st.CreateButton(profileMenu:GetName()..'_SetToButton', pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout, 0, 0}, 'Set To', function(self, btn)
+	pullout.setTo = st.CreateButton(profileMenu:GetName()..'_SetToButton', pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout, 0, 0}, '添加', function(self, btn)
 		local profileName = self:GetParent():GetParent().text:GetText()
 		--if shift key is pressed, don't disable current addons
 		if not IsShiftKeyDown() then
@@ -90,7 +90,7 @@ function stAM:InitProfiles()
 	end)
 
 	--[[ "REMOVE FROM" BUTTON ]]
-	pullout.removeFrom = st.CreateButton(profileMenu:GetName()..'_RemoveButton', pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout.setTo, 'RIGHT', 5, 0}, 'Remove', function(self, btn)
+	pullout.removeFrom = st.CreateButton(profileMenu:GetName()..'_RemoveButton', pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout.setTo, 'RIGHT', 5, 0}, '移除', function(self, btn)
 		local profileName = self:GetParent():GetParent().text:GetText()
 		for _,addonName in pairs(stAM_Profiles[profileName]) do
 			DisableAddOn(addonName, playerName)
@@ -103,8 +103,8 @@ function stAM:InitProfiles()
 	--[[ "DELETE PROFILE" DIALOG ]]
 	StaticPopupDialogs['STADDONMANAGER_DELETECONFIRMATION'] = {
 		text = "Are you sure you want to delete ???????",
-		button1 = 'Delete',
-		button2 = 'Cancel',
+		button1 = '删除',
+		button2 = '取消',
 		timeout = 0,
 		whileDead = true,
 		hideOnEscape = true,
@@ -113,7 +113,7 @@ function stAM:InitProfiles()
 	}
 
 	--[[ "DELETE PROFILE" BUTTON ]]
-	pullout.deleteProfile = st.CreateButton(profileMenu:GetName().."_DeleteProfileButton", pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout.removeFrom, 'RIGHT', 5, 0}, 'Delete', function(self, btn)
+	pullout.deleteProfile = st.CreateButton(profileMenu:GetName().."_DeleteProfileButton", pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout.removeFrom, 'RIGHT', 5, 0}, '删除', function(self, btn)
 		local profileName = self:GetParent():GetParent().text:GetText()
 		local dialog = StaticPopupDialogs['STADDONMANAGER_DELETECONFIRMATION']
 
@@ -126,7 +126,7 @@ function stAM:InitProfiles()
 		StaticPopup_Show('STADDONMANAGER_DELETECONFIRMATION')
 	end)
 
-	pullout.updateprofile = st.CreateButton(profileMenu:GetName().."_UpdateProfileButton", pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout.deleteProfile, 'RIGHT', 5, 0}, 'Update', function(self, btn)
+	pullout.updateprofile = st.CreateButton(profileMenu:GetName().."_UpdateProfileButton", pullout, pullout:GetWidth()/4, stAM.buttonHeight, {'LEFT', pullout.deleteProfile, 'RIGHT', 5, 0}, '更新', function(self, btn)
 		stAM:NewAddonProfile(self:GetParent():GetParent().text:GetText(), true)
 	end)
 
@@ -145,7 +145,7 @@ function stAM:InitProfiles()
 	-- TOP MENU BUTTONS --------------------------------
 	----------------------------------------------------
 	for b,name in pairs({'Enable All', 'Disable All'}) do
-		local button = st.CreateButton(profileMenu:GetName()..'_'..name, profileMenu, 1, stAM.buttonHeight, nil, name, function(self) 
+		local button = st.CreateButton(profileMenu:GetName()..'_'..name, profileMenu, 1, stAM.buttonHeight, nil, name=='Enable All' and '全部启用' or '全部禁用', function(self) 
 			for i=1, GetNumAddOns() do
 				if b == 1 then
 					EnableAddOn(i, playerName)
@@ -168,7 +168,7 @@ function stAM:InitProfiles()
 		profileMenu[name] = button
 	end
 
-	local newButton = st.CreateButton(profileMenu:GetName()..'_NewProfileButton', profileMenu, 1, stAM.buttonHeight, {'TOPLEFT', profileMenu.EnableAll, 'BOTTOMLEFT', 0, -5}, 'New Profile', function() StaticPopup_Show('STADDONMANAGER_NEWPROFILE') end)
+	local newButton = st.CreateButton(profileMenu:GetName()..'_NewProfileButton', profileMenu, 1, stAM.buttonHeight, {'TOPLEFT', profileMenu.EnableAll, 'BOTTOMLEFT', 0, -5}, '新建配置', function() StaticPopup_Show('STADDONMANAGER_NEWPROFILE') end)
 	newButton:SetPoint('TOPRIGHT', profileMenu.DisableAll, 'BOTTOMRIGHT', 0, -5)
 	profileMenu.newButton = newButton
 
