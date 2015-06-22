@@ -1,7 +1,7 @@
 local _, playerClass = UnitClass("player")
 if (playerClass ~= "ROGUE" and playerClass ~= "DRUID") then return end
 
-local anchorPoint = {"CENTER", UIParent, "CENTER", 0, -55}  --原-180
+local anchorPoint = {"CENTER", UIParent, "CENTER", 0, -180}  --原-180
 local origPawWidth, origPawHeight = 512, 137
 local pawWidth = 170
 local comboBar = {
