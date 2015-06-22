@@ -151,7 +151,7 @@ local menuList = {
     --func = function() ToggleFrame(PVPFrame) end},
     {text = "地下城查找器",
     func = function() ToggleFrame(PVEFrame) end},
-	{text = "藏品",
+	  {text = "藏品",
     func = function() ToggleCollectionsJournal(1) end},
     {text = "帮助请求",
     func = function() ToggleHelpFrame() end},
@@ -161,9 +161,9 @@ local menuList = {
         Calendar_Toggle()
     end},
     {text = "地下城手册",
-	func = function() ToggleEncounterJournal() end},
+	  func = function() ToggleEncounterJournal() end},
     {text = "商城",
-	func = function() ToggleStoreUI() end},
+	  func = function() ToggleStoreUI() end},
 }
 
 

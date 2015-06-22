@@ -3,6 +3,8 @@ Author: Affli@RU-Howling Fjord,
 Modified: Loshine
 All rights reserved.
 ]]--
+
+if not IsAddOnLoaded("DBM-Core") then return end
 --Config
 
 local DBMskin = true
