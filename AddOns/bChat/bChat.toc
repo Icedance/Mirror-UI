@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: |cff3399FF b|rChat
 ## Title-zhTW: |cff3399FF b|rChat
 ## Notes: 

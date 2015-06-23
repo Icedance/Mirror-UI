@@ -12,7 +12,8 @@ bgMinimapButton:SetUserPlaced(1)
 bgMinimapButton:EnableMouse(1)
 bgMinimapButton:RegisterForDrag('LeftButton')
 bgMinimapButton:SetFrameStrata('MEDIUM')
-bgMinimapButton:SetPoint('CENTER', Minimap:GetWidth()/3*-0.9, Minimap:GetHeight()/2*-1);
+--bgMinimapButton:SetPoint('CENTER', Minimap:GetWidth()/3*-0.9, Minimap:GetHeight()/2*-1);
+bgMinimapButton:SetPoint("bottomright",Minimap,"bottomleft",8,-8);
 bgMinimapButton:CreateTexture('bgMinimapButtonTexture', 'BACKGROUND')
 bgMinimapButton:SetClampedToScreen(true)
 

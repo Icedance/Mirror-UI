@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: |cff3399FF Share
 ## Title-zhTW: |cff3399FF Share
 ## Notes: Nga众分享的各种小段实用代码

@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: oUF TotemBar
 ## Title-zhTW: oUF TotemBar
 ## Notes: Totem bars support for oUF layouts.

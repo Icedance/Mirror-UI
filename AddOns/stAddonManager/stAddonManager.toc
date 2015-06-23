@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Author: Safturento
 ## Version: 1.5
 ## Title: |cff00aaffst|rAddonManager

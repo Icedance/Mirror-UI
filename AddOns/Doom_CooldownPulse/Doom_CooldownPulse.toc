@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: Doom_CooldownPulse
 ## Title-zhTW: Doom_CooldownPulse
 ## Notes: Flash an ability's icon in the middle of the screen when it comes off cooldown.

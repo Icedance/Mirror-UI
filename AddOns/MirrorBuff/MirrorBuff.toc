@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: |cff70C0F5MirrorBuff|r
 ## Title-zhTW: |cff70C0F5MirrorBuff|r
 ## Notes: Powered By Sora's Buff O(∩_∩)O
