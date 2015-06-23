@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: |cffaaaaaanib|rEclipse
 ## Title-zhTW: |cffaaaaaanib|rEclipse
 ## Notes: Simple Druid Eclipse display

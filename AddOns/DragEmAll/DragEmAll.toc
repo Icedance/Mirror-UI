@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Title: DragEmAll
 ## Notes: Makes most default frames movable (mailbox, achievements window etc.)
 ## Author: emelio

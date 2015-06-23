@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: CombatAlert
 ## Title-zhTW: CombatAlert
 ## Notes: 很带感的进入/脱离战斗提示

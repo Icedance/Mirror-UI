@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Author: Dawn
 ## Notes: oUF layout ... of slim'ness
 ## Title: |cff01DFD7oUF_|r|cffffffffSlim|r

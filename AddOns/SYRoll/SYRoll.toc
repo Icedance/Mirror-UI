@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: SYRoll
 ## Title-zhCN: |cFF71D5FF美化 -|r Roll点框体
 ## Title-zhTW: |cFF71D5FF美化 -|r Roll點框體

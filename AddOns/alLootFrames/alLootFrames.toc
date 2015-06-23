@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Title: |cff777777al|rLootFrames
 ## Title-zhTW: |cff777777al|rLootFrames
 ## Notes: Loot and roll frames replacement

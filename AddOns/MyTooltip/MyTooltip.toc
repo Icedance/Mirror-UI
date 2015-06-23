@@ -1,4 +1,4 @@
-﻿## Interface: 60100
+## Interface: 60200
 ## Title: |cff777777My|rTooltip
 ## Title-zhTW: |cff777777My|rTooltip
 ## Notes: Tooltip styling
