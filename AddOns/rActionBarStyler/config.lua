@@ -120,7 +120,7 @@
     --BAR 4
     bar4 = {
       enable          = true, --enable module
-      combineBar4AndBar5  = true, --Ñ¡ÔñTrue»á°Ñ¶¯×÷Ìõ4µÄÉèÖÃÍ¬²½µ½¶¯×÷Ìõ5£¬´Ó¶øÎŞĞèÉèÖÃ¶¯×÷Ìõ5¡£
+      combineBar4AndBar5  = true, --é€‰æ‹©Trueä¼šæŠŠåŠ¨ä½œæ¡4çš„è®¾ç½®åŒæ­¥åˆ°åŠ¨ä½œæ¡5ï¼Œä»è€Œæ— éœ€è®¾ç½®åŠ¨ä½œæ¡5ã€‚
       scale           = 1.1,
       padding         = 10, --frame padding
       buttons         = {
@@ -132,11 +132,11 @@
         enable          = true,
       },
       mouseover       = {
-        enable          = true, --´ò¿ªÕâÏî»á×Ô¶¯Òş²Ø4¡¢5£¬Êó±êÒÆ¹ıÊ±¸¡ÏÖ¡£
+        enable          = true, --æ‰“å¼€è¿™é¡¹ä¼šè‡ªåŠ¨éšè—4ã€5ï¼Œé¼ æ ‡ç§»è¿‡æ—¶æµ®ç°ã€‚
         fadeIn          = {time = 0.4, alpha = 1},
         fadeOut         = {time = 0.3, alpha = 0},
       },
-      combat          = { --Õ½¶·Ê±×Ô¶¯³öÏÖ£¬ÍÑÀëÕ½¶·×Ô¶¯Òş²Ø4.5
+      combat          = { --æˆ˜æ–—æ—¶è‡ªåŠ¨å‡ºç°ï¼Œè„±ç¦»æˆ˜æ–—è‡ªåŠ¨éšè—4.5
         enable          = true,
         fadeIn          = {time = 0.4, alpha = 1},
         fadeOut         = {time = 0.3, alpha = 0.2},
