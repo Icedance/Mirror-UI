@@ -219,6 +219,8 @@ SRAuraList = {
 		    	---->力量dps
 			    	--全能10s
 			    	{AuraID = 176974, UnitID = "player"},
+			    	--使用，全能15s
+			    	{AuraID = 170397, UnitID = "player"},
 			    	--精通10s
 			    	{AuraID = 176935, UnitID = "player"},
 			    	--使用，力量10s
@@ -286,6 +288,43 @@ SRAuraList = {
 				    {AuraID = 177060, UnitID = "player"},
 				    --递增急速10s
 				    {AuraID = 177086, UnitID = "player"},
+		------>6.2饰品
+			---->敏捷
+				--触发敏捷
+				{AuraID = 183926, UnitID = "player"},
+				--储能爆炸
+				{AuraID = 184293, UnitID = "player"},
+			---->力量
+				--触发力量
+				{AuraID = 183941, UnitID = "player"},
+				--阿克狂暴战
+				{AuraID = 185230, UnitID = "player"},
+				--阿克惩戒骑
+				{AuraID = 185102, UnitID = "player"},
+			---->法系
+				--阿克暗牧
+				{AuraID = 184915, UnitID = "player"},
+				--阿克毁灭
+				{AuraID = 185229, UnitID = "player"},
+				--触发智力
+				{AuraID = 183924, UnitID = "player"},
+				--AOE饰品
+				{AuraID = 184073, UnitID = "player"},
+			---->治疗
+				--阿克奶骑
+				{AuraID = 185100, UnitID = "player"},
+				--阿克戒律牧
+				{AuraID = 184912, UnitID = "player"},
+				--使用加爆击
+				{AuraID = 183929, UnitID = "player"},
+				--吸血效果
+				{AuraID = 184671, UnitID = "player"},
+			---->坦克
+				--触发精通
+				{AuraID = 183931, UnitID = "player"},
+				--触发耐力
+				{AuraID = 184770, UnitID = "player"},
+ 
          -- 职业
             -- 潜伏帷幕
             {AuraID =115834, UnitID = "player"},
@@ -993,26 +1032,121 @@ SRAuraList = {
 				--投掷熔渣炸弹，T
 				{AuraID = 157000, UnitID = "player"},
 				
-						--MOP RaidDebuff
-				    --煞能腐蚀，H1
-				    {AuraID = 143579, UnitID = "player"},
-				    --腐蚀冲击，H1
-				    {AuraID = 143436, UnitID = "player"},
-				    --泰坦之力，4
-				    {AuraID = 144364, UnitID = "player"},
-				    --动摇的决心，H4
-				    {AuraID = 147207, UnitID = "player"},
-				    --迦拉克隆之焰，5
-				    {AuraID = 147029, UnitID = "player"},
-				    --钢铁囚笼，H7
-				    {AuraID = 144330, UnitID = "player"},
-				    --猎人印记，H8
-				    {AuraID = 143882, UnitID = "player"},
-				    --炸弹，10
-				    {AuraID = 145987, UnitID = "player"},
-				    --冰冻之血，11
-				    {AuraID = 143800, UnitID = "player"},
-				    
+		--地狱火堡垒
+			--奇袭地狱火
+				--啸风战斧
+				{AuraID = 184379, UnitID = "player"},
+				--钻孔
+				{AuraID = 180022, UnitID = "player"},
+				--灼烧
+				{AuraID = 185157, UnitID = "player"},
+			--钢铁掠夺者
+				--炮击
+				{AuraID = 182280, UnitID = "player"},
+				--染料污渍
+				{AuraID = 182003, UnitID = "player"},
+				--献祭
+				{AuraID = 182074, UnitID = "player"},
+			--考莫克
+				--攫取之手
+				{AuraID = 181345, UnitID = "player"},
+				--邪能之触
+				{AuraID = 181321, UnitID = "player"},
+				--爆裂冲击
+				{AuraID = 181306, UnitID = "player"},
+			--地狱火高阶议会
+				--堕落狂怒
+				{AuraID = 184360, UnitID = "player"},
+				--酸性创伤
+				{AuraID = 184847, UnitID = "player"},
+				--血液沸腾M
+				{AuraID = 184355, UnitID = "player"},
+				--死灵印记
+				{AuraID = 184449, UnitID = "player"},
+				{AuraID = 184450, UnitID = "player"},
+				{AuraID = 184676, UnitID = "player"},
+				{AuraID = 185065, UnitID = "player"},
+				{AuraID = 185066, UnitID = "player"},
+			--基尔罗格
+				--恶魔腐化
+				{AuraID = 182159, UnitID = "player"},
+				{AuraID = 184396, UnitID = "player"},
+				--不朽决心
+				{AuraID = 180718, UnitID = "player"},
+				--撕碎护甲
+				{AuraID = 180200, UnitID = "player"},
+			--血魔
+				--消化
+				{AuraID = 181295, UnitID = "player"},
+				--嗜命
+				{AuraID = 180148, UnitID = "player"},
+				--毁灭之触
+				{AuraID = 179977, UnitID = "player"},
+			--暗影领主伊斯卡
+				--幻影之伤
+				{AuraID = 182325, UnitID = "player"},
+				--幻影腐蚀
+				{AuraID = 181824, UnitID = "player"},
+				--邪能炸弹
+				{AuraID = 181753, UnitID = "player"},
+				--邪能飞轮
+				{AuraID = 182178, UnitID = "player"},
+			--永恒者索奎萨尔
+				--粉碎防御
+				{AuraID = 182038, UnitID = "player"},
+				--易爆的邪能宝珠
+				{AuraID = 189627, UnitID = "player"},
+				--邪能牢笼
+				{AuraID = 180415, UnitID = "player"},
+				--堕落者之赐
+				{AuraID = 184124, UnitID = "player"},
+				--魅影重重
+				{AuraID = 182769, UnitID = "player"},
+				--暗言术：恶
+				{AuraID = 184239, UnitID = "player"},
+				--恶毒鬼魅
+				{AuraID = 182900, UnitID = "player"},
+				--永世饥渴
+				{AuraID = 188666, UnitID = "player"},
+			--女暴君维哈里
+				--凋零契印
+				{AuraID = 180000, UnitID = "player"},
+				--腐蚀序列
+				{AuraID = 180526, UnitID = "player"},
+			--恶魔领主扎昆
+				--魂不附体
+				{AuraID = 179407, UnitID = "player"},
+				--玷污
+				{AuraID = 189032, UnitID = "player"},
+				{AuraID = 189031, UnitID = "player"},
+				{AuraID = 189030, UnitID = "player"},
+				--毁灭之种
+				{AuraID = 181515, UnitID = "player"},
+			--祖霍拉克
+				--邪蚀
+				{AuraID = 186134, UnitID = "player"},
+				--灵媒
+				{AuraID = 186135, UnitID = "player"},
+				--邪影屠戮
+				{AuraID = 185656, UnitID = "player"},
+				--魔能喷涌
+				{AuraID = 186407, UnitID = "player"},
+				--灵能涌动
+				{AuraID = 186333, UnitID = "player"},
+			--玛诺洛斯
+				--末日印记
+				{AuraID = 181099, UnitID = "player"},
+				--末日之刺
+				{AuraID = 189717, UnitID = "player"},
+				--强化暗影之力
+				{AuraID = 182088, UnitID = "player"},
+			--阿克蒙德
+				--暗影爆破
+				{AuraID = 183864, UnitID = "player"},
+				--锁定
+				{AuraID = 182879, UnitID = "player"},
+				--束缚折磨
+				{AuraID = 184964, UnitID = "player"},					    
 			},
 	  	},
    {
@@ -1065,8 +1199,21 @@ SRAuraList = {
 				{AuraID = 158708, UnitID = "target"},
 				--坦克过载
 				{AuraID = 159199, UnitID = "target"},
+				--坦克易伤
+				{AuraID = 157322, UnitID = "target"},
 				--坦克黑铁铠甲
 				{AuraID = 156667, UnitID = "target"},
+			-->地狱火堡垒
+				--血魔，灵魂盛宴
+				{AuraID = 181973, UnitID = "target"},
+				--永恒者索奎萨尔，邪能壁垒
+				{AuraID = 184053, UnitID = "target"},
+				--永恒者索奎萨尔，染血追踪者
+				{AuraID = 188767, UnitID = "target"},
+				--女暴君维哈里，统御者壁垒
+				{AuraID = 180040, UnitID = "target"},
+				--祖霍拉克，混乱压制
+				{AuraID = 187204, UnitID = "target"},
 			-->PLAYER
 				--痛苦压制
 				{AuraID =  33206, UnitID = "target"},
