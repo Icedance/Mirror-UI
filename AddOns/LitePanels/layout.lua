@@ -41,6 +41,47 @@
 		gradient_alpha = 0.7,
 	},
 
+-----微型菜单面板-----
+	--[[
+	{	name = "MicroMenu_hight", parent = "UIParent", x_off = 30, y_off = -6,
+		width= 382,
+		height = 1, 
+		strata = "BACKGROUND",
+		level = 4,
+		anchor_to = "TOP", 
+		bg_color = "CLASS",
+		bg_alpha = 0,
+		gradient = "V",
+		gradient_color = "CLASS",
+		gradient_alpha = 0.7,
+	},
+	
+	{	name = "MicroMenu_middle", parent = "UIParent", x_off = 29, y_off = -7,
+		width= 385,
+		height = 21, 
+		strata = "BACKGROUND",
+		level = 4,
+		anchor_to = "TOP", 
+		bg_color = "CLASS",
+		bg_alpha = 0,
+		gradient = "V",
+		gradient_color = "CLASS",
+		gradient_alpha = 0.3,
+	},
+	
+	{	name = "MicroMenu_low", parent = "UIParent", x_off = 30, y_off = -28,
+		width= 381,
+		height = 1, 
+		strata = "BACKGROUND",
+		level = 4,
+		anchor_to = "TOP", 
+		bg_color = "CLASS",
+		bg_alpha = 0,
+		gradient = "V",
+		gradient_color = "CLASS",
+		gradient_alpha = 0.7,
+	},
+	]]--
 -----聊天框左侧短线条-----
 	
 	{	name = "rAB_Short_Left4", parent = "ChatBorder_bottom_left", x_off = -14, y_off = 63.5,
