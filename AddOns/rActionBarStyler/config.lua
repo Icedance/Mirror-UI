@@ -22,7 +22,7 @@
     bar1 = {
       enable          = true, --enable module
       uselayout2x6    = false,
-      scale           = 1.3,
+      scale           = 1.2,
       padding         = 2, --frame padding
       buttons         = {
         size            = 23,
@@ -46,7 +46,7 @@
     --OVERRIDE BAR (vehicle ui)
     overridebar = { --the new vehicle and override bar
       enable          = true, --enable module
-      scale           = 1.3,
+      scale           = 1.2,
       padding         = 2, --frame padding
       buttons         = {
         size            = 23,
@@ -71,7 +71,7 @@
     bar2 = {
       enable          = true, --enable module
       uselayout2x6    = false,
-      scale           = 1.3,
+      scale           = 1.2,
       padding         = 2, --frame padding
       buttons         = {
         size            = 23,
@@ -95,7 +95,7 @@
     --BAR 3
     bar3 = {
       enable          = true, --enable module
-      scale           = 1.3,
+      scale           = 1.2,
 	  uselayout2x6    = true,
       padding         = 2, --frame padding
       buttons         = {
@@ -195,7 +195,7 @@
     stancebar = {
       enable          = true, --enable module
       show            = true, --true/false
-      scale           = 1.3,
+      scale           = 1.2,
       padding         = 2, --frame padding
       buttons         = {
         size            = 23,

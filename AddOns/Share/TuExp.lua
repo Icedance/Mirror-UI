@@ -10,8 +10,8 @@
 -----------------------------------常/变 量------------------------------------
 local addon, addonData = ...
 local anchors={
-    {"TOPLEFT", ActionButton1, "BOTTOMLEFT", -2, -49 }, --左上角锚点
-    {"TOPRIGHT", MultiBarBottomRightButton12, "BOTTOMRIGHT", 0, -49 } --右上角锚点
+    {"TOPLEFT", ActionButton1, "BOTTOMLEFT", -2, -45 }, --左上角锚点
+    {"TOPRIGHT", MultiBarBottomRightButton12, "BOTTOMRIGHT", 0, -45 } --右上角锚点
 }
 TuBarCfg = {}
 local cfg = TuBarCfg
