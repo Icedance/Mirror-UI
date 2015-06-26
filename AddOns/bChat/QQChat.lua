@@ -276,7 +276,7 @@ local AddMessage = function(self, text, ...)
         if showtime then
           text = format(ts, date'%H:%M', text)  --text = format(ts, date'%H:%M:%S', text)
         else
-	  text = format(ts, '>', text)
+	  text = format(ts, '> ', text)
        end
 end
 
@@ -659,7 +659,7 @@ cfg.config = {
 	AlphaFadeOut = 0.95,										--淡出时的透明度
 	size = 16,												--图标及文字的大小
 	snap = 6,												--间隔
-	postion = {"TOPLEFT",ChatFrame1,"BOTTOMLEFT",21,-8},	--位置
+	postion = {"BOTTOMRIGHT",ChatFrame1,"BOTTOMRIGHT",-21,-16},	--位置
 	font = STANDARD_TEXT_FONT,								--字体可改为指定字体，如"Fonts\\ARKai_T.ttf"
 	fontstyle = "THINOUTLINE",								--字体样式"OUTLINE", "OUTLINE MONOCHROME", "OUTLINE" ，“GameFontNormal”或者 nil		
 }
@@ -771,32 +771,6 @@ function StatReport()
 	return StatInfo
 end
 
--- 大脚世界频道
-function World()
-	local _, channelName, _  =  GetChannelName("大脚世界频道")
-	if channelName == nil then
-		JoinPermanentChannel("大脚世界频道", nil, 1, 1)
-		ChatFrame_RemoveMessageGroup(ChatFrame1, "CHANNEL")
-		ChatFrame_AddChannel(ChatFrame1,"大脚世界频道")
-	else
-		local channel, _, _  = GetChannelName("大脚世界频道")
-		ChatFrame_OpenChat("/"..channel.." ", chatFrame)
-	end
-end
-
---[[ 叫我第二名
-function MaoR()
-	local _, channelName, _  =  GetChannelName("毛人UI")
-	if channelName == nil then
-		JoinPermanentChannel("毛人UI", nil, 1, 1)
-		ChatFrame_RemoveMessageGroup(ChatFrame1, "CHANNEL")
-		ChatFrame_AddChannel(ChatFrame1,"毛人UI")
-	else
-		local channel, _, _  = GetChannelName("毛人UI")
-		ChatFrame_OpenChat("/"..channel.." ", chatFrame)
-		ChatFrame_OpenChat("/"..channel.." ", chatFrame)
-	end
-end]]
 
 -- 自定义宏模块
 local StatReport = "/run ChatFrame_OpenChat(StatReport())"
@@ -819,20 +793,19 @@ local TalentChange = "/run SetActiveSpecGroup(GetActiveSpecGroup() == 1 and 2 or
 
 cfg.custom = {
 	--大脚频道
-	{channel = "World", input = "/run World()", macro = true , text = "世", color = {1.0,0.8,0.6}},
+	--{channel = "World", input = "/run World()", macro = true , text = "世", color = {1.0,0.8,0.6}},
   --离开大脚
-	--{channel = "Leave", input = "/run leave()", macro = true , text = "离", color = {0.5,0.6,0.8}},
 	--{channel = "Leave", input = "/leave 大脚世界频道", macro = true , text = "退", color = {0.5,0.6,0.8}},
-	--[[第二名
-	{channel = "MaoR", input = "/run MaoR()", macro = true , text = "毛", color = {1.0,0.6,0.8}},]]
-  --[[宏
-  {channel = "Macro", input = "/宏", macro = true , text = "宏", color = {0.0,1.0,0.0}},]]
-  --Align宏
+	--第二名
+	--{channel = "MaoR", input = "/run MaoR()", macro = true , text = "毛", color = {1.0,0.6,0.8}},
+  --属性通报
+	{channel = "StatReport", input = StatReport, macro = true , text = "报", color = {0.0,1.0,1.0}},
+	--Align宏
   --{channel = "Align", input = "/align", macro = true , text = "网", color = {1.0,1.0,1.0}},
+  --宏
+  --{channel = "Macro", input = "/Macro", macro = true , text = "宏", color = {0.0,1.0,0.0}},
   --Roll宏
 	{channel = "ROLL", input = "/roll", macro = true , text = "掷", color = {1.0,1.0,0.0}},
-	--属性通报
-	{channel = "StatReport", input = StatReport, macro = true , text = "报", color = {0.0,1.0,1.0}},
 }
 
 
@@ -866,13 +839,13 @@ local chatFrame = editBox.chatFrame
 -- 自定义频道 --
 ----------------------------------------------------------
 local channels = {
-	[1] = {channel = "Say", input = "/s ", color = {1,1,1},},
-	[2] = {channel = "Yell", input = "/y ", color = {1,64/255,64/255},},
-	[3] = {channel = "Party", input = "/p ", color = {170/255,170/255,1},},
-	[4] = {channel = "Raid", input = "/ra ", color = {255/255,127/255,0},},
-	[5] = {channel = "RaidWarning", input = "/rw ", color = {255/255,64/255,0/255},},
-	[6] = {channel = "BattleGround", input = "/bg ", color = {255/255,127/255,0},},
-	[7] = {channel = "Guild", input = "/g ", color = {64/255,255/255,64/255},},
+	[3] = {channel = "Yell", input = "/y ", color = {1,64/255,64/255},},
+	[4] = {channel = "Say", input = "/s ", color = {1,1,1},},
+	[5] = {channel = "Party", input = "/p ", color = {170/255,170/255,1},},
+	[6] = {channel = "RaidWarning", input = "/rw ", color = {255/255,64/255,0/255},},
+	[7] = {channel = "Raid", input = "/ra ", color = {255/255,127/255,0},},
+	[8] = {channel = "BattleGround", input = "/bg ", color = {255/255,127/255,0},},
+	[9] = {channel = "Guild", input = "/g ", color = {64/255,255/255,64/255},},
 	--[8] = {channel = "Whisper", input = "/w ", color = {255/255,128/255,255/255},},
 }
 
@@ -923,7 +896,7 @@ if cfg.vertical then
 else
 	chatbar:SetSize(cfg.size*t+cfg.snap*(t+1),cfg.size/2)
 end
-chatbar:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",230,5)
+chatbar:SetPoint(unpack(cfg.postion))
 if cfg.usebg then
 	chatbar:SetBackdrop(backdrop)
 	chatbar:SetBackdropColor(0,0,0,0.4)
@@ -1252,7 +1225,7 @@ local _xBNSendConversationMessage=BNSendConversationMessage
 	Emote_CallButton:RegisterForClicks("LeftButtonUp","RightButtonUp")
  	Emote_CallButton:RegisterForDrag("LeftButton","RightButton")
 	Emote_CallButton:ClearAllPoints()
- 	Emote_CallButton:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",200,0)
+ 	Emote_CallButton:SetPoint("RIGHT",ChatBar,"LEFT",-8,0)
  	Emote_CallButton:SetScript("OnClick",function(self) if Emote_IconPanel:IsShown() then Emote_IconPanel:Hide() else Emote_IconPanel:Show() end if GameTooltip:GetOwner()==self then GameTooltip:Hide() end end)
  	Emote_CallButton:SetScript("OnDragStart",function(self) if self:IsMovable() and IsControlKeyDown() then self:StartMoving() end end)
  	Emote_CallButton:SetScript("OnDragStop",function(self) if self:IsMovable() then self:StopMovingOrSizing()  end  end)
@@ -2362,3 +2335,54 @@ SlashCmdList["CHATFILTER"] = function(msg)
 		print("/cf [ raidalert | questreport | duel | drunk | auction | unignore ]")
 	end
 end
+
+-- 加入/离开大脚世界频道
+local bf = CreateFrame("Frame", "bf", ChatFrame1)
+local msg
+bf:SetSize(18,18) -- 大小
+--bf.t = bf:CreateTexture()
+--bf.t:SetAllPoints()
+--bf.t:SetTexture("Interface\\AddOns\\vChat\\icon.tga")
+  bf.t = bf:CreateFontString(nil, 'OVERLAY')
+	bf.t:SetFont(STANDARD_TEXT_FONT, 16, "OUTLINE")
+	bf.t:SetPoint("CENTER", 0, 0)
+	bf.t:SetText("世")
+	bf.t:SetTextColor(255/255, 200/255, 150/255)
+bf:SetAlpha(0.8)
+bf:SetParent(ChatBar)
+bf:ClearAllPoints()
+--bf:SetPoint('TOPRIGHT', ChatFrame1, 'TOPRIGHT', 0, 25) --位置
+bf:SetPoint("LEFT",ChatBar,"RIGHT",0,0)
+--bf:SetScript('OnEnter', function(self) self:SetAlpha(1) end) 
+--bf:SetScript('OnLeave', function(self) self:SetAlpha(0.2) end) 
+bf:SetScript("OnMouseUp", function(self, button) 
+     local channels = {GetChannelList()} 
+      local isInCustomChannel = false 
+      local customChannelName = "大脚世界频道" 
+      for i =1, #channels do 
+         if channels[i] == customChannelName then 
+            isInCustomChannel = true 
+         end 
+      end 
+      if button == "LeftButton" then
+            local _, channelName, _  =  GetChannelName("大脚世界频道")
+           	if channelName == nil then
+		           JoinPermanentChannel("大脚世界频道", nil, 1, 1)
+		           ChatFrame_RemoveMessageGroup(ChatFrame1, "CHANNEL")
+		           ChatFrame_AddChannel(ChatFrame1,"大脚世界频道")
+	          else
+		           local channel, _, _  = GetChannelName("大脚世界频道")
+		           ChatFrame_OpenChat("/"..channel.." ", chatFrame)
+	          end
+      elseif button == "RightButton" then
+            if isInCustomChannel then 
+		           msg = ">>>退出世界频道<<<" 
+               LeaveChannelByName(customChannelName) 
+            else 
+               JoinPermanentChannel(customChannelName,nil,1) 
+               msg = ">>>加入世界频道<<<" 
+               ChatFrame_AddChannel(ChatFrame1,customChannelName) 
+               ChatFrame_RemoveMessageGroup(ChatFrame1,"CHANNEL") 
+            end print(msg)
+      end
+   end) 
