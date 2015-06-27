@@ -24,33 +24,48 @@ DESCRIPTION
 DEPENDENCIES
 	mixins/api-common.lua
 ]]
-
 local addon, ns = ...
 local cargBags = ns.cargBags
 
-local _, SR = ...
-local cfg = SR.BagConfig
-
 local function noop() end
 
--- Upgrade Level retrieval
-local S_UPGRADE_LEVEL = "^" .. gsub(ITEM_UPGRADE_TOOLTIP_FORMAT, "%%d", "(%%d+)")	-- Search pattern
-local scantip = CreateFrame("GameTooltip", "ItemUpgradeScanTooltip", nil, "GameTooltipTemplate")
+-- iLevel retrieval
+local S_ITEM_LEVEL = "^" .. gsub(ITEM_LEVEL, "%%d", "(%%d+)")
+local scantip = CreateFrame("GameTooltip", "ItemLevelScanTooltip", nil, "GameTooltipTemplate")
 scantip:SetOwner(UIParent, "ANCHOR_NONE")
 
-local function GetItemUpgradeLevel(itemLink)
+local function GetItemLevel(itemLink)
 	scantip:SetOwner(UIParent, "ANCHOR_NONE")
 	scantip:SetHyperlink(itemLink)
 	for i = 2, scantip:NumLines() do -- Line 1 = name so skip
-		local text = _G["ItemUpgradeScanTooltipTextLeft"..i]:GetText()
+		local text = _G["ItemLevelScanTooltipTextLeft"..i]:GetText()
 		if text and text ~= "" then
-			local currentUpgradeLevel, maxUpgradeLevel = strmatch(text, S_UPGRADE_LEVEL)
-			if currentUpgradeLevel then
-				return currentUpgradeLevel, maxUpgradeLevel
+			local currentLevel = strmatch(text, S_ITEM_LEVEL)
+			if currentLevel then
+				return currentLevel
 			end
 		end
 	end
 	scantip:Hide()
+end
+
+local function Round(num, idp)
+	local mult = 10^(idp or 0)
+	return math.floor(num * mult + 0.5) / mult
+end
+
+local function ItemColorGradient(perc, ...)
+	if perc >= 1 then
+		return select(select('#', ...) - 2, ...)
+	elseif perc <= 0 then
+		return ...
+	end
+
+	local num = select('#', ...) / 3
+	local segment, relperc = math.modf(perc*(num-1))
+	local r1, g1, b1, r2, g2, b2 = select((segment*3)+1, ...)
+
+	return r1 + (r2-r1)*relperc, g1 + (g2-g1)*relperc, b1 + (b2-b1)*relperc
 end
 
 local function CreateInfoString(button, position)
@@ -62,21 +77,29 @@ local function CreateInfoString(button, position)
 		str:SetJustifyH("RIGHT")
 		str:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1.5, 1.5)
 	end	
-	local font = cfg.Font
-	str:SetFont(font, 11, "OUTLINE")
+	local font = (RealUI and RealUI.font.pixel1) or ns.options.fonts.itemCount
+	str:SetFont(unpack(font))
 
 	return str
 end
 
 local function ItemButton_Scaffold(self)
 	self:SetSize(37, 37)
-
+	local bordersize = 768/string.match(GetCVar("gxResolution"), "%d+x(%d+)")/(GetCVar("uiScale")*cBnivCfg.scale)
 	local name = self:GetName()
 	self.Icon = _G[name.."IconTexture"]
 	self.Count = _G[name.."Count"]
 	self.Cooldown = _G[name.."Cooldown"]
 	self.Quest = _G[name.."IconQuestTexture"]
-	self.Border = _G[name.."NormalTexture"]
+	self.Border = CreateFrame("Frame", nil, self)
+	self.Border:SetPoint("TOPLEFT", self.Icon, 0, 0)
+	self.Border:SetPoint("BOTTOMRIGHT", self.Icon, 0, 0)
+	self.Border:SetBackdrop({
+		edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = bordersize,
+	})
+	self.Border:SetBackdropBorderColor(0, 0, 0, 0)
+
+	self.TopString = CreateInfoString(self, "TOP")
 	self.BottomString = CreateInfoString(self, "BOTTOM")
 end
 
@@ -88,8 +111,17 @@ end
 local L = cargBags:GetLocalizedTypes()
 local ilvlTypes = {[L["Armor"]] = true, [L["Weapon"]] = true}
 local function ItemButton_Update(self, item)
-	self.Icon:SetTexture(item.texture or self.bgTex)
-
+	if item.texture then
+		self.Icon:SetTexture(item.texture or ((cBnivCfg.CompressEmpty and self.bgTex) or unpack({1,1,1,0.1})))
+		self.Icon:SetTexCoord(.08, .92, .08, .92)
+	else
+		if cBnivCfg.CompressEmpty then
+			self.Icon:SetTexture(self.bgTex)
+			self.Icon:SetTexCoord(.08, .92, .08, .92)
+		else
+			self.Icon:SetTexture(1,1,1,0.1)
+		end
+	end
 	if(item.count and item.count > 1) then
 		self.Count:SetText(item.count >= 1e3 and "*" or item.count)
 		self.Count:Show()
@@ -98,22 +130,28 @@ local function ItemButton_Update(self, item)
 	end
 	self.count = item.count -- Thank you Blizz for not using local variables >.> (BankFrame.lua @ 234 )
 
+	-- Durability
+	local dCur, dMax = GetContainerItemDurability(item.bagID, item.slotID)
+	if dMax and (dMax > 0) and (dCur < dMax) then
+		local dPer = (dCur / dMax * 100)
+		local r, g, b = ItemColorGradient((dCur/dMax), 1, 0, 0, 1, 1, 0, 0, 1, 0)
+		self.TopString:SetText(Round(dPer).."%")
+		self.TopString:SetTextColor(r, g, b)
+	else
+		self.TopString:SetText("")
+	end
+
 	-- Item Level
 	local _,_,_,_,_,_,itemLink = GetContainerItemInfo(item.bagID, item.slotID)
 	if itemLink then
 		local _,_,itemRarity,itemLevel,_,itemType = GetItemInfo(itemLink)
-
+		local currentLevel = GetItemLevel(itemLink)
 		if itemType and itemLevel and ilvlTypes[itemType] and itemLevel > 0 then
-			local currentUpgradeLevel, maxUpgradeLevel = GetItemUpgradeLevel(itemLink)
-			if (currentUpgradeLevel and maxUpgradeLevel) then
-				if itemRarity <= 3 then
-					itemLevel = itemLevel + (tonumber(currentUpgradeLevel) * 8)
-				else
-					itemLevel = itemLevel + (tonumber(currentUpgradeLevel) * 4)
-				end
+			if currentLevel then
+				self.BottomString:SetText(currentLevel)
+			else
+				self.BottomString:SetText(itemLevel)
 			end
-
-			self.BottomString:SetText(itemLevel)
 			self.BottomString:SetTextColor(GetItemQualityColor(itemRarity))
 		else
 			self.BottomString:SetText("")
@@ -121,7 +159,7 @@ local function ItemButton_Update(self, item)
 	else
 		self.BottomString:SetText("")
 	end
-	
+
 	self:UpdateCooldown(item)
 	self:UpdateLock(item)
 	self:UpdateQuest(item)
