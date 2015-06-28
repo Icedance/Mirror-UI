@@ -33,20 +33,20 @@ local cfg = SR.BagConfig
 
 local function noop() end
 
--- iLevel retrieval
-local S_ITEM_LEVEL = "^" .. gsub(ITEM_LEVEL, "%%d", "(%%d+)")
-local scantip = CreateFrame("GameTooltip", "ItemLevelScanTooltip", nil, "GameTooltipTemplate")
+-- Upgrade Level retrieval
+local S_UPGRADE_LEVEL = "^" .. gsub(ITEM_UPGRADE_TOOLTIP_FORMAT, "%%d", "(%%d+)")	-- Search pattern
+local scantip = CreateFrame("GameTooltip", "ItemUpgradeScanTooltip", nil, "GameTooltipTemplate")
 scantip:SetOwner(UIParent, "ANCHOR_NONE")
 
-local function GetItemLevel(itemLink)
+local function GetItemUpgradeLevel(itemLink)
 	scantip:SetOwner(UIParent, "ANCHOR_NONE")
 	scantip:SetHyperlink(itemLink)
 	for i = 2, scantip:NumLines() do -- Line 1 = name so skip
-		local text = _G["ItemLevelScanTooltipTextLeft"..i]:GetText()
+		local text = _G["ItemUpgradeScanTooltipTextLeft"..i]:GetText()
 		if text and text ~= "" then
-			local currentLevel = strmatch(text, S_ITEM_LEVEL)
-			if currentLevel then
-				return currentLevel
+			local currentUpgradeLevel, maxUpgradeLevel = strmatch(text, S_UPGRADE_LEVEL)
+			if currentUpgradeLevel then
+				return currentUpgradeLevel, maxUpgradeLevel
 			end
 		end
 	end
@@ -102,13 +102,18 @@ local function ItemButton_Update(self, item)
 	local _,_,_,_,_,_,itemLink = GetContainerItemInfo(item.bagID, item.slotID)
 	if itemLink then
 		local _,_,itemRarity,itemLevel,_,itemType = GetItemInfo(itemLink)
-		local currentLevel = GetItemLevel(itemLink)
+
 		if itemType and itemLevel and ilvlTypes[itemType] and itemLevel > 0 then
-			if currentLevel then
-				self.BottomString:SetText(currentLevel)
-			else
-				self.BottomString:SetText(itemLevel)
+			local currentUpgradeLevel, maxUpgradeLevel = GetItemUpgradeLevel(itemLink)
+			if (currentUpgradeLevel and maxUpgradeLevel) then
+				if itemRarity <= 3 then
+					itemLevel = itemLevel + (tonumber(currentUpgradeLevel) * 8)
+				else
+					itemLevel = itemLevel + (tonumber(currentUpgradeLevel) * 4)
+				end
 			end
+
+			self.BottomString:SetText(itemLevel)
 			self.BottomString:SetTextColor(GetItemQualityColor(itemRarity))
 		else
 			self.BottomString:SetText("")
