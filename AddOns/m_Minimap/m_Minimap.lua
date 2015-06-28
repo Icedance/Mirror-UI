@@ -133,37 +133,34 @@ end
 -- Creating right click menu
 local menuFrame = CreateFrame("Frame", "m_MinimapRightClickMenu", UIParent, "UIDropDownMenuTemplate")
 local menuList = {
-    {text = "角色信息",
+    {text = CHARACTER_BUTTON,
     func = function() ToggleCharacter("PaperDollFrame") end},
-    {text = "法术书",
+    {text = SPELLBOOK_ABILITIES_BUTTON,
     func = function() ToggleSpellBook("spell") end},
-    {text = "天赋",
+    {text = TALENTS_BUTTON,
     func = function() ToggleTalentFrame() end},
-    {text = "成就",
+    {text = ACHIEVEMENT_BUTTON,
     func = function() ToggleAchievementFrame() end},
-    {text = "任务日志",
-    func = function() ToggleFrame(QuestLogFrame) end},
-    {text = "好友",
-    func = function() ToggleFriendsFrame(1) end},
-    {text = "公会",
+    {text = QUESTLOG_BUTTON,
+    func = function() ToggleFrame(WorldMapFrame) end},
+    {text = IsInGuild() and GUILD or LOOKINGFORGUILD,
     func = function() ToggleGuildFrame(1) end},
-    --{text = "PvP",
-    --func = function() ToggleFrame(PVPFrame) end},
-    {text = "地下城查找器",
-    func = function() ToggleFrame(PVEFrame) end},
-	  {text = "藏品",
+	{text = PLAYER_V_PLAYER,
+    func = function() TogglePVPUI() end},
+    {text = DUNGEONS_BUTTON,
+    func = function() PVEFrame_ToggleFrame() end},
+    {text = ADVENTURE_JOURNAL,
+    func = function() ToggleEncounterJournal() end},
+    {text = COLLECTIONS,
     func = function() ToggleCollectionsJournal(1) end},
-    {text = "帮助请求",
+    {text = BLIZZARD_STORE,
+    func = function() ToggleStoreUI() end},
+    {text = FRIENDS,
+    func = function() ToggleFriendsFrame(1) end},
+    {text = GARRISON_LOCATION_TOOLTIP,
+    func = function() GarrisonLandingPage_Toggle() end},
+    {text = HELP_BUTTON,
     func = function() ToggleHelpFrame() end},
-    {text = "日历",
-    func = function()
-    if(not CalendarFrame) then LoadAddOn("Blizzard_Calendar") end
-        Calendar_Toggle()
-    end},
-    {text = "地下城手册",
-	  func = function() ToggleEncounterJournal() end},
-    {text = "商城",
-	  func = function() ToggleStoreUI() end},
 }
 
 
@@ -173,51 +170,6 @@ local menuList = {
    GarrisonLandingPageMinimapButton:SetHeight(35)
    GarrisonLandingPageMinimapButton:SetPoint("TOPRIGHT", Minimap, 18, 38) 
    
---[[local menuList = {
-    {text = CHARACTER_BUTTON,
-	notCheckable = true,
-    func = function() ToggleCharacter("PaperDollFrame") end},
-    {text = SPELLBOOK_ABILITIES_BUTTON,
-	notCheckable = true,
-    func = function() ToggleFrame(SpellBookFrame) end},
-    {text = TALENTS_BUTTON,
-	notCheckable = true,
-    func = function() ToggleTalentFrame() end},
-    {text = ACHIEVEMENT_BUTTON,
-	notCheckable = true,
-    func = function() ToggleAchievementFrame() end},
-    {text = QUESTLOG_BUTTON,
-	notCheckable = true,
-    func = function() ToggleFrame(QuestLogFrame) end},
-    {text = SOCIAL_BUTTON,
-	notCheckable = true,
-    func = function() ToggleFriendsFrame(1) end},
-    {text = GUILD,
-	notCheckable = true,
-    func = function() ToggleGuildFrame() end},
-    {text = PLAYER_V_PLAYER,
-	notCheckable = true,
-    func = function() ToggleFrame(PVPFrame) end},
-    {text = LFG_TITLE,
-	notCheckable = true,
-    func = function() PVEFrame_ToggleFrame('GroupFinderFrame', LFDParentFrame) end},
-	{text = PET_JOURNAL,
-	notCheckable = true,
-    func = function() TogglePetJournal() end},
-    {text = HELP_BUTTON,
-	notCheckable = true,
-    func = function() ToggleHelpFrame() end},
-    {text = SLASH_CALENDAR1:gsub("/(.*)","%1"),
-    notCheckable = true,	
-    func = function()
-    if(not CalendarFrame) then LoadAddOn("Blizzard_Calendar") end
-        Calendar_Toggle()
-    end},
-    {text = ENCOUNTER_JOURNAL,
-	notCheckable = true,
-	func = function() ToggleEncounterJournal() end},
-}
-]]
 -- Click func
 Minimap:SetScript("OnMouseUp", function(_, btn)
     if(btn=="MiddleButton") then
@@ -238,28 +190,8 @@ Minimap:SetScript("OnMouseUp", function(_, btn)
 	end
 end) 
 
--- Clock
-if not IsAddOnLoaded("Blizzard_TimeManager") then
-	LoadAddOn("Blizzard_TimeManager")
-end
-local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
-clockFrame:Hide()
-clockTime:SetFont(STANDARD_TEXT_FONT, 12, "THINOUTLINE")
-clockTime:SetTextColor(1,1,1,0)
-TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -3)
-TimeManagerClockButton:SetScript("OnClick", function(_,btn)
- 	if btn == "LeftButton" then
-		TimeManager_Toggle()
-	end 
-	if btn == "RightButton" then
-		if not CalendarFrame then
-			LoadAddOn("Blizzard_Calendar")
-		end
-		Calendar_Toggle()
-	end
-end)
-
-
+-- Clock Hide
+TimeManagerClockButton:Hide()
 
 --世界标记
 local wm = CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton

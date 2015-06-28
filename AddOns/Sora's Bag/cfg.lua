@@ -11,7 +11,7 @@ local Media = "Interface\\Addons\\Sora's Bag\Media\\"
 cfg.Font = "Fonts\\ARKai_T.ttf"
 cfg.edgeFile = Media.."glowTex"
 cfg.Scale = 1 												-- 背包缩放
-	
+cfg.ReverseCleanUpBags = true                               -- 反向整理背包
 ----------------
 --  命名空间  --
 ----------------

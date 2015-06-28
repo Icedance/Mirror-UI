@@ -1,5 +1,5 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="cfg.lua"/>	
-	<Include file="cargBags\embed.xml"/>
+	<Include file="cargBags\cargBags.xml"/>
 	<Script file="Bags.lua"/>
 </Ui>

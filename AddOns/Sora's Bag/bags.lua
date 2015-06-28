@@ -106,14 +106,14 @@ function MyButton:OnCreate()
 	self.Icon:SetPoint("BOTTOMRIGHT", self, 0, 0)
 	self.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	self.Count:SetPoint("BOTTOMRIGHT", -1, 3)
-	self.Count:SetFont("Interface\\Addons\\dMedia\\Hooge.ttf", 9, "OUTLINE MONOCHROME") --(cfg.Font, 12, "THINOUTLINE")
+	self.Count:SetFont("Interface\\Addons\\dMedia\\Hooge.ttf", 8, "OUTLINE MONOCHROME") --(cfg.Font, 12, "THINOUTLINE")
 	self.BottomString:SetPoint("BOTTOMRIGHT", -1, 3)
-	self.BottomString:SetFont("Interface\\Addons\\dMedia\\Hooge.ttf", 9, "OUTLINE MONOCHROME")
+	self.BottomString:SetFont("Interface\\Addons\\dMedia\\Hooge.ttf", 8, "OUTLINE MONOCHROME")
 	self.Border = CreateFrame("Frame", nil, self)
 	self.Border:SetPoint("TOPLEFT", self.Icon, 0, 0)
 	self.Border:SetPoint("BOTTOMRIGHT", self.Icon, 0, 0)
 	self.Border:SetBackdrop({
-		edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1.2,
+		edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1,
 	})
 	self.Border:SetBackdropBorderColor(0, 0, 0, 0)	
 	
@@ -206,7 +206,7 @@ function MyContainer:OnCreate(name, settings)
 	-- 信息条插件:金币
 	local tagDisplay = self:SpawnPlugin("TagDisplay", "[money]", infoFrame)
 	tagDisplay:SetFontObject("NumberFontNormal")
-	tagDisplay:SetFont("Interface\\Addons\\dMedia\\Hooge.ttf", 9, "OUTLINE MONOCHROME") --(cfg.Font, 12)
+	tagDisplay:SetFont("Interface\\Addons\\dMedia\\Hooge.ttf", 8, "OUTLINE MONOCHROME") --(cfg.Font, 12)
 	tagDisplay:SetPoint("RIGHT", infoFrame,"RIGHT",-9,0)
 	
 	-- 信息条插件:搜索栏
@@ -273,11 +273,25 @@ function MyContainer:OnCreate(name, settings)
 	SortButton:SetPoint("BOTTOMRIGHT", -30, 7)
 	SortButton:SetScript("OnClick", function()
 		if name == "Bank" then
+			if cfg.ReverseCleanUpBags then
+				SetSortBagsRightToLeft(true)
+			else
+				SetSortBagsRightToLeft(false)
+			end
 			SortBankBags()
-		elseif name == "ReagentBank" then
-			SortReagentBankBags()
 		else
-			SortBags()
+			if cfg.ReverseCleanUpBags then
+				SetSortBagsRightToLeft(false)
+				SetInsertItemsLeftToRight(true)
+			else
+				SetSortBagsRightToLeft(true)
+				SetInsertItemsLeftToRight(false)
+			end
+			if name == "ReagentBank" then
+				SortReagentBankBags()
+			else
+				SortBags()
+			end
 		end
 	end)
 	SortButton.Text = SortButton:CreateFontString(nil, "OVERLAY")

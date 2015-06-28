@@ -76,7 +76,11 @@ for i = 1, NUM_CHAT_WINDOWS do
 -- 输入框
     editbox:SetAltArrowKeyMode(false)
     editbox:ClearAllPoints()
-    editboxLanguage:SetPoint('LEFT', editbox, 'RIGHT', -5, 0) --输入框语言按钮位置
+	--重定位方式处理语言按钮,干掉背景
+	editboxLanguage:ClearAllPoints()
+	editboxLanguage:SetPoint('BOTTOMLEFT', editbox, 'BOTTOMRIGHT', -5, 0)
+	editboxLanguage:SetPoint('TOPRIGHT', editbox, 'TOPRIGHT', -5, 0)
+    --editboxLanguage:SetPoint('LEFT', editbox, 'RIGHT', -5, 0) --输入框语言按钮位置
 
     if editboxtop==true then
         editbox:SetPoint('BOTTOMLEFT', _G.ChatFrame1, 'TOPLEFT', -3, 20)
@@ -100,7 +104,7 @@ for i = 1, NUM_CHAT_WINDOWS do
 	cf:SetMaxResize(0,0)
     cf:SetFading(show)					
 	cf:SetClampRectInsets(0,0,0,0)
-      cf:SetClampedToScreen(nil)
+    cf:SetClampedToScreen(nil)
     cf:SetFrameStrata("LOW")
 
 -- 隐藏聊天标签选择时背景
@@ -504,9 +508,9 @@ local chn, rplc
 		"[%1组队]",   
 		"[%1世界]",   
 		"[%1招募]",
-                "[%1世界]", 
-                "[%1毛人UI]", 
-                "[%1自定义]",    -- 自定义频道缩写请自行修改
+		"[%1世界]", 
+		"[%1毛人UI]", 
+		"[%1自定义]",    -- 自定义频道缩写请自行修改
 	}
         end
 
@@ -518,9 +522,9 @@ local chn, rplc
 		"[%1組隊]",   
 		"[%1世界]",   
 		"[%1招募]",
-                "[%1世界]", 
-                "[%1毛人UI]", 
-                "[%1自定义]",    -- 自定义频道缩写请自行修改
+		"[%1世界]", 
+		"[%1毛人UI]", 
+		"[%1自定义]",    -- 自定义频道缩写请自行修改
 	}
         end
         
@@ -531,8 +535,8 @@ local chn, rplc
 		"%[%d+%. LookingForGroup%]",
 		"%[%d+%. WorldDefense%]",
 		"%[%d+%. GuildRecruitment.-%]",
-                "%[%d+%. BigFootChannel.-%]",
-                "%[%d+%. CustomChannel.-%]",       -- 自定义频道英文名随便填写
+		"%[%d+%. BigFootChannel.-%]",
+		"%[%d+%. CustomChannel.-%]",       -- 自定义频道英文名随便填写
 	}
 
 ---------------------------------------- 国服 ---------------------------------------------
@@ -542,11 +546,11 @@ local chn, rplc
 		chn[2] = "%[%d+%. 交易.-%]"
 		chn[3] = "%[%d+%. 本地防务.-%]"
 		chn[4] = "%[%d+%. 寻求组队%]"
-                chn[5] = "%[%d+%. 世界防务%]"	
+		chn[5] = "%[%d+%. 世界防务%]"	
 		chn[6] = "%[%d+%. 公会招募.-%]"
-                chn[7] = "%[%d+%. 大脚世界频道.-%]"
-                chn[8] = "%[%d+%. 毛人UI.-%]"
-                chn[9] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
+		chn[7] = "%[%d+%. 大脚世界频道.-%]"
+		chn[8] = "%[%d+%. 毛人UI.-%]"
+		chn[9] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
 	end
 
 ---------------------------------------- 台服 ---------------------------------------------	
@@ -555,11 +559,11 @@ local chn, rplc
 		chn[2] = "%[%d+%. 交易.-%]"
 		chn[3] = "%[%d+%. 本地防務.-%]"
 		chn[4] = "%[%d+%. 尋求組隊%]"
-                chn[5] = "%[%d+%. 世界防務%]"	
+		chn[5] = "%[%d+%. 世界防務%]"	
 		chn[6] = "%[%d+%. 公會招募.-%]"
-                chn[7] = "%[%d+%. 大脚世界頻道.-%]"
-                chn[8] = "%[%d+%. 毛人UI.-%]"
-                chn[9] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
+		chn[7] = "%[%d+%. 大脚世界頻道.-%]"
+		chn[8] = "%[%d+%. 毛人UI.-%]"
+		chn[9] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
 	end
 	
 local function AddMessage(frame, text, ...)
@@ -844,7 +848,7 @@ local channels = {
 	[5] = {channel = "Party", input = "/p ", color = {170/255,170/255,1},},
 	[6] = {channel = "RaidWarning", input = "/rw ", color = {255/255,64/255,0/255},},
 	[7] = {channel = "Raid", input = "/ra ", color = {255/255,127/255,0},},
-	[8] = {channel = "BattleGround", input = "/bg ", color = {255/255,127/255,0},},
+	[8] = {channel = "Instance", input = "/i ", color = {255/255,127/255,0},},
 	[9] = {channel = "Guild", input = "/g ", color = {64/255,255/255,64/255},},
 	--[8] = {channel = "Whisper", input = "/w ", color = {255/255,128/255,255/255},},
 }
@@ -860,7 +864,7 @@ if GetLocale() == "zhCN" then
 		["Party"] = "队",
 		["Raid"] = "团",
 		["RaidWarning"] = "通",
-		["BattleGround"] = "战",
+		["Instance"] = "副",
 		["Guild"] = "会",
 		["Whisper"] = "密",
 	}
@@ -871,7 +875,7 @@ else
 		["Party"] = "隊",
 		["Raid"] = "團",
 		["RaidWarning"] = "通",
-		["BattleGround"] = "戰",
+		["Instance"] = "副",
 		["Guild"] = "會",
 		["Whisper"] = "密",
 	}

@@ -27,13 +27,32 @@ DEPENDENCIES
 local addon, ns = ...
 local sorts = ns.cargBags.classes.Container.sorts
 
+local _, SR = ...
+local cfg = SR.BagConfig
+
 --[[!
 	Sorts the buttons depending on their bagSlot
 ]]
 function sorts.bagSlot(a, b)
-	if(a.bagID == b.bagID) then
-		return a.slotID < b.slotID
+	if cfg.ReverseCleanUpBags then
+		if a.bagID>=0 and a.bagID<=4 then
+			if(a.bagID == b.bagID) then
+				return a.slotID > b.slotID
+			else
+				return a.bagID < b.bagID
+			end
+		else
+			if(a.bagID == b.bagID) then
+				return a.slotID > b.slotID
+			else
+				return a.bagID > b.bagID
+			end
+		end
 	else
-		return a.bagID < b.bagID
+		if(a.bagID == b.bagID) then
+			return a.slotID < b.slotID
+		else
+			return a.bagID < b.bagID
+		end
 	end
 end

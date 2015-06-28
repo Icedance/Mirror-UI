@@ -9,7 +9,7 @@ local panel = CreateFrame("Frame", nil, UIParent)
 if cfg.Time == true then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
-	Stat:SetFrameStrata("BACKGROUND")
+	Stat:SetFrameStrata("HIGH")
 	Stat:SetFrameLevel(3)
 
 	local Text  = panel:CreateFontString(nil, "OVERLAY")
@@ -85,18 +85,23 @@ if cfg.Time == true then
 		
 		GameTooltip:SetOwner(self, "ANCHOR_TOP", -20, 6)
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine(date'%A, %B %d',0,.6,1)
+		local months = {
+			MONTH_JANUARY, MONTH_FEBRUARY, MONTH_MARCH,	MONTH_APRIL, MONTH_MAY, MONTH_JUNE,
+			MONTH_JULY, MONTH_AUGUST, MONTH_SEPTEMBER, MONTH_OCTOBER, MONTH_NOVEMBER, MONTH_DECEMBER,
+		}
+		local w, m, d, y = CalendarGetDate()
+		if (GetLocale() == "zhTW" or GetLocale() == "zhCN") then
+			--GameTooltip:AddLine(format("%s%s%s, %s", y..infoL["year"], months[m], d..infoL["day"], CALENDAR_WEEKDAY_NAMES[w]),0,.6,1)
+		else
+			GameTooltip:AddLine(format("%s, %s-%s-%s", CALENDAR_WEEKDAY_NAMES[w], m, d, y),0,.6,1)
+		end
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddDoubleLine(gsub(TIMEMANAGER_TOOLTIP_LOCALTIME,':',''),zsub(GameTime_GetLocalTime(true),'%s*AM','am','%s*PM','pm'),.6,.8,1,1,1,1)
 		GameTooltip:AddDoubleLine(gsub(TIMEMANAGER_TOOLTIP_REALMTIME,':',''),zsub(GameTime_GetGameTime(true),'%s*AM','am','%s*PM','pm'),.6,.8,1,1,1,1)
 		GameTooltip:AddLine(" ")
-		local pvp = GetNumWorldPVPAreas()
-		for i=1, pvp do
-			local timeleft = select(5, GetWorldPVPAreaInfo(i))
-			local name = select(2, GetWorldPVPAreaInfo(i))
-			local inprogress = select(3, GetWorldPVPAreaInfo(i))
-			local inInstance, instanceType = IsInInstance()
-			if not ( instanceType == "none" ) then
+		for i = 1, GetNumWorldPVPAreas() do
+			local _, name, inprogress, _, timeleft = GetWorldPVPAreaInfo(i)
+			if timeleft == nil then
 				timeleft = QUEUE_TIME_UNAVAILABLE
 			elseif inprogress then
 				timeleft = WINTERGRASP_IN_PROGRESS
@@ -111,6 +116,25 @@ if cfg.Time == true then
 
 		Hr = tonumber(date("%I"))
 		Min = date("%M")
+
+		local function fmttime(sec,table)
+		local table = table or {}
+		local d,h,m,s = ChatFrame_TimeBreakDown(floor(sec))
+		local string = gsub(gsub(format(" %dd %dh %dm "..((d==0 and h==0) and "%ds" or ""),d,h,m,s)," 0[dhms]"," "),"%s+"," ")
+		local string = strtrim(gsub(string, "([dhms])", {d=table.days or "d",h=table.hours or "h",m=table.minutes or "m",s=table.seconds or "s"})," ")
+			return strmatch(string,"^%s*$") and "0"..(table.seconds or "s") or string
+		end
+		
+		local oneboss
+		for i = 1, GetNumSavedWorldBosses() do
+			local name, id, reset = GetSavedWorldBossInfo(i)
+			if not oneboss then
+				GameTooltip:AddLine(" ")
+				GameTooltip:AddLine(infoL["BossInfo"],.6,.8,1)
+				oneboss = true
+			end
+			GameTooltip:AddDoubleLine(name,fmttime(reset),1,1,1,1,1,1)
+		end
 		
 		local oneraid
 		for i = 1, GetNumSavedInstances() do
