@@ -236,10 +236,10 @@ function ns:hex(r, g, b)
 end
 
 function ns:Numberize(val)
-    if (val >= 1e6) then
-        return ("%.1fm"):format(val / 1e6)
+    if (val >= 1e4) then
+        return ("%.1f万"):format(val / 1e4)
     elseif (val >= 1e3) then
-        return ("%.1fk"):format(val / 1e3)
+        return ("%.1f千"):format(val / 1e3)
     else
         return ("%d"):format(val)
     end
