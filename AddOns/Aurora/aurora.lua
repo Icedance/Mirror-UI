@@ -58,7 +58,7 @@ C.defaults = {
 	["loot"] = false,
 	["useCustomColour"] = false,
 	["customColour"] = {r = 1, g = 1, b = 1},
-	["tooltips"] = false,
+	["tooltips"] = true,
 }
 
 C.frames = {}
