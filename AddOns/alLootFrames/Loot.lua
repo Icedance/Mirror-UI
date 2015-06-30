@@ -88,7 +88,7 @@ local UpdateLootSlot = function(self, id)
 	if color then lootSlot:SetBackdropBorderColor(color.r, color.g, color.b) end
 	item = item and item:gsub("\n", " ") --加上这行 所有带换行字符的字符串中的'\n'换行符都被替换成了' '的空格 可以改变暴雪对于掉落的金钱封装的字符串的输出格式 
 	lootSlot.text:SetText(item)
-	lootSlot.text:SetTextColor(color.r, color.g, color.b)
+	if color then lootSlot.text:SetTextColor(color.r, color.g, color.b) end
 	if quantity > 1 then
 		lootSlot.count:SetText(quantity)
 		lootSlot.count:Show()
