@@ -1422,7 +1422,8 @@ end
 --[[--------------------------------------------------------------------
 SlashIn
 ----------------------------------------------------------------------]]
-
+local addonName, SlashIn = ...
+LibStub("AceTimer-3.0"):Embed(SlashIn)
 
 local print = print
 local tonumber = tonumber
