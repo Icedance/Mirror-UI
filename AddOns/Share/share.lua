@@ -198,7 +198,7 @@ for i = 1,MAX_BOSS_FRAMES do
    _G["Boss"..i.."TargetFrame".."ManaBar"]:UnregisterAllEvents()
 end
 --Mapcoordtext(大地图显示坐标(自己&目标))
---[[WorldMapButton:HookScript("OnUpdate", function(self) 
+WorldMapButton:HookScript("OnUpdate", function(self) 
    if not self.coordText then 
       self.coordText = WorldMapFrameCloseButton:CreateFontString(nil, "OVERLAY", "GameFontGreen") 
       self.coordText:SetPoint("BOTTOM", self, "BOTTOM", 0, 6) 
@@ -217,7 +217,7 @@ end
    else 
       self.coordText:SetText(format("玩家: %d, %d 当前: %d, %d", px*100, py*100, x*100, y*100)) 
    end 
-end)]]--
+end)
  --自动卖灰
 local frame = CreateFrame('Frame') 
 frame:RegisterEvent('MERCHANT_SHOW') 
