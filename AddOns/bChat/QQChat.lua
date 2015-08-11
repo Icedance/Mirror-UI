@@ -1,26 +1,41 @@
-﻿-----------------------------------------------
--- config 
------------------------------------------------
--- 显示聊天时间戳(true/false) (显示/不显示) 点击时间复制聊天内容, 不显示时间点 ★ 复制聊天内容 
-local showtime = false
+﻿
+  -- // rChat
+  -- // zork - 2012
+
+  -----------------------------
+  -- INIT
+  -----------------------------
+
+  --get the addon namespace
+  local addon, ns = ...
+  local cfg = CreateFrame("Frame")
+  ns.cfg = cfg
+
+  -----------------------------
+  -- CONFIG
+  -----------------------------
 
 -- 隐藏聊天框背景 (true/false) (隐藏/显示)
 local hide_chatframe_backgrounds = true
-
 -- 隐藏聊天标签背景 (true/false) (隐藏/显示)
 local hide_chattab_backgrounds = true
-
--- 输入框置顶 (true/false) (顶/底)
-local editboxtop = true
-
--- 输入框背景颜色/透明度 (a是透明度)
-local BackdropColor = {r=0, g=0, b=0, a=0}
-
 -- 输入框边框颜色/透明度 (a是透明度,白色请改成 {r=1, g=1, b=1, a=0.8})
 local BorderColor = {r=0, g=0, b=0, a=0}
 
--- 输入框字体大小
-fontsize = 15
+
+  -----------------------------
+  -- INIT
+  -----------------------------
+
+  --get the addon namespace
+  local addon, ns = ...
+  local cfg = ns.cfg
+
+
+  --add more chat font sizes
+  for i = 1, 23 do
+    CHAT_FONT_HEIGHTS[i] = i+7
+  end
 
 -- 打开输入框回到上次对话 (1/0 = On/Off)
 ChatTypeInfo["SAY"].sticky  = 1; -- 说
@@ -42,81 +57,58 @@ CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0     -- 鼠标离开时,选择标签时
 CHAT_FRAME_TAB_ALERTING_MOUSEOVER_ALPHA = 0.6 -- 鼠标停留时,标签闪动时透明度
 CHAT_FRAME_TAB_ALERTING_NOMOUSE_ALPHA = 0     -- 鼠标离开时,标签闪动时透明度
 
--- 阴影/轮廓
-outline = true
-dropshadow = true
 
--- 字体
-font = ChatFontNormal:GetFont()
---font = STANDARD_TEXT_FONT  --"Fonts\\ARHei.TTF"
+  --don't cut the toastframe
+  BNToastFrame:SetClampedToScreen(true)
+  BNToastFrame:SetClampRectInsets(-15,15,15,-15)
 
------------------------------------------------------------------------------
-BNToastFrame:SetClampedToScreen(true)
+  --ChatFontNormal:SetFont(STANDARD_TEXT_FONT, 12, "THINOUTLINE")
+  --ChatFontNormal:SetShadowOffset(1,-1)
+  --ChatFontNormal:SetShadowColor(0,0,0,0.6)
 
---=========================================================================--
-btexture = 'Interface\\Buttons\\WHITE8x8'
-etexture = 'Interface\\Tooltips\\UI-Tooltip-Border'
+  -----------------------------
+  -- FUNCTIONS
+  -----------------------------
 
+  local function skinChat(self)
+    if not self or (self and self.skinApplied) then return end
+
+    local name = self:GetName()
+
+    --chat frame resizing
+    self:SetClampRectInsets(0, 0, 0, 0)
+    self:SetMaxResize(UIParent:GetWidth(), UIParent:GetHeight())
+    self:SetMinResize(100, 50)
+
+    --fix the buttonframe
+    local frame = _G[name.."ButtonFrame"]
+    frame:Hide()
+    frame:HookScript("OnShow", frame.Hide)
+
+    --editbox skinning
+    _G[name.."EditBoxLeft"]:Hide()
+    _G[name.."EditBoxMid"]:Hide()
+    _G[name.."EditBoxRight"]:Hide()
+    local eb = _G[name.."EditBox"]
+    eb:SetAltArrowKeyMode(false)
+    eb:ClearAllPoints()
+    eb:SetPoint("BOTTOM",self,"TOP",0,22)
+    eb:SetPoint("LEFT",self,-5,0)
+    eb:SetPoint("RIGHT",self,10,0)
+    ChatFrame1EditBoxLanguage:SetPoint('LEFT', editbox, 'RIGHT', -5, 0) --输入框语言按钮位置
+
+    self.skinApplied = true
+  end
+
+  -----------------------------
+  -- CALL
+  -----------------------------
 local tabs = {"Left", "Middle", "Right", "SelectedLeft", "SelectedRight",
-    "SelectedMiddle", "Glow",}
-
-for i = 1, NUM_CHAT_WINDOWS do
-    local editbox = _G['ChatFrame'..i..'EditBox']
-    local editboxLanguage = _G['ChatFrame'..i..'EditBoxLanguage']
-    local tex=({_G["ChatFrame"..i.."EditBox"]:GetRegions()})
-    local resize = _G["ChatFrame"..i.."ResizeButton"]
-    local cf = _G['ChatFrame'..i];
-
--- 隐藏翻页按钮----以下代码已屏蔽
-   -- local f = _G["ChatFrame"..i.."ButtonFrame"]
-   -- f.Show = f.Hide 
-   -- f:Hide()
-
-
--- 输入框
-    editbox:SetAltArrowKeyMode(false)
-    editbox:ClearAllPoints()
-	--重定位方式处理语言按钮,干掉背景
-	editboxLanguage:ClearAllPoints()
-	editboxLanguage:SetPoint('BOTTOMLEFT', editbox, 'BOTTOMRIGHT', -5, 0)
-	editboxLanguage:SetPoint('TOPRIGHT', editbox, 'TOPRIGHT', -5, 0)
-    --editboxLanguage:SetPoint('LEFT', editbox, 'RIGHT', -5, 0) --输入框语言按钮位置
-
-    if editboxtop==true then
-        editbox:SetPoint('BOTTOMLEFT', _G.ChatFrame1, 'TOPLEFT', -3, 20)
-        editbox:SetPoint('BOTTOMRIGHT', _G.ChatFrame1, 'TOPRIGHT', 3, 20)
-        editbox:SetPoint('TOPLEFT', _G.ChatFrame1, 'TOPLEFT', -3, 50)
-        editbox:SetPoint('TOPRIGHT', _G.ChatFrame1, 'TOPRIGHT', 3, 50)
-    else
-        editbox:SetPoint('TOPLEFT', _G.ChatFrame1, 'BOTTOMLEFT', -3, -2)
-        editbox:SetPoint('TOPRIGHT', _G.ChatFrame1, 'BOTTOMRIGHT', 3, -2)
-        editbox:SetPoint('BOTTOMLEFT', _G.ChatFrame1, 'BOTTOMLEFT', -3, -26)
-        editbox:SetPoint('BOTTOMRIGHT', _G.ChatFrame1, 'BOTTOMRIGHT', 3, -26)
-    end
-
-    editbox:SetShadowOffset(0, 0)
-    editbox:SetFont(font, fontsize)
-    editbox:SetBackdrop({bgFile = btexture, edgeFile = etexture, edgeSize = 17, insets = {top = 2, left = 2, bottom = 2, right = 2}})
-    editbox:SetBackdropColor(BackdropColor.r,BackdropColor.g,BackdropColor.b,BackdropColor.a)
-    editbox:SetBackdropBorderColor(BorderColor.r,BorderColor.g,BorderColor.b,BorderColor.a)
-    tex[6]:SetAlpha(0) tex[7]:SetAlpha(0) tex[8]:SetAlpha(0) tex[9]:SetAlpha(0) tex[10]:SetAlpha(0) tex[11]:SetAlpha(0)
-    cf:SetMinResize(0,0)
-	cf:SetMaxResize(0,0)
-    cf:SetFading(show)					
-	cf:SetClampRectInsets(0,0,0,0)
-    cf:SetClampedToScreen(nil)
-    cf:SetFrameStrata("LOW")
-
--- 隐藏聊天标签选择时背景
-   _G["ChatFrame"..i.."TabSelectedMiddle"]:SetTexture(nil)
-   _G["ChatFrame"..i.."TabSelectedRight"]:SetTexture(nil)
-   _G["ChatFrame"..i.."TabSelectedLeft"]:SetTexture(nil)
-
--- 聊天框缩放按钮
-    resize:SetPoint("BOTTOMRIGHT", cf, "BOTTOMRIGHT", 5,-9) 
-    resize:SetScale(.7)  --大小
-    resize:SetAlpha(.8)  --透明度
-
+    "SelectedMiddle",}--, "Glow"
+    
+  --chat skinning
+  for i = 1, NUM_CHAT_WINDOWS do
+  
 -- 聊天标签背景
 if hide_chattab_backgrounds then
     for index, value in pairs(tabs) do
@@ -124,148 +116,350 @@ if hide_chattab_backgrounds then
         texture:SetTexture(nil)
     end
 end
-
 -- 聊天框背景
 if hide_chatframe_backgrounds then
     for g = 1, #CHAT_FRAME_TEXTURES do
      _G["ChatFrame"..i..CHAT_FRAME_TEXTURES[g]]:SetTexture(nil)
      end
 end
+    skinChat(_G["ChatFrame"..i])
+  end
 
--- 轮廓/阴影
-    if (outline==true) then
-        cf:SetFont(font, fontsize, "OUTLINE")
-        cf:SetShadowOffset(0, 0)
-   elseif (dropshadow==true) then
-        cf:SetFont(font, fontsize)
-        cf:SetShadowOffset(1, -1)
-   else
-        cf:SetFont(font, fontsize)
-        cf:SetShadowOffset(0, 0)
+  --skin temporary chats
+  hooksecurefunc("FCF_OpenTemporaryWindow", function()
+    for _, chatFrameName in pairs(CHAT_FRAMES) do
+      local frame = _G[chatFrameName]
+      if (frame.isTemporary) then
+        skinChat(frame)
+      end
     end
-end
+  end)
 
-----------------------按住CTRL翻页 顶/底-按住SHFIT 翻3行------------------------------
-FloatingChatFrame_OnMouseScroll = function(self, dir)
+  --combat log custom hider
+  local function fixStuffOnLogin()
+    for i = 1, NUM_CHAT_WINDOWS do
+      local name = "ChatFrame"..i
+      local tab = _G[name.."Tab"]
+      --tab:SetAlpha(cfg.selectedTabAlpha)
+    end
+    CombatLogQuickButtonFrame_Custom:HookScript("OnShow", CombatLogQuickButtonFrame_Custom.Hide)
+    CombatLogQuickButtonFrame_Custom:Hide()
+    CombatLogQuickButtonFrame_Custom:SetHeight(0)
+  end
+
+  local a = CreateFrame("Frame")
+  a:RegisterEvent("PLAYER_LOGIN")
+  a:SetScript("OnEvent", fixStuffOnLogin)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  FloatingChatFrame_OnMouseScroll = function(self, dir)
   if(dir > 0) then
-    if(IsControlKeyDown()) then
+    if(IsShiftKeyDown()) then
       self:ScrollToTop()
-    elseif IsShiftKeyDown() then
-      self:ScrollUp()
-      self:ScrollUp()
-      self:ScrollUp()
     else
-     self:ScrollUp()
+      self:ScrollUp()
     end
-else
-    if(IsControlKeyDown()) then
+  else
+    if(IsShiftKeyDown()) then
       self:ScrollToBottom()
-    elseif IsShiftKeyDown() then
-      self:ScrollDown()
-      self:ScrollDown()
-      self:ScrollDown()
     else
       self:ScrollDown()
     end
   end
 end
 
-----TabChangeChannel 按TAB切換頻道.如果是在密語頻道則循環前面密過的人名==--
 
-ChatTypeInfo["WHISPER"].sticky=0
-function ChatEdit_CustomTabPressed(self) 
-if strsub(tostring(self:GetText()), 1, 1) == "/" then return end 
-   if  (self:GetAttribute("chatType") == "SAY")  then 
-      if (GetNumSubgroupMembers()>0) then 
-         self:SetAttribute("chatType", "PARTY"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance()) then 
-         self:SetAttribute("chatType", "INSTANCE_CHAT"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (GetNumGroupMembers()>0 and IsInRaid()) then 
-         self:SetAttribute("chatType", "RAID"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (IsInGuild()) then 
-         self:SetAttribute("chatType", "GUILD"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (CanEditOfficerNote()) then 
-         self:SetAttribute("chatType", "OFFICER"); 
-         ChatEdit_UpdateHeader(self); 
-      else 
-         return; 
-      end 
-   elseif (self:GetAttribute("chatType") == "PARTY") then 
-         if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance())  then 
-         self:SetAttribute("chatType", "INSTANCE_CHAT"); 
-              ChatEdit_UpdateHeader(self); 
-        elseif (GetNumGroupMembers()>0 and IsInRaid() ) then 
-              self:SetAttribute("chatType", "RAID"); 
-              ChatEdit_UpdateHeader(self); 
-        elseif (IsInGuild()) then 
-              self:SetAttribute("chatType", "GUILD"); 
-              ChatEdit_UpdateHeader(self); 
-         elseif (CanEditOfficerNote()) then 
-              self:SetAttribute("chatType", "OFFICER"); 
-              ChatEdit_UpdateHeader(self); 
-      else 
-         self:SetAttribute("chatType", "SAY"); 
-         ChatEdit_UpdateHeader(self); 
-      end         
-   elseif (self:GetAttribute("chatType") == "INSTANCE_CHAT") then 
-      if (IsInGuild()) then 
-         self:SetAttribute("chatType", "GUILD"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (CanEditOfficerNote()) then 
-         self:SetAttribute("chatType", "OFFICER"); 
-         ChatEdit_UpdateHeader(self); 
-      else 
-         self:SetAttribute("chatType", "SAY"); 
-         ChatEdit_UpdateHeader(self); 
-      end 
-   elseif (self:GetAttribute("chatType") == "RAID") then 
-      if (IsInGuild) then 
-         self:SetAttribute("chatType", "GUILD"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (CanEditOfficerNote()) then 
-         self:SetAttribute("chatType", "OFFICER"); 
-         ChatEdit_UpdateHeader(self); 
-      else 
-         self:SetAttribute("chatType", "SAY"); 
-         ChatEdit_UpdateHeader(self); 
-      end 
-   elseif (self:GetAttribute("chatType") == "GUILD") then 
-      if (CanEditOfficerNote()) then 
-         self:SetAttribute("chatType", "OFFICER"); 
-         ChatEdit_UpdateHeader(self); 
-      else
-          self:SetAttribute("chatType", "SAY"); 
-          ChatEdit_UpdateHeader(self); 
-      end
-   elseif (self:GetAttribute("chatType") == "OFFICER") then 
-       self:SetAttribute("chatType", "SAY"); 
-       ChatEdit_UpdateHeader(self); 
-   elseif (self:GetAttribute("chatType") == "CHANNEL") then 
-      if (GetNumSubgroupMembers()>0) then 
-         self:SetAttribute("chatType", "PARTY"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance())  then 
-         self:SetAttribute("chatType", "INSTANCE_CHAT"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (GetNumGroupMembers()>0 and IsInRaid() ) then 
-         self:SetAttribute("chatType", "RAID"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (IsInGuild()) then 
-         self:SetAttribute("chatType", "GUILD"); 
-         ChatEdit_UpdateHeader(self); 
-      elseif (CanEditOfficerNote()) then 
-         self:SetAttribute("chatType", "OFFICER"); 
-         ChatEdit_UpdateHeader(self); 
-      else 
-         self:SetAttribute("chatType", "SAY"); 
-         ChatEdit_UpdateHeader(self); 
-      end 
-   end 
-end 
+
+
+
+
+
+
+
+
+
+
+
+  ------------====================自定义频道可在(95行-183行)修改==================------------
+
+--精简公共频道 (true/false) (精简/不精简)
+local ShortChannel = true
+
+----==============================精简聊天频道,可修改汉字自定义==========================----
+if (GetLocale() == "zhCN") then
+
+  --公会
+  CHAT_GUILD_GET = "|Hchannel:GUILD|h[公会]|h %s: "
+  CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[官员]|h %s: "
+    
+  --团队
+  CHAT_RAID_GET = "|Hchannel:RAID|h[团队]|h %s: "
+  CHAT_RAID_WARNING_GET = "[通知] %s: "
+  CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[团长]|h %s: "
+  
+  --队伍
+  CHAT_PARTY_GET = "|Hchannel:PARTY|h[队伍]|h %s: "
+  CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[队长]|h %s: "
+  CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[向导]:|h %s: "
+
+  --战场
+  CHAT_BATTLEGROUND_GET = "|Hchannel:BATTLEGROUND|h[战场]|h %s: "
+  CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:BATTLEGROUND|h[领袖]|h %s: "
+  
+  --密语  
+  CHAT_WHISPER_INFORM_GET = "发送给%s: "
+  CHAT_WHISPER_GET = "%s悄悄话: "
+  CHAT_BN_WHISPER_INFORM_GET = "发送给%s "
+  CHAT_BN_WHISPER_GET = "悄悄话%s "
+  
+  --说 / 喊
+  CHAT_SAY_GET = "%s: "
+  CHAT_YELL_GET = "%s: "  
+
+  --flags
+  CHAT_FLAG_AFK = "[暂离] "
+  CHAT_FLAG_DND = "[勿扰] "
+  CHAT_FLAG_GM = "[GM] "
+
+elseif GetLocale() == "zhTW" then
+  --公会
+  CHAT_GUILD_GET = "|Hchannel:GUILD|h[公會]|h %s: "
+  CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[官員]|h %s: "
+    
+  --团队
+  CHAT_RAID_GET = "|Hchannel:RAID|h[團隊]|h %s: "
+  CHAT_RAID_WARNING_GET = "[通知] %s: "
+  CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[團長]|h %s: "
+  
+  --队伍
+  CHAT_PARTY_GET = "|Hchannel:PARTY|h[隊伍]|h %s: "
+  CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[隊長]|h %s: "
+  CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[向導]:|h %s: "
+
+  --战场
+  CHAT_BATTLEGROUND_GET = "|Hchannel:BATTLEGROUND|h[戰場]|h %s: "
+  CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:BATTLEGROUND|h[領袖]|h %s: "
+  
+  --密语  
+  CHAT_WHISPER_INFORM_GET = "發送給%s: "
+  CHAT_WHISPER_GET = "%s悄悄話: "
+  CHAT_BN_WHISPER_INFORM_GET = "發送給%s "
+  CHAT_BN_WHISPER_GET = "悄悄話%s "
+  
+  --说 / 喊
+  CHAT_SAY_GET = "%s: "
+  CHAT_YELL_GET = "%s: "  
+
+  --flags
+  CHAT_FLAG_AFK = "[暫離] "
+  CHAT_FLAG_DND = "[勿擾] "
+  CHAT_FLAG_GM = "[GM] "
+  
+else
+  --guild
+  CHAT_GUILD_GET = "|Hchannel:GUILD|hG|h %s "
+  CHAT_OFFICER_GET = "|Hchannel:OFFICER|hO|h %s "
+    
+  --raid
+  CHAT_RAID_GET = "|Hchannel:RAID|hR|h %s "
+  CHAT_RAID_WARNING_GET = "RW %s "
+  CHAT_RAID_LEADER_GET = "|Hchannel:RAID|hRL|h %s "
+  
+  --party
+  CHAT_PARTY_GET = "|Hchannel:PARTY|hP|h %s "
+  CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|hPL|h %s "
+  CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|hPG|h %s "
+
+  --instance
+  CHAT_INSTANCE_CHAT_GET = "|Hchannel:Battleground|hI.|h %s: "
+  CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|hIL.|h %s: "
+  
+  --battle
+  CHAT_BATTLEGROUND_GET = "|Hchannel:BATTLEGROUND|hB|h %s "
+  CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:BATTLEGROUND|hBL|h %s " 
+  
+  --whisper  
+  CHAT_WHISPER_INFORM_GET = "to %s "
+  CHAT_WHISPER_GET = "from %s "
+  CHAT_BN_WHISPER_INFORM_GET = "to %s "
+  CHAT_BN_WHISPER_GET = "from %s "
+  
+  --say / yell
+  CHAT_SAY_GET = "%s "
+  CHAT_YELL_GET = "%s "
+  
+  --flags
+  CHAT_FLAG_AFK = "[AFK] "
+  CHAT_FLAG_DND = "[DND] "
+  CHAT_FLAG_GM = "[GM] "
+end
+
+--================================公共频道和自定义频道精简================================--
+local gsub = _G.string.gsub
+local newAddMsg = {}
+local chn, rplc
+  if (GetLocale() == "zhCN") then  ---国服
+	rplc = {
+		"[%1综合]",  
+		"[%1交易]",   
+		"[%1防务]",   
+		"[%1组队]",   
+		"[%1世界]",   
+		"[%1招募]",
+                "[%1世界]",  
+                "[%1自定义]",    -- 自定义频道缩写请自行修改
+	}
+        end
+
+  if (GetLocale() == "zhTW") then  ---台服
+	rplc = {
+		"[%1綜合]",  
+		"[%1交易]",   
+		"[%1防務]",   
+		"[%1組隊]",   
+		"[%1世界]",   
+		"[%1招募]",
+                "[%1世界]",  
+                "[%1自定义]",    -- 自定义频道缩写请自行修改
+	}
+        end
+        
+	chn = {
+		"%[%d+%. General.-%]",
+		"%[%d+%. Trade.-%]",
+		"%[%d+%. LocalDefense.-%]",
+		"%[%d+%. LookingForGroup%]",
+		"%[%d+%. WorldDefense%]",
+		"%[%d+%. GuildRecruitment.-%]",
+                "%[%d+%. BigFootChannel.-%]",
+                "%[%d+%. CustomChannel.-%]",       -- 自定义频道英文名随便填写
+	}
+
+---------------------------------------- 国服 ---------------------------------------------
+	local L = GetLocale()
+	if L == "zhCN" then
+		chn[1] = "%[%d+%. 综合.-%]"
+		chn[2] = "%[%d+%. 交易.-%]"
+		chn[3] = "%[%d+%. 本地防务.-%]"
+		chn[4] = "%[%d+%. 寻求组队%]"
+                chn[5] = "%[%d+%. 世界防务%]"	
+		chn[6] = "%[%d+%. 公会招募.-%]"
+                chn[7] = "%[%d+%. 大脚世界频道.-%]"
+                chn[8] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
+	end
+
+---------------------------------------- 台服 ---------------------------------------------	
+  if L == "zhTW" then
+		chn[1] = "%[%d+%. 綜合.-%]"
+		chn[2] = "%[%d+%. 交易.-%]"
+		chn[3] = "%[%d+%. 本地防務.-%]"
+		chn[4] = "%[%d+%. 尋求組隊%]"
+                chn[5] = "%[%d+%. 世界防務%]"	
+		chn[6] = "%[%d+%. 公會招募.-%]"
+                chn[7] = "%[%d+%. 大脚世界頻道.-%]"
+                chn[8] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
+	end
+	
+local function AddMessage(frame, text, ...)
+	for i = 1, 8 do	 -- 对应上面几个频道(如果有9个频道就for i = 1, 9 do)
+		text = gsub(text, chn[i], rplc[i])
+	end
+
+	text = gsub(text, "%[(%d0?)%. .-%]", "%1.") 
+	return newAddMsg[frame:GetName()](frame, text, ...)
+end
+
+if ShortChannel then
+	for i = 1, 5 do
+		if i ~= 2 then 
+			local f = _G[format("%s%d", "ChatFrame", i)]
+			newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage
+			f.AddMessage = AddMessage
+		end
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local origSetItemRef = SetItemRef
+SetItemRef = function(link, text, button)
+  local linkType = string.sub(link, 1, 6)
+  if IsAltKeyDown() and linkType == "player" then
+    local name = string.match(link, "player:([^:]+)")
+    InviteUnit(name)
+    return nil
+  end
+  return origSetItemRef(link,text,button)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+--TabChangeChannel 按TAB切換頻道.==--
+function ChatEdit_CustomTabPressed(self)
+	if strsub(tostring(self:GetText()), 1, 1) == '/' then return end
+	local chatType = self:GetAttribute('chatType')
+	local inParty = GetNumSubgroupMembers() > 0
+	local inInstance = IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance()
+	local inRaid = GetNumGroupMembers() > 0 and IsInRaid()
+	local inGuild = IsInGuild()
+	local isOfficer = CanEditOfficerNote()
+	local setType
+	if chatType == 'SAY' then
+		setType = inParty and 'PARTY' or inInstance and 'INSTANCE_CHAT' or inRaid and 'RAID' or inGuild and 'GUILD' or isOfficer and 'OFFICER'
+	elseif chatType == 'PARTY' then
+		setType = inInstance and 'INSTANCE_CHAT' or inRaid and 'RAID' or inGuild and 'GUILD' or isOfficer and 'OFFICER' or 'SAY'
+	elseif chatType == 'INSTANCE_CHAT' then
+		setType = inGuild and 'GUILD' or isOfficer and 'OFFICER' or 'SAY'
+	elseif chatType == 'RAID' then
+		setType = inGuild and 'GUILD' or isOfficer and 'OFFICER' or 'SAY'
+	elseif chatType == 'GUILD' then
+		setType = isOfficer and 'OFFICER' or 'SAY'
+	elseif chatType == 'OFFICER' then
+		setType = 'SAY'
+	elseif chatType == 'CHANNEL' then
+		setType = inParty and 'PARTY' or inInstance and 'INSTANCE_CHAT' or inRaid and 'RAID' or inGuild and 'GUILD' or isOfficer and 'OFFICER' or 'SAY'
+	end
+	if setType then
+		self:SetAttribute('chatType', setType)
+		ChatEdit_UpdateHeader(self)	
+	else
+		return
+	end
+end
+
 
 -----------------------------------------------聊天复制------------------------------------
 local _AddMessage = ChatFrame1.AddMessage
@@ -399,192 +593,23 @@ end
 )
 addon:RegisterEvent("CHAT_MSG_WHISPER")
 
-------------====================自定义频道可在(95行-183行)修改==================------------
 
---精简公共频道 (true/false) (精简/不精简)
-local ShortChannel = true
-
-----==============================精简聊天频道,可修改汉字自定义==========================----
-if (GetLocale() == "zhCN") then
-
-  --公会
-  CHAT_GUILD_GET = "|Hchannel:GUILD|h[公会]|h %s: "
-  CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[官员]|h %s: "
-    
-  --团队
-  CHAT_RAID_GET = "|Hchannel:RAID|h[团队]|h %s: "
-  CHAT_RAID_WARNING_GET = "[通知] %s: "
-  CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[团长]|h %s: "
   
-  --队伍
-  CHAT_PARTY_GET = "|Hchannel:PARTY|h[队伍]|h %s: "
-  CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[队长]|h %s: "
-  CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[向导]:|h %s: "
-
-  --战场
-  CHAT_BATTLEGROUND_GET = "|Hchannel:BATTLEGROUND|h[战场]|h %s: "
-  CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:BATTLEGROUND|h[领袖]|h %s: "
   
-  --密语  
-  CHAT_WHISPER_INFORM_GET = "发送给%s: "
-  CHAT_WHISPER_GET = "%s悄悄话: "
-  CHAT_BN_WHISPER_INFORM_GET = "发送给%s "
-  CHAT_BN_WHISPER_GET = "悄悄话%s "
   
-  --说 / 喊
-  CHAT_SAY_GET = "%s: "
-  CHAT_YELL_GET = "%s: "  
-
-  --flags
-  CHAT_FLAG_AFK = "[暂离] "
-  CHAT_FLAG_DND = "[勿扰] "
-  CHAT_FLAG_GM = "[GM] "
-
-elseif GetLocale() == "zhTW" then
-  --公会
-  CHAT_GUILD_GET = "|Hchannel:GUILD|h[公會]|h %s: "
-  CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[官員]|h %s: "
-    
-  --团队
-  CHAT_RAID_GET = "|Hchannel:RAID|h[團隊]|h %s: "
-  CHAT_RAID_WARNING_GET = "[通知] %s: "
-  CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[團長]|h %s: "
   
-  --队伍
-  CHAT_PARTY_GET = "|Hchannel:PARTY|h[隊伍]|h %s: "
-  CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[隊長]|h %s: "
-  CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[向導]:|h %s: "
-
-  --战场
-  CHAT_BATTLEGROUND_GET = "|Hchannel:BATTLEGROUND|h[戰場]|h %s: "
-  CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:BATTLEGROUND|h[領袖]|h %s: "
   
-  --密语  
-  CHAT_WHISPER_INFORM_GET = "發送給%s: "
-  CHAT_WHISPER_GET = "%s悄悄話: "
-  CHAT_BN_WHISPER_INFORM_GET = "發送給%s "
-  CHAT_BN_WHISPER_GET = "悄悄話%s "
   
-  --说 / 喊
-  CHAT_SAY_GET = "%s: "
-  CHAT_YELL_GET = "%s: "  
-
-  --flags
-  CHAT_FLAG_AFK = "[暫離] "
-  CHAT_FLAG_DND = "[勿擾] "
-  CHAT_FLAG_GM = "[GM] "
-
-else
-  CHAT_GUILD_GET = "|Hchannel:GUILD|hG|h %s "
-  CHAT_OFFICER_GET = "|Hchannel:OFFICER|hO|h %s "
-  CHAT_RAID_GET = "|Hchannel:RAID|hR|h %s "
-  CHAT_RAID_WARNING_GET = "RW %s "
-  CHAT_RAID_LEADER_GET = "|Hchannel:RAID|hRL|h %s "
-  CHAT_PARTY_GET = "|Hchannel:PARTY|hP|h %s "
-  CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|hPL|h %s "
-  CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|hPG|h %s "
-  CHAT_BATTLEGROUND_GET = "|Hchannel:BATTLEGROUND|hB|h %s "
-  CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:BATTLEGROUND|hBL|h %s "  
-  CHAT_WHISPER_INFORM_GET = "to %s "
-  CHAT_WHISPER_GET = "from %s "
-  CHAT_BN_WHISPER_INFORM_GET = "to %s "
-  CHAT_BN_WHISPER_GET = "from %s "
-  CHAT_SAY_GET = "%s "
-  CHAT_YELL_GET = "%s "
-  CHAT_FLAG_AFK = "[AFK] "
-  CHAT_FLAG_DND = "[DND] "
-  CHAT_FLAG_GM = "[GM] "
-end
-
---================================公共频道和自定义频道精简================================--
-local gsub = _G.string.gsub
-local newAddMsg = {}
-local chn, rplc
-  if (GetLocale() == "zhCN") then  ---国服
-	rplc = {
-		"[%1综合]",  
-		"[%1交易]",   
-		"[%1防务]",   
-		"[%1组队]",   
-		"[%1世界]",   
-		"[%1招募]",
-		"[%1世界]", 
-		"[%1自定义]",    -- 自定义频道缩写请自行修改
-	}
-        end
-
-  if (GetLocale() == "zhTW") then  ---台服
-	rplc = {
-		"[%1綜合]",  
-		"[%1交易]",   
-		"[%1防務]",   
-		"[%1組隊]",   
-		"[%1世界]",   
-		"[%1招募]",
-		"[%1世界]", 
-
-		"[%1自定义]",    -- 自定义频道缩写请自行修改
-	}
-        end
-        
-	chn = {
-		"%[%d+%. General.-%]",
-		"%[%d+%. Trade.-%]",
-		"%[%d+%. LocalDefense.-%]",
-		"%[%d+%. LookingForGroup%]",
-		"%[%d+%. WorldDefense%]",
-		"%[%d+%. GuildRecruitment.-%]",
-		"%[%d+%. BigFootChannel.-%]",
-		"%[%d+%. CustomChannel.-%]",       -- 自定义频道英文名随便填写
-	}
-
----------------------------------------- 国服 ---------------------------------------------
-	local L = GetLocale()
-	if L == "zhCN" then
-		chn[1] = "%[%d+%. 综合.-%]"
-		chn[2] = "%[%d+%. 交易.-%]"
-		chn[3] = "%[%d+%. 本地防务.-%]"
-		chn[4] = "%[%d+%. 寻求组队%]"
-		chn[5] = "%[%d+%. 世界防务%]"	
-		chn[6] = "%[%d+%. 公会招募.-%]"
-		chn[7] = "%[%d+%. 大脚世界频道.-%]"
-
-		chn[8] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
-	end
-
----------------------------------------- 台服 ---------------------------------------------	
-  if L == "zhTW" then
-		chn[1] = "%[%d+%. 綜合.-%]"
-		chn[2] = "%[%d+%. 交易.-%]"
-		chn[3] = "%[%d+%. 本地防務.-%]"
-		chn[4] = "%[%d+%. 尋求組隊%]"
-		chn[5] = "%[%d+%. 世界防務%]"	
-		chn[6] = "%[%d+%. 公會招募.-%]"
-		chn[7] = "%[%d+%. 大脚世界頻道.-%]"
-
-		chn[8] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
-	end
-	
-local function AddMessage(frame, text, ...)
-	for i = 1, 8 do	 -- 对应上面几个频道(如果有9个频道就for i = 1, 9 do)
-		text = gsub(text, chn[i], rplc[i])
-	end
-
-	text = gsub(text, "%[(%d0?)%. .-%]", "%1.") 
-	return newAddMsg[frame:GetName()](frame, text, ...)
-end
-
-if ShortChannel then
-	for i = 1, 5 do
-		if i ~= 2 then 
-			local f = _G[format("%s%d", "ChatFrame", i)]
-			newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage
-			f.AddMessage = AddMessage
-		end
-	end
-end
-
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 -- 隐藏聊天菜单按钮(鼠标划过右上角显示)
 --ChatFrameMenuButton:Hide()
 --ChatFrameMenuButton:SetScript("OnShow", kill)
@@ -795,18 +820,8 @@ local TalentChange = "/run SetActiveSpecGroup(GetActiveSpecGroup() == 1 and 2 or
 ]]--
 
 cfg.custom = {
-	--大脚频道
-	--{channel = "World", input = "/run World()", macro = true , text = "世", color = {1.0,0.8,0.6}},
-  --离开大脚
-	--{channel = "Leave", input = "/leave 大脚世界频道", macro = true , text = "退", color = {0.5,0.6,0.8}},
-	--第二名
-	--{channel = "MaoR", input = "/run MaoR()", macro = true , text = "毛", color = {1.0,0.6,0.8}},
   --属性通报
 	{channel = "StatReport", input = StatReport, macro = true , text = "报", color = {0.0,1.0,1.0}},
-	--Align宏
-  --{channel = "Align", input = "/align", macro = true , text = "网", color = {1.0,1.0,1.0}},
-  --宏
-  --{channel = "Macro", input = "/Macro", macro = true , text = "宏", color = {0.0,1.0,0.0}},
   --Roll宏
 	{channel = "ROLL", input = "/roll", macro = true , text = "掷", color = {1.0,1.0,0.0}},
 }
@@ -1504,11 +1519,11 @@ cf.Config = {
 
 	["noprofanityFilter"] = true, --Disable the profanityFilter. // 关闭语言过滤器
 	["nowhisperSticky"] = true, --Disable the sticky of Whisper. // 取消持续密语
-	["noaltArrowkey"] = true, --Disable the AltArrowKeyMode. // 取消按住ALT才能移动光标
+	["noaltArrowkey"] = false, --Disable the AltArrowKeyMode. // 取消按住ALT才能移动光标
 	["nojoinleaveChannel"] = true, --Disable the alert joinleaveChannel. // 关闭进出频道提示
 
-	["MergeTalentSpec"] = true, --Merge the messages:"You have learned/unlearned..." // 当切换天赋后合并显示“你学会了/忘却了法术…”
-	["FilterPetTalentSpec"] = true, --Filter the messages:"Your pet has learned/unlearned..." // 不显示“你的宠物学会了/忘却了…”
+	["MergeTalentSpec"] = false, --Merge the messages:"You have learned/unlearned..." // 当切换天赋后合并显示“你学会了/忘却了法术…”
+	["FilterPetTalentSpec"] = false, --Filter the messages:"Your pet has learned/unlearned..." // 不显示“你的宠物学会了/忘却了…”
 
 	["MergeAchievement"] = true, --Merge the messages:"...has earned the achievement..." // 合并显示获得成就
 	["MergeManufacturing"] = true, --Merge the messages:"You has created..." // 合并显示“你制造了…”
@@ -1529,7 +1544,7 @@ cf.Config = {
 	["AllowLines"] = 4, --How many lines can be allowd. // 允许的最大行数
 
 	["FilterRepeat"] = true, --Filter the repeat messages. // 过滤重复聊天信息
-	["RepeatAlike"] = 85, --Set the similarity between the messages. // 设定重复信息相似度
+	["RepeatAlike"] = 100, --Set the similarity between the messages. // 设定重复信息相似度
 	["RepeatInterval"] = 30, --Set the interval between the messages. // 设定重复信息间隔时间(秒)
 
 	["FilterByLevel"] = false, --Filter the messages by level. // 屏蔽小号发言
@@ -1898,7 +1913,7 @@ local function ChatFilter_Rubbish(self, event, msg, player, _, _, _, flag, _, _,
 		if (Config.FilterRepeat or Config.FilterAdvertising) then
 			orgmsg = msg
 			msg = msg:lower()
-			local Symbols = {"%s","%p","，","。","、","？","！","：","；","’","‘","“","”","【","】","《","》","（","）","—","…"}
+			local Symbols = {"%s","%p","，","。","、","？","！","：","；","’","‘","“","”","《","》","（","）","—","…"}
 			for i = 1, getn(Symbols) do
 				msg = gsub(msg, Symbols[i], "")
 			end
