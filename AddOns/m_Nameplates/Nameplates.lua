@@ -34,7 +34,7 @@ end
 local function nameColoring(self, checker)
 	if checker then
 		local r, g, b = self.healthBar:GetStatusBarColor()
-		return r * 255, g * 251, b * 240
+		return r * 1.5, g * 1.5, b * 1.5
 	else
 		return 1, 1, 1
 	end
@@ -272,7 +272,7 @@ end
 local function createPlate(frame)
 	frame.nameplate = true
 	frame.barFrame, frame.nameFrame = frame:GetChildren() 
-	frame.healthBar, frame.castBar = frame.barFrame:GetChildren()
+	frame.healthBar, frame._, frame.castBar = frame.barFrame:GetChildren()
 
 	local newParent = frame.barFrame 
 	local healthBar, castBar = frame.healthBar, frame.castBar
@@ -314,8 +314,8 @@ local function createPlate(frame)
 			
 	healthBar.hpGlow = CreateFrame("Frame", nil, healthBar)
 	healthBar.hpGlow:SetFrameLevel(healthBar:GetFrameLevel() -1 > 0 and healthBar:GetFrameLevel() -1 or 0)
-	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", -3, 3)
-	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", 3, -3)
+	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", -1, 1)
+	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", 1, -1)
 	healthBar.hpGlow:SetBackdrop(backdrop)
 	healthBar.hpGlow:SetBackdropColor(0, 0, 0, 0)
 	healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
