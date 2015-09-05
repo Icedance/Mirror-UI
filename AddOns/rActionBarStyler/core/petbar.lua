@@ -47,12 +47,12 @@
   end
 
   if not cfg.show then --wait...you no see me? :(
-    frame:SetParent(rABS_BizzardHider)
+    frame:SetParent(ns.pastebin)
     return
   end
 
   --show/hide the frame on a given state driver
-  RegisterStateDriver(frame, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; [@pet,exists,nodead] show; hide")
+  RegisterStateDriver(frame, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; [@pet,exists,nomounted] show; hide")
 
   --create drag frame and drag functionality
   if cfg.userplaced.enable then

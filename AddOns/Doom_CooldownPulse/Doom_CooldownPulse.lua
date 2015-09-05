@@ -34,7 +34,7 @@ DCP.TextFrame:SetShadowOffset(2,-2)
 DCP.TextFrame:SetPoint("CENTER",DCP,"CENTER")
 DCP.TextFrame:SetWidth(185)
 DCP.TextFrame:SetJustifyH("CENTER")
-DCP.TextFrame:SetTextColor(1,1,1)       --new
+DCP.TextFrame:SetTextColor(1,1,1)
 
 local DCPT = DCP:CreateTexture(nil,"BACKGROUND")
 DCPT:SetAllPoints(DCP)
@@ -66,8 +66,8 @@ local function RefreshLocals()
     animScale = DCP_Saved.animScale
     iconSize = DCP_Saved.iconSize
     holdTime = DCP_Saved.holdTime
-	showSpellName = DCP_Saved.showSpellName --new
-	
+	showSpellName = DCP_Saved.showSpellName
+
     ignoredSpells = { }
     for _,v in ipairs({strsplit(",",DCP_Saved.ignoredSpells)}) do
         ignoredSpells[strtrim(v)] = true
@@ -87,13 +87,13 @@ local function OnUpdate(_,update)
                 if ignoredSpells[i] then
                     watching[i] = nil
                 else
-                    local start, duration, enabled, texture, isPet, name --new
+                    local start, duration, enabled, texture, isPet, name
                     if (v[2] == "spell") then
-						name = GetSpellInfo(v[3]) --new
-					    texture = GetSpellTexture(v[3])
+						name = GetSpellInfo(v[3])
+                        texture = GetSpellTexture(v[3])
                         start, duration, enabled = GetSpellCooldown(v[3])
                     elseif (v[2] == "item") then
-						name = GetItemInfo(i) --new
+						name = GetItemInfo(i)
                         texture = v[3]
                         start, duration, enabled = GetItemCooldown(i)
                     elseif (v[2] == "pet") then
@@ -115,7 +115,7 @@ local function OnUpdate(_,update)
         for i,v in pairs(cooldowns) do
             local remaining = v[2]-(GetTime()-v[1])
             if (remaining <= 0) then
-                tinsert(animating, {v[3],v[4],v[5]}) --new
+                tinsert(animating, {v[3],v[4],v[5]})
                 cooldowns[i] = nil
             end
         end
@@ -132,15 +132,15 @@ local function OnUpdate(_,update)
         if (runtimer > (fadeInTime + holdTime + fadeOutTime)) then
             tremove(animating,1)
             runtimer = 0
-			DCP.TextFrame:SetText(nil) --new
+			DCP.TextFrame:SetText(nil)
             DCPT:SetTexture(nil)
             DCPT:SetVertexColor(1,1,1)
         else
-            if (not DCPT:GetTexture()) then   --                DCPT:SetTexture(animating[1][1])                  if animating[1][2] then
-				if (animating[1][3] ~= nil and showSpellName) then --new
+            if (not DCPT:GetTexture()) then
+				if (animating[1][3] ~= nil and showSpellName) then
 					DCP.TextFrame:SetText(animating[1][3])
 				end
-                DCPT:SetTexture(animating[1][1]) --new
+                DCPT:SetTexture(animating[1][1])
                 if animating[1][2] then
                     DCPT:SetVertexColor(unpack(DCP_Saved.petOverlay))
                 end
@@ -179,9 +179,9 @@ function DCP:ADDON_LOADED(addon)
 end
 DCP:RegisterEvent("ADDON_LOADED")
 
-function DCP:UNIT_SPELLCAST_SUCCEEDED(unit,spell,rank)
+function DCP:UNIT_SPELLCAST_SUCCEEDED(unit,spell,rank,lineID,spellID)
     if (unit == "player") then
-        watching[spell] = {GetTime(),"spell",spell.."("..rank..")"}
+        watching[spell] = {GetTime(),"spell",spellID}
         if (not self:IsMouseEnabled()) then
             self:SetScript("OnUpdate", OnUpdate)
         end
@@ -198,7 +198,7 @@ function DCP:COMBAT_LOG_EVENT_UNFILTERED(...)
             if (index and not select(7,GetPetActionInfo(index))) then
                 watching[name] = {GetTime(),"pet",index}
             elseif (not index and name) then
-                watching[name] = {GetTime(),"spell",name}
+                watching[name] = {GetTime(),"spell",spellID}
             else
                 return
             end
@@ -268,7 +268,7 @@ function DCP:CreateOptionsFrame()
             DCP_OptionsFrameButton3:SetText("解锁") 
             DCP:EnableMouse(false) 
             RefreshLocals() 
-            tinsert(animating,{"Interface\\Icons\\Spell_Nature_Earthbind"}) 
+            tinsert(animating,{"Interface\\Icons\\Spell_Nature_Earthbind",nil,"Spell Name"}) 
             DCP:SetScript("OnUpdate", OnUpdate) 
             end },
         { text = "解锁", func = function(self) 
@@ -353,9 +353,23 @@ function DCP:CreateOptionsFrame()
                 DCP:SetHeight(DCP_Saved.iconSize) 
             end end)
     end
-    
+	
+	local spellnametext = optionsframe:CreateFontString(nil,"ARTWORK","GameFontNormalSmall")
+    spellnametext:SetPoint("TOPLEFT","DCP_OptionsFrameSlider"..#sliders,"BOTTOMLEFT",-15,-25)
+    spellnametext:SetText("Show spell name:")
+	
+	local spellnamecbt = CreateFrame("CheckButton","DCP_OptionsFrameSpellNameCheckButton",optionsframe,"OptionsCheckButtonTemplate")
+    spellnamecbt:SetPoint("LEFT",spellnametext,"RIGHT",6,0)
+	spellnamecbt:SetChecked(DCP_Saved.showSpellName)
+	spellnamecbt:SetScript("OnClick", function(self) 
+		local newState = (self:GetChecked() == 1) or nil
+		self:SetChecked(newState)
+		DCP_Saved.showSpellName = newState
+		RefreshLocals()
+	end)
+	
     local ignoretext = optionsframe:CreateFontString(nil,"ARTWORK","GameFontNormalSmall")
-    ignoretext:SetPoint("TOPLEFT","DCP_OptionsFrameSlider"..#sliders,"BOTTOMLEFT",-15,-25)
+    ignoretext:SetPoint("TOPLEFT",spellnametext,"BOTTOMLEFT",0,-10)
     ignoretext:SetText("屏蔽的技能:")
     
     local ignorebox = CreateFrame("EditBox","DCP_OptionsFrameIgnoreBox",optionsframe,"InputBoxTemplate")

@@ -1,220 +1,134 @@
-local _G = getfenv(0)
-local GetCursorPosition = GetCursorPosition
-local function nada() end
-local Model_OnMouseDown = _G.Model_OnMouseDown
-local Model_OnMouseUp = _G.Model_OnMouseUp
+-------------------------------------
+----	     幻化增强    by MaoR UI----
+-------------------------------------
+local function Noop() end
 
--- someone wanted the feature to hide the dressing rooms' backgrounds
-local function ToggleBG(notog)
-	if not notog then CU_HideBG = not CU_HideBG end
-	local f = (CU_HideBG and DressUpBackgroundTopLeft.Hide) or DressUpBackgroundTopLeft.Show
-	f(DressUpBackgroundTopLeft)
-	f(DressUpBackgroundTopRight)
-	f(DressUpBackgroundBotLeft)
-	f(DressUpBackgroundBotRight)
-	if AuctionDressUpBackgroundTop then
-		f(AuctionDressUpBackgroundTop)
-		f(AuctionDressUpBackgroundBot)
-	end
-end
+local _backgroundList = {
+	[1] = "Human",
+	[2] = "Orc",
+	[3] = "Dwarf",
+	[4] = "NightElf",
+	[5] = "Scourge",
+	[6] = "Tauren",
+	[7] = "Gnome",
+	[8] = "Troll",
+	[9] = "Goblin",
+	[10] = "BloodElf",
+	[11] = "Draenei",
+	[22] = "Worgen",
+	[24] = "Pandaren"
+};
 
-local function OnUpdate(this)
-	local currentx, currenty = GetCursorPosition()
-	if this.isrotating then
-		if IsAltKeyDown() then
-			local cz, cx, cy = this:GetPosition()
-			this:SetPosition(cz + (currenty - this.prevy) * 0.3, cx, cy)
-		else
-			this:SetFacing(this:GetFacing() + ((currentx - this.prevx) / 50))
-		end
-	elseif this.isposing then
-		local cz, cx, cy = this:GetPosition()
-		this:SetPosition(cz, cx + ((currentx - this.prevx) / 50), cy + ((currenty - this.prevy) / 50))
-	end
-	this.prevx, this.prevy = currentx, currenty
-end
-local function OnMouseDown(this, a1)
-	if Model_OnMouseDown then
-		Model_OnMouseDown(this, a1)
+DRF_Version = GetAddOnMetadata("DressingRoomFunctions","Version");
+
+local DRF_button1 = CreateFrame("Button","DRF_UndressButton",DressUpFrame,"UIPanelButtonTemplate");
+local DRF_button2 = CreateFrame("Button","DRF_TargetButton",DressUpFrame,"UIPanelButtonTemplate");
+local DRF_button3 = CreateFrame("Button","DRF_RaceButton",DressUpFrame,"UIPanelButtonTemplate");
+local DRF_menu1 = CreateFrame("FRAME","DRF_RaceMenu",DRF_button3,"UIDropDownMenuTemplate");
+
+
+DRF_button1:SetPoint("Center",DressUpFrame,"TopLeft",50,-421);
+DRF_button1:SetSize(70,22);
+DRF_button1.text = _G["DRF_UndressButton"];
+DRF_button1.text:SetText("脱光光");
+DRF_button1:SetScript("OnClick",function(self,event,arg1)
+	DressUpModel:Undress();
+	PlaySound("gsTitleOptionOK");
+end);
+
+DRF_button2:SetPoint("Center",DRF_UndressButton,"Center",62,0);
+DRF_button2:SetSize(60,22);
+DRF_button2.text = _G["DRF_TargetButton"];
+DRF_button2.text:SetText("目标");
+DRF_button2:SetScript("OnClick",function(self,event,arg1)
+	local race, fileName = UnitRace("target");
+
+	if ( UnitIsPlayer("target") ) then
+		DressUpModel:SetUnit("target");
+		SetDressUpBackground(DressUpFrame, fileName);
 	else
-		this.pMouseDown(a1)
+		race, fileName = UnitRace("player");
+		DressUpModel:SetUnit("player");
+		SetDressUpBackground(DressUpFrame, fileName);
 	end
-	this:SetScript("OnUpdate", OnUpdate)
-	if a1 == "LeftButton" then
-		if IsControlKeyDown() then
-			ToggleBG()
-		else
-			this.isrotating = 1
-		end
-	elseif a1 == "RightButton" then
-		this.isposing = 1
-	end
-	this.prevx, this.prevy = GetCursorPosition()
+	PlaySound("gsTitleOptionOK");
+end);
+
+DRF_button3:SetPoint("Center",DRF_TargetButton,"Center",42,0);
+DRF_button3:SetSize(30,22);
+DRF_button3.text = _G["DRF_RaceButton"];
+DRF_button3.text:SetText("...");
+
+local function DRF_SetArbitraryRace(id,gender)
+	DressUpModel:SetCustomRace(id,gender);
+	SetDressUpBackground(DressUpFrame, _backgroundList[id]);
+
+	-- Puts a helmet on the character, to fix a bug using hidden helmets.
+	-- This chosen helmet is somewhat invisible, it's a holiday reward from
+	-- the midsummer fire festival.
+	DressUpModel:TryOn(23323);
 end
-local function OnMouseUp(this, a1)
-	if Model_OnMouseUp then
-		Model_OnMouseUp(this, a1)
+
+local function DRF_menu1_OnClick(self, arg1, arg2, checked)
+	DRF_SetArbitraryRace(arg1,arg2);	
+end
+
+DRF_menu1:SetPoint("CENTER");
+--UIDropDownMenu_SetWidth(DRF_menu1, 200);
+--UIDropDownMenu_SetText(DRF_menu1, "Select Race/Gender:");
+UIDropDownMenu_Initialize(DRF_menu1, function(self, level, menuList)
+	local info = UIDropDownMenu_CreateInfo()
+	if level == 1 then
+		info.checked = false;
+		info.text = "男性";
+		info.menuList, info.hasArrow = 0, true;
+		UIDropDownMenu_AddButton(info, level);
+		info.text = "女性";
+		info.menuList, info.hasArrow = 1, true;
+		UIDropDownMenu_AddButton(info, level);
 	else
-		this.pMouseUp(a1)
+		info.checked = false;
+		info.func = DRF_menu1_OnClick;
+		info.arg2 = menuList;
+		info.text, info.arg1 = "人类", 1;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "兽人", 2;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "矮人", 3;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "暗夜精灵", 4;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "亡灵", 5;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "牛头人", 6;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "侏儒", 7;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "巨魔", 8;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "地精", 9;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "血精灵", 10;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "德莱尼", 11;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "狼人", 22;
+		UIDropDownMenu_AddButton(info, level);
+		info.text, info.arg1 = "熊猫人", 24;
+		UIDropDownMenu_AddButton(info, level);
 	end
-	
-	this:SetScript("OnUpdate", nil)
-	if a1 == "LeftButton" then
-		this.isrotating = nil
-	end
-	if a1 == "RightButton" then
-		this.isposing = nil
-	end
-end
-local function OnMouseWheel(this, a1)
-	local cz, cx, cy = this:GetPosition()
-	this:SetPosition(cz + ((a1 > 0 and 0.6) or -0.6), cx, cy)
-end
+end, "MENU");
 
--- base functions
--- - model - model frame name (string)
--- - w/h - new width/height of the model frame
--- - x/y - new x/y positions for default setpoint
--- - sigh - if rotation buttons have different base names than parent
--- - norotate - if the model doesn't have default rotate buttons
-local function Apply(model, w, h, x, y, sigh, norotate)
-	local gmodel = _G[model]
-	if not gmodel then return end
-	if not norotate then
-		model = sigh or model
-		if _G[model.."RotateRightButton"] then
-			_G[model.."RotateRightButton"]:Hide()
-		end
-		if _G[model.."RotateLeftButton"] then
-			_G[model.."RotateLeftButton"]:Hide()
-		end
-	end
-	if w then gmodel:SetWidth(w) end
-	if h then gmodel:SetHeight(h) end
-	if x or y then 
-		local p,rt,rp,px,py = gmodel:GetPoint()
-		gmodel:SetPoint(p, rt, rp, x or px, y or py) 
-	end
-	gmodel:SetModelScale(2)
-	gmodel:EnableMouse(true)
-	gmodel:EnableMouseWheel(true)
-	gmodel.pMouseDown = gmodel:GetScript("OnMouseDown") or nada
-	gmodel.pMouseUp = gmodel:GetScript("OnMouseUp") or nada
-	gmodel:SetScript("OnMouseDown", OnMouseDown)
-	gmodel:SetScript("OnMouseUp", OnMouseUp)
-	gmodel:SetScript("OnMouseWheel", OnMouseWheel)
-end
--- in case someone wants to apply it to his/her model
-CloseUpApplyChange = Apply
+DressUpFrameResetButton:SetScript("OnClick",function(self,event,arg1)
+	local race, fileName = UnitRace("player");
 
-local gtt = GameTooltip
-local function gttshow(this)
-	gtt:SetOwner(this, "ANCHOR_BOTTOMRIGHT")
-	gtt:SetText(this.tt)
-	if CloseUpNPCModel and CloseUpNPCModel:IsVisible() and this.tt == "Undress" then
-		gtt:AddLine("Cannot dress NPC models")
-	end
-	gtt:Show()
-end
-local function gtthide()
-	gtt:Hide()
-end
-local function newbutton(name, parent, text, w, h, button, tt, func)
-	local b = button or CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
-	b:SetText(text or b:GetText())
-	b:SetWidth(w or b:GetWidth())
-	b:SetHeight(h or b:GetHeight())
-	b:SetScript("OnClick", func)
-	if tt then
-		b.tt = tt
-		b:SetScript("OnEnter", gttshow)
-		b:SetScript("OnLeave", gtthide)
-	end
-	return b
-end
+	DressUpModel:SetUnit("player");
+	DressUpModel:Dress();
+	SetDressUpBackground(DressUpFrame, fileName);
+	PlaySound("gsTitleOptionOK");
+end);
 
--- modifies the auction house dressing room
-local function DoAH()
-	Apply("AuctionDressUpModel", nil, 370, 0, 10)
-	local tb, du = SideDressUpModelResetButton, SideDressUpModel
-	local w, h = 20, tb:GetHeight()
-	newbutton(nil, nil, "T", w, h, tb, "Target", function()
-		if UnitExists("target") and UnitIsVisible("target") then
-			du:SetUnit("target")
-		end
-	end)
-	local a,b,c,d,e = tb:GetPoint()
-	tb:SetPoint(a,b,c,d,e-30)
-	newbutton("CloseUpAHResetButton", du, "R", 20, 22, nil, "Reset", function() du:Dress() end):SetPoint("RIGHT", tb, "LEFT", 0, 0)
-	newbutton("CloseUpAHUndressButton", du, "U", 20, 22, nil, "Undress", function() du:Undress() end):SetPoint("LEFT", tb, "RIGHT", 0, 0)
-	ToggleBG(true)
-end
-local function DoIns()
-	Apply("InspectModelFrame")
-end
 
--- now apply the changes
--- need an event frame since 2 of the models are from LoD addons
-local f = CreateFrame("Frame")
-f:RegisterEvent("ADDON_LOADED")
-f:SetScript("OnEvent", function(this, event, a1)
-	if a1 == "Blizzard_AuctionUI" then
-		DoAH()
-	elseif a1 == "Blizzard_InspectUI" then
-		DoIns()
-	end
-end)
--- in case Blizzard_AuctionUI or Blizzard_InspectUI were loaded early
-if AuctionDressUpModel then DoAH() end
-if InspectModelFrame then DoIns() end
-
--- main dressing room model with undress buttons
-do
-	Apply("DressUpModel", nil, 332, nil, 104)
-	local tb = DressUpFrameCancelButton
-	local w, h = 40, tb:GetHeight()
-	local m = DressUpModel
-
-	-- since 2.1 dressup models doesn't apply properly to NPCs, make a substitute
-	local tm = CreateFrame("PlayerModel", "CloseUpNPCModel", DressUpFrame)
-	tm:SetAllPoints(DressUpModel)
-	tm:Hide()
-	Apply("CloseUpNPCModel", nil, nil, nil, nil, nil, true)
-	
-	DressUpFrame:HookScript("OnShow", function()
-		tm:Hide()
-		m:Show()
-		ToggleBG(true)
-	end)
-	
-	-- convert default close button into set target button
-	newbutton(nil, nil, "Tar", w, h, tb, "Target", function()
-		if UnitExists("target") and UnitIsVisible("target") then 
-			if UnitIsPlayer("target") then
-				tm:Hide()
-				m:Show()
-				m:SetUnit("target")
-			else
-				tm:Show()
-				m:Hide()
-				tm:SetUnit("target")
-			end
-			SetPortraitTexture(DressUpFramePortrait, "target")
-		end
-	end)
-	local a,b,c,d,e = tb:GetPoint()
-	tb:SetPoint(a, b, c, d - (w/2), e)
-
-	newbutton("CloseUpUndressButton", DressUpFrame, "Und", w, h, nil, "Undress", function() m:Undress() end):SetPoint("LEFT", tb, "RIGHT", -2, 0)
-end
-
-Apply("CharacterModelFrame")
-Apply("TabardModel", nil, nil, nil, nil, "TabardCharacterModel")
-Apply("PetModelFrame")
-Apply("PetStableModel")
-Apply("SpellBookCompanionModelFrame")
-Apply("TransmogrifyModelFrame")
-Apply("QuestNPCModel", nil, nil, nil, nil, nil, true)
-Apply("TutorialNPCModel", nil, nil, nil, nil, nil, true)
-PetPaperDollPetInfo:SetFrameStrata("HIGH")
-Apply("CompanionModelFrame")
+DRF_button3:SetScript("OnClick",function(self,event,arg1)
+	ToggleDropDownMenu(1, nil, DRF_menu1, "cursor", 3, -3);
+end);

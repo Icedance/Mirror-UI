@@ -5,8 +5,6 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
-local format = string.format
-local tinsert, tremove = table.insert, table.remove
 local _PATTERN = '%[..-%]+'
 
 local _ENV = {
@@ -14,10 +12,7 @@ local _ENV = {
 		if type(r) == "table" then
 			if r.r then r, g, b = r.r, r.g, r.b else r, g, b = unpack(r) end
 		end
-		if not r or type(r) == 'string' then --wtf?
-			return '|cffFFFFFF'
-		end
-		return format("|cff%02x%02x%02x", r*255, g*255, b*255)
+		return string.format("|cff%02x%02x%02x", r*255, g*255, b*255)
 	end,
 	ColorGradient = oUF.ColorGradient,
 }
@@ -57,9 +52,11 @@ local tagStrings = {
 
 	["level"] = [[function(u)
 		local l = UnitLevel(u)
-		if ( UnitIsWildBattlePet(u) or UnitIsBattlePetCompanion(u) ) then
-			return UnitBattlePetLevel(u);
-		elseif(l > 0) then
+		if(UnitIsWildBattlePet(u) or UnitIsBattlePetCompanion(u)) then
+			l = UnitBattlePetLevel(u)
+		end
+
+		if(l > 0) then
 			return l
 		else
 			return '??'
@@ -217,12 +214,14 @@ local tagStrings = {
 		local c = UnitClassification(u)
 		if(c == 'rare') then
 			return 'Rare'
-		elseif(c == 'eliterare') then
+		elseif(c == 'rareelite') then
 			return 'Rare Elite'
 		elseif(c == 'elite') then
 			return 'Elite'
 		elseif(c == 'worldboss') then
 			return 'Boss'
+		elseif(c == 'minus') then
+			return 'Affix'
 		end
 	end]],
 
@@ -230,19 +229,21 @@ local tagStrings = {
 		local c = UnitClassification(u)
 		if(c == 'rare') then
 			return 'R'
-		elseif(c == 'eliterare') then
+		elseif(c == 'rareelite') then
 			return 'R+'
 		elseif(c == 'elite') then
 			return '+'
 		elseif(c == 'worldboss') then
 			return 'B'
+		elseif(c == 'minus') then
+			return '-'
 		end
 	end]],
 
 	["group"] = [[function(unit)
 		local name, server = UnitName(unit)
 		if(server and server ~= "") then
-			name = format("%s-%s", name, server)
+			name = string.format("%s-%s", name, server)
 		end
 
 		for i=1, GetNumGroupMembers() do
@@ -280,16 +281,43 @@ local tagStrings = {
 	end]],
 
 	['soulshards'] = [[function()
-		local num = UnitPower('player', SPELL_POWER_SOUL_SHARDS)
+		if(IsPlayerSpell(WARLOCK_SOULBURN)) then
+			local num = UnitPower('player', SPELL_POWER_SOUL_SHARDS)
+			if(num > 0) then
+				return num
+			end
+		end
+	end]],
+
+	['holypower'] = [[function()
+		if(IsPlayerSpell(85673)) then
+			local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
+			if(num > 0) then
+				return num
+			end
+		end
+	end]],
+
+	['chi'] = [[function()
+		local num = UnitPower('player', SPELL_POWER_CHI)
 		if(num > 0) then
 			return num
 		end
 	end]],
 
-	['holypower'] = [[funtion()
-		local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
-		if(num > 0) then
-			return num
+	['shadoworbs'] = [[function()
+		if(IsPlayerSpell(95740)) then
+			local num = UnitPower('player', SPELL_POWER_SHADOW_ORBS)
+			if(num > 0) then
+				return num
+			end
+		end
+	end]],
+
+	['affix'] = [[function(u)
+		local c = UnitClassification(u)
+		if(c == 'minus') then
+			return 'Affix'
 		end
 	end]],
 }
@@ -340,7 +368,6 @@ local tags = setmetatable(
 
 _ENV._TAGS = tags
 
-local onUpdateDelay = {}
 local tagEvents = {
 	["curhp"]               = "UNIT_HEALTH",
 	["dead"]                = "UNIT_HEALTH",
@@ -357,6 +384,8 @@ local tagEvents = {
 	["threat"]              = "UNIT_THREAT_SITUATION_UPDATE",
 	["threatcolor"]         = "UNIT_THREAT_SITUATION_UPDATE",
 	['cpoints']             = 'UNIT_COMBO_POINTS PLAYER_TARGET_CHANGED',
+	['affix']				= 'UNIT_CLASSIFICATION_CHANGED',
+	['plus']				= 'UNIT_CLASSIFICATION_CHANGED',
 	['rare']                = 'UNIT_CLASSIFICATION_CHANGED',
 	['classification']      = 'UNIT_CLASSIFICATION_CHANGED',
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
@@ -370,8 +399,10 @@ local tagEvents = {
 	["pereclipse"]          = 'UNIT_POWER',
 	['curmana']             = 'UNIT_POWER UNIT_MAXPOWER',
 	['maxmana']             = 'UNIT_POWER UNIT_MAXPOWER',
-	['soulshards']          = 'UNIT_POWER',
-	['holypower']           = 'UNIT_POWER',
+	['soulshards']          = 'UNIT_POWER SPELLS_CHANGED',
+	['holypower']           = 'UNIT_POWER SPELLS_CHANGED',
+	['chi']                 = 'UNIT_POWER',
+	['shadoworbs']          = 'UNIT_POWER SPELLS_CHANGED',
 }
 
 local unitlessEvents = {
@@ -413,7 +444,7 @@ local createOnUpdate = function(timer)
 		frame:SetScript('OnUpdate', function(self, elapsed)
 			if(total >= timer) then
 				for k, fs in next, strings do
-					if(fs.parent:IsVisible() and UnitExists(fs.parent.unit)) then
+					if(fs.parent:IsShown() and UnitExists(fs.parent.unit)) then
 						fs:UpdateTag()
 					end
 				end
@@ -446,7 +477,7 @@ local RegisterEvent = function(fontstr, event)
 	if(not events[event]) then events[event] = {} end
 
 	frame:RegisterEvent(event)
-	tinsert(events[event], fontstr)
+	table.insert(events[event], fontstr)
 end
 
 local RegisterEvents = function(fontstr, tagstr)
@@ -469,41 +500,22 @@ local UnregisterEvents = function(fontstr)
 					frame:UnregisterEvent(event)
 				end
 
-				tremove(data, k)
+				table.remove(data, k)
 			end
 		end
-	end
-end
-
-local OnEnter = function(self)
-	for _, fs in pairs(self.__mousetags) do
-		fs:SetAlpha(1)
-	end
-end
-
-local OnLeave = function(self)
-	for _, fs in pairs(self.__mousetags) do
-		fs:SetAlpha(0)
 	end
 end
 
 local tagPool = {}
 local funcPool = {}
 local tmp = {}
-local escapeSequences = {
-	["||c"] = "|c",
-	["||r"] = "|r",
-	["||T"] = "|T",
-	["||t"] = "|t",
-}
 
 local Tag = function(self, fs, tagstr)
 	if(not fs or not tagstr) then return end
 
 	if(not self.__tags) then
 		self.__tags = {}
-		self.__mousetags = {}
-		tinsert(self.__elements, OnShow)
+		table.insert(self.__elements, OnShow)
 	else
 		-- Since people ignore everything that's good practice - unregister the tag
 		-- if it already exists.
@@ -517,38 +529,7 @@ local Tag = function(self, fs, tagstr)
 	end
 
 	fs.parent = self
-	
-	for escapeSequence, replacement in pairs(escapeSequences) do
-		while tagstr:find(escapeSequence) do
-			tagstr = tagstr:gsub(escapeSequence, replacement)
-		end
-	end
-	
-	if tagstr:find('%[mouseover%]') then
-		tinsert(self.__mousetags, fs)
-		fs:SetAlpha(0)
-		if not self.__HookFunc then
-			self:HookScript('OnEnter', OnEnter)
-			self:HookScript('OnLeave', OnLeave)
-			self.__HookFunc = true;
-		end
-		tagstr = tagstr:gsub('%[mouseover%]', '')
-	else
-		for index, fontString in pairs(self.__mousetags) do
-			if fontString == fs then
-				self.__mousetags[index] = nil;
-				fs:SetAlpha(1)
-			end
-		end
-	end	
-	
-	local containsOnUpdate
-	for tag in tagstr:gmatch(_PATTERN) do
-		if not tagEvents[tag:sub(2, -2)] then
-			containsOnUpdate = onUpdateDelay[tag:sub(2, -2)] or 0.15;
-		end	
-	end
-	
+
 	local func = tagPool[tagstr]
 	if(not func) then
 		local format, numTags = tagstr:gsub('%%', '%%%%'):gsub(_PATTERN, '%%s')
@@ -556,9 +537,9 @@ local Tag = function(self, fs, tagstr)
 
 		for bracket in tagstr:gmatch(_PATTERN) do
 			local tagFunc = funcPool[bracket] or tags[bracket:sub(2, -2)]
-			
 			if(not tagFunc) then
 				local tagName, s, e = getTagName(bracket)
+
 				local tag = tags[tagName]
 				if(tag) then
 					s = s - 2
@@ -599,12 +580,9 @@ local Tag = function(self, fs, tagstr)
 			end
 
 			if(tagFunc) then
-				tinsert(args, tagFunc)
+				table.insert(args, tagFunc)
 			else
-				numTags = -1
-				func = function(self)
-					return self:SetFormattedText('[error]')
-				end
+				return error(('Attempted to use invalid tag %s.'):format(bracket), 3)
 			end
 		end
 
@@ -655,7 +633,7 @@ local Tag = function(self, fs, tagstr)
 					args[3](unit, realUnit) or ''
 				)
 			end
-		elseif numTags ~= -1 then
+		else
 			func = function(self)
 				local parent = self.parent
 				local unit = parent.unit
@@ -673,33 +651,29 @@ local Tag = function(self, fs, tagstr)
 				return self:SetFormattedText(format, unpack(tmp, 1, numTags))
 			end
 		end
-	
-		if numTags ~= -1 then
-			tagPool[tagstr] = func
-		end
+
+		tagPool[tagstr] = func
 	end
 	fs.UpdateTag = func
-	
+
 	local unit = self.unit
-	if((unit and unit:match'%w+target') or fs.frequentUpdates) or containsOnUpdate then
+	if((unit and unit:match'%w+target') or fs.frequentUpdates) then
 		local timer
 		if(type(fs.frequentUpdates) == 'number') then
 			timer = fs.frequentUpdates
-		elseif containsOnUpdate then
-			timer = containsOnUpdate
 		else
 			timer = .5
 		end
 
 		if(not eventlessUnits[timer]) then eventlessUnits[timer] = {} end
-		tinsert(eventlessUnits[timer], fs)
+		table.insert(eventlessUnits[timer], fs)
 
 		createOnUpdate(timer)
 	else
 		RegisterEvents(fs, tagstr)
 	end
 
-	tinsert(self.__tags, fs)
+	table.insert(self.__tags, fs)
 end
 
 local Untag = function(self, fs)
@@ -709,14 +683,14 @@ local Untag = function(self, fs)
 	for _, timers in next, eventlessUnits do
 		for k, fontstr in next, timers do
 			if(fs == fontstr) then
-				tremove(timers, k)
+				table.remove(timers, k)
 			end
 		end
 	end
 
 	for k, fontstr in next, self.__tags do
 		if(fontstr == fs) then
-			tremove(self.__tags, k)
+			table.remove(self.__tags, k)
 		end
 	end
 
@@ -727,7 +701,7 @@ oUF.Tags = {
 	Methods = tags,
 	Events = tagEvents,
 	SharedEvents = unitlessEvents,
-	OnUpdateThrottle = onUpdateDelay,
+
 }
 oUF:RegisterMetaFunction('Tag', Tag)
 oUF:RegisterMetaFunction('Untag', Untag)

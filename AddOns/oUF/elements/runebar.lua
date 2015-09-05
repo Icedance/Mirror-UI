@@ -40,12 +40,10 @@
 
 if select(2, UnitClass("player")) ~= "DEATHKNIGHT" then return end
 
-
 local parent, ns = ...
 local oUF = ns.oUF
-local floor = math.floor
 
-oUF.colors.Runes = {
+oUF.colors.runes = {
 	{1, 0, 0},   -- blood
 	{0, .5, 0},  -- unholy
 	{0, 1, 1},   -- frost
@@ -53,7 +51,7 @@ oUF.colors.Runes = {
 }
 
 local runemap = { 1, 2, 5, 6, 3, 4 }
-local BLOOD_OF_THE_NORTH = 54637
+
 local OnUpdate = function(self, elapsed)
 	local duration = self.duration + elapsed
 	if(duration >= self.max) then
@@ -64,51 +62,55 @@ local OnUpdate = function(self, elapsed)
 	end
 end
 
-local spellName = GetSpellInfo(54637)
 local UpdateType = function(self, event, rid, alt)
-	local isUsable = IsUsableSpell(spellName)
-	local rune = self.Runes[runemap[rid]]
-	local runeType = GetRuneType(rid) or alt
-	if isUsable and runeType == 1 then runeType = 4; end
-	if not runeType then return; end
-	local colors = oUF.colors.Runes[runeType]
+	local runes = self.Runes
+	local rune = runes[runemap[rid]]
+	local colors = self.colors.runes[GetRuneType(rid) or alt]
 	local r, g, b = colors[1], colors[2], colors[3]
+
 	rune:SetStatusBarColor(r, g, b)
 
 	if(rune.bg) then
 		local mu = rune.bg.multiplier or 1
 		rune.bg:SetVertexColor(r * mu, g * mu, b * mu)
 	end
+
+	if(runes.PostUpdateType) then
+		return runes:PostUpdateType(rune, rid, alt)
+	end
 end
 
 local UpdateRune = function(self, event, rid)
-	local rune = self.Runes[runemap[rid]]
-	if(rune) then
-		local start, duration, runeReady = GetRuneCooldown(rid)
-		if(runeReady) then
-			rune:SetMinMaxValues(0, 1)
-			rune:SetValue(1)
-			rune:SetScript("OnUpdate", nil)
-		else
-			rune.duration = GetTime() - start
-			rune.max = duration
-			rune:SetMinMaxValues(1, duration)
-			rune:SetScript("OnUpdate", OnUpdate)
-		end
+	local runes = self.Runes
+	local rune = runes[runemap[rid]]
+	if(not rune) then return end
+
+	if(UnitHasVehicleUI'player') then
+		return rune:Hide()
+	else
+		rune:Show()
+	end
+
+	local start, duration, runeReady = GetRuneCooldown(rid)
+	if(runeReady) then
+		rune:SetMinMaxValues(0, 1)
+		rune:SetValue(1)
+		rune:SetScript("OnUpdate", nil)
+	else
+		rune.duration = GetTime() - start
+		rune.max = duration
+		rune:SetMinMaxValues(1, duration)
+		rune:SetScript("OnUpdate", OnUpdate)
+	end
+
+	if(runes.PostUpdateRune) then
+		return runes:PostUpdateRune(rune, rid, start, duration, runeReady)
 	end
 end
 
 local Update = function(self, event)
 	for i=1, 6 do
 		UpdateRune(self, event, i)
-	end
-end
-
-local function UpdateAllRuneTypes(self)
-	if(self) then
-		for i=1, 6 do
-			UpdateType(self, nil, i)
-		end
 	end
 end
 
@@ -122,12 +124,6 @@ local Enable = function(self, unit)
 		runes.__owner = self
 		runes.ForceUpdate = ForceUpdate
 
-		self:RegisterEvent("RUNE_POWER_UPDATE", UpdateRune, true)
-		self:RegisterEvent("RUNE_TYPE_UPDATE", UpdateType, true)	--I have no idea why this won't fire on initial login.
-		self:RegisterEvent("PLAYER_ENTERING_WORLD", UpdateAllRuneTypes)
-		
-		if not runes.UpdateAllRuneTypes then runes.UpdateAllRuneTypes = UpdateAllRuneTypes end;
-		
 		for i=1, 6 do
 			local rune = runes[runemap[i]]
 			if(rune:IsObjectType'StatusBar' and not rune:GetStatusBarTexture()) then
@@ -136,8 +132,11 @@ local Enable = function(self, unit)
 
 			-- From my minor testing this is a okey solution. A full login always remove
 			-- the death runes, or at least the clients knowledge about them.
-			UpdateType(self, nil, i, floor((runemap[i]+1)/2))
+			UpdateType(self, nil, i, math.floor((i+1)/2))
 		end
+
+		self:RegisterEvent("RUNE_POWER_UPDATE", UpdateRune, true)
+		self:RegisterEvent("RUNE_TYPE_UPDATE", UpdateType, true)
 
 		-- oUF leaves the vehicle events registered on the player frame, so
 		-- buffs and such are correctly updated when entering/exiting vehicles.
@@ -153,16 +152,9 @@ end
 local Disable = function(self)
 	RuneFrame.Show = nil
 	RuneFrame:Show()
-	
 
-	local runes = self.Runes
-	if(runes) then
-		runes:SetScript('OnUpdate', nil)
-
-		self:UnregisterEvent("RUNE_POWER_UPDATE", UpdateRune)
-		self:UnregisterEvent("RUNE_TYPE_UPDATE", UpdateType)
-		self:UnregisterEvent("PLAYER_ENTERING_WORLD", UpdateAllRuneTypes)
-	end	
+	self:UnregisterEvent("RUNE_POWER_UPDATE", UpdateRune)
+	self:UnregisterEvent("RUNE_TYPE_UPDATE", UpdateType)
 end
 
 oUF:AddElement("Runes", Update, Enable, Disable)

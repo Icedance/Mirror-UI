@@ -4,7 +4,7 @@
 ## Notes: Adds model viewing flexibility
 ## Notes-zhTW: Adds model viewing flexibility
 ## Author: TotalPackage
-## Version: 4.3.001a
+## Version: 6.2.001
 ## X-Category: Interface Enhancements
 ## SavedVariables: CU_HideBG
 
