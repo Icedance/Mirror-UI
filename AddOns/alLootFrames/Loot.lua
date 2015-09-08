@@ -3,7 +3,7 @@ local width = 200
 local slotSize = 30
 local x, y = 300, -300
 local anchor = "TOPLEFT"
-local font = 'Fonts\\FRIZQT__.TTF'
+local font = STANDARD_TEXT_FONT   --'Fonts\\FRIZQT__.TTF'
 local font_size = 16
 local font_style = "THINOUTLINE"
 -- Config end
