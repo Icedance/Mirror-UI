@@ -40,7 +40,8 @@ C.media = {
 	["arrowRight"] = "Interface\\AddOns\\Aurora\\media\\arrow-right-active",
 	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
 	["checked"] = "Interface\\AddOns\\Aurora\\media\\CheckButtonHilight",
-	["font"] = STANDARD_TEXT_FONT,  --"Interface\\AddOns\\Aurora\\media\\font.ttf",
+	["shadow"] = "Interface\\AddOns\\Aurora\\media\\glowTex",
+	["font"] = "Fonts\\ARKai_T.ttf",
 	["gradient"] = "Interface\\AddOns\\Aurora\\media\\gradient",
 	["roleIcons"] = "Interface\\Addons\\Aurora\\media\\UI-LFG-ICON-ROLES",
 }
@@ -49,16 +50,16 @@ C.defaults = {
 	["acknowledgedSplashScreen"] = false,
 
 	["alpha"] = 0.5,
-	["bags"] = true,
+	["bags"] = false,
 	["buttonGradientColour"] = {.3, .3, .3, .3},
 	["buttonSolidColour"] = {.2, .2, .2, 1},
 	["useButtonGradientColour"] = true,
 	["chatBubbles"] = true,
-	["enableFont"] = true,
-	["loot"] = true,
+	["enableFont"] = false,
+	["loot"] = false,
 	["useCustomColour"] = false,
-		["customColour"] = {r = 1, g = 1, b = 1},
-	["tooltips"] = true,
+	["customColour"] = {r = 1, g = 1, b = 1},
+	["tooltips"] = false,
 }
 
 C.frames = {}
@@ -87,6 +88,22 @@ F.CreateBD = function(f, a)
 	})
 	f:SetBackdropColor(0, 0, 0, a or AuroraConfig.alpha)
 	f:SetBackdropBorderColor(0, 0, 0)
+	if not a then tinsert(C.frames, f) end
+end
+
+F.CreateShadowBD = function(f, a)
+	f.shadow = CreateFrame("frame", nil, f)
+	f.shadow:SetFrameLevel(1)
+	f.shadow:SetFrameStrata(f:GetFrameStrata())
+	f.shadow:SetPoint("TOPLEFT", -2, 2)
+	f.shadow:SetPoint("BOTTOMRIGHT", 2, -2)
+	f.shadow:SetBackdrop({ 
+		bgFile = C.media.backdrop,
+		edgeFile = C.media.shadow, edgeSize = 4, 
+		insets = { left = 5, right = 5, top = 5, bottom = 5 }
+	})
+	f.shadow:SetBackdropColor(0, 0, 0, a or AuroraConfig.alpha)
+	f.shadow:SetBackdropBorderColor(0, 0, 0)
 	if not a then tinsert(C.frames, f) end
 end
 
@@ -534,7 +551,7 @@ F.SetBD = function(f, x, y, x2, y2)
 		bg:SetPoint("BOTTOMRIGHT", x2, y2)
 	end
 	bg:SetFrameLevel(f:GetFrameLevel()-1)
-	F.CreateBD(bg)
+	F.CreateShadowBD(bg)
 end
 
 F.ReskinPortraitFrame = function(f, isButtonFrame)
@@ -562,8 +579,7 @@ F.ReskinPortraitFrame = function(f, isButtonFrame)
 		f.Inset.Bg:Hide()
 		f.Inset:DisableDrawLayer("BORDER")
 	end
-
-	F.CreateBD(f)
+	F.CreateShadowBD(f)
 	F.ReskinClose(_G[name.."CloseButton"])
 end
 
@@ -839,7 +855,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			end
 		end
 
-		local lightbds = {"SecondaryProfession1", "SecondaryProfession2", "SecondaryProfession3", "SecondaryProfession4", "ChatConfigChatSettingsClassColorLegend", "ChatConfigChannelSettingsClassColorLegend", "FriendsFriendsList", "HelpFrameGM_ResponseScrollFrame1", "HelpFrameGM_ResponseScrollFrame2", "FriendsFriendsNoteFrame", "AddFriendNoteFrame", "ScrollOfResurrectionSelectionFrameList", "HelpFrameReportBugScrollFrame", "HelpFrameSubmitSuggestionScrollFrame", "ReportPlayerNameDialogCommentFrame", "ReportCheatingDialogCommentFrame"}
+		local lightbds = {"SecondaryProfession1", "SecondaryProfession2", "SecondaryProfession3", "SecondaryProfession4", "ChatConfigChatSettingsClassColorLegend", "ChatConfigChannelSettingsClassColorLegend", "FriendsFriendsList", "HelpFrameGM_ResponseScrollFrame1", "HelpFrameGM_ResponseScrollFrame2", "AddFriendNoteFrame", "ScrollOfResurrectionSelectionFrameList", "HelpFrameReportBugScrollFrame", "HelpFrameSubmitSuggestionScrollFrame", "ReportPlayerNameDialogCommentFrame", "ReportCheatingDialogCommentFrame"}
 		for i = 1, #lightbds do
 			local bd = _G[lightbds[i]]
 			if bd then
@@ -1782,20 +1798,6 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		F.CreateBD(MissingLootFrame)
 		F.ReskinClose(MissingLootFramePassButton)
 
-		-- BN conversation
-
-		BNConversationInviteDialogHeader:SetTexture("")
-
-		F.CreateBD(BNConversationInviteDialog)
-		F.CreateBD(BNConversationInviteDialogList, .25)
-
-		F.Reskin(BNConversationInviteDialogInviteButton)
-		F.Reskin(BNConversationInviteDialogCancelButton)
-		F.ReskinScroll(BNConversationInviteDialogListScrollFrameScrollBar)
-		for i = 1, BN_CONVERSATION_INVITE_NUM_DISPLAYED do
-			F.ReskinCheck(_G["BNConversationInviteDialogListFriend"..i].checkButton)
-		end
-
 		-- Tabard frame
 
 		TabardFrameMoneyInset:DisableDrawLayer("BORDER")
@@ -2172,7 +2174,6 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		RaidInfoDetailCorner:Hide()
 		RaidInfoFrameHeader:Hide()
 		for i = 1, 9 do
-			select(i, FriendsFriendsNoteFrame:GetRegions()):Hide()
 			select(i, AddFriendNoteFrame:GetRegions()):Hide()
 			select(i, ReportPlayerNameDialogCommentFrame:GetRegions()):Hide()
 			select(i, ReportCheatingDialogCommentFrame:GetRegions()):Hide()

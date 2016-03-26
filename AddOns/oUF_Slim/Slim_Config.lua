@@ -1,4 +1,4 @@
-local addon, ns = ...
+ï»¿local addon, ns = ...
 local cfg = CreateFrame("Frame")
 local mediaFolder = "Interface\\AddOns\\dMedia\\"	-- don't touch this ...
 local blankTex = "Interface\\Buttons\\WHITE8x8"
@@ -58,141 +58,141 @@ end
 ------------
 -- colors --
 ------------
-	cfg.maincolor = {53/255, 69/255, 105/255}				-- portrait BG, raid health bar, castbar colorÍ·Ïñ±³¾°,ÍÅ¶ÓÑªÌõ,Ê©·¨ÌõÑÕÉ«
-	cfg.sndcolor = {255/255, 207/255, 164/255}				-- font color, ...×ÖÌåÑÕÉ«
-	cfg.trdcolor = {30/255, 30/255, 30/255}					-- castbar colorÊ©·¨ÌõÑÕÉ«
-	cfg.backdropcolor = {26/255, 25/255, 31/255}			-- backdrop color±³¾°ÑÕÉ«	
-	cfg.brdcolor = {0/255, 0/255, 0/255}					-- border color±ß¿òÑÕÉ«
+	cfg.maincolor = {53/255, 69/255, 105/255}				-- portrait BG, raid health bar, castbar colorå¤´åƒèƒŒæ™¯,å›¢é˜Ÿè¡€æ¡,æ–½æ³•æ¡é¢œè‰²
+	cfg.sndcolor = {255/255, 207/255, 164/255}				-- font color, ...å­—ä½“é¢œè‰²
+	cfg.trdcolor = {30/255, 30/255, 30/255}					-- castbar coloræ–½æ³•æ¡é¢œè‰²
+	cfg.backdropcolor = {26/255, 25/255, 31/255}			-- backdrop colorèƒŒæ™¯é¢œè‰²	
+	cfg.brdcolor = {0/255, 0/255, 0/255}					-- border colorè¾¹æ¡†é¢œè‰²
 
-		cfg.TransparencyMode = true						-- ÆôÓÃ/½ûÓÃ Í¸Ã÷Ä£Ê½ - Í¸Ã÷»¯ÑªÌõ, °éËæ Ö°Òµ/·´×ªÈ¾É«µÄ±³¾°. ³ıÁË¿´ÆğíÆ¯ÁÁ, ¶ÔÖÎÁÆÀ´ËµÒ²ºÜÓÑºÃ.
-	cfg.hpTransMcolor = {40/255, 40/255, 40/255}			-- health bar color - Transparency Mode, onlyÉúÃüÌõÑÕÉ« - ½öÏŞÓÚÍ¸Ã÷Ä£Ê½
-	cfg.hpTransMalpha = 0.4									-- healthbar alpha - Transparency Mode, onlyÉúÃüÌõÍ¸Ã÷¶È - ½öÏŞÓÚÍ¸Ã÷Ä£Ê½
+		cfg.TransparencyMode = true						-- å¯ç”¨/ç¦ç”¨ é€æ˜æ¨¡å¼ - é€æ˜åŒ–è¡€æ¡, ä¼´éš èŒä¸š/åè½¬æŸ“è‰²çš„èƒŒæ™¯. é™¤äº†çœ‹èµ·ä¾†æ¼‚äº®, å¯¹æ²»ç–—æ¥è¯´ä¹Ÿå¾ˆå‹å¥½.
+	cfg.hpTransMcolor = {40/255, 40/255, 40/255}			-- health bar color - Transparency Mode, onlyç”Ÿå‘½æ¡é¢œè‰² - ä»…é™äºé€æ˜æ¨¡å¼
+	cfg.hpTransMalpha = 0.4									-- healthbar alpha - Transparency Mode, onlyç”Ÿå‘½æ¡é€æ˜åº¦ - ä»…é™äºé€æ˜æ¨¡å¼
 	
 -----------	
 -- media --
 -----------
-	cfg.HPtex = mediaFolder.."dM3"							-- health bar textureÉúÃüÌõ²ÄÖÊ
-	cfg.PPtex = mediaFolder.."dM2"							-- power bar textureÄÜÁ¿Ìõ²ÄÖÊ
-	cfg.CBtex = mediaFolder.."dM2"							-- castbar textureÊ©·¨Ìõ²ÄÖÊ
-	cfg.Itex = blankTex										-- BG texture±³¾°²ÄÖÊ
-	cfg.Auratex = mediaFolder.."dBBorderL"					-- border texture for buffs/debuffs buffºÍdebuffµÄ±ß¿ò²ÄÖÊ
+	cfg.HPtex = mediaFolder.."dM3"							-- health bar textureç”Ÿå‘½æ¡æè´¨
+	cfg.PPtex = mediaFolder.."dM2"							-- power bar textureèƒ½é‡æ¡æè´¨
+	cfg.CBtex = mediaFolder.."dM2"							-- castbar textureæ–½æ³•æ¡æè´¨
+	cfg.Itex = blankTex										-- BG textureèƒŒæ™¯æè´¨
+	cfg.Auratex = mediaFolder.."dBBorderL"					-- border texture for buffs/debuffs buffå’Œdebuffçš„è¾¹æ¡†æè´¨
 
-	cfg.NameFont = STANDARD_TEXT_FONT				-- font used for text (names)ĞÕÃûÎÄ×ÖµÄ×ÖÌå		
-	cfg.NumbFont = STANDARD_TEXT_FONT, 9, "OUTLINE MONOCHROME"				-- font used for numbersÊı×ÖµÄ×ÖÌå		
-	cfg.NameFS = 14											-- name font sizeĞÕÃû×ÖÌå´óĞ¡
-	cfg.NumbFS = 13 										-- number font size (power value, etc.)Êı×Ö×ÖÌå´óĞ¡(±ÈÈçÄÜÁ¿Öµ×ÖÌå)
-	cfg.hpNumbFS = 15										-- health value font size (player, target, focus)ÉúÃüÖµ×ÖÌå´óĞ¡(Íæ¼Ò,Ä¿±ê,½¹µã)
-	cfg.CastFS = 14											-- castbar font sizeÊ©·¨Ìõ×ÖÌå´óĞ¡		
-	cfg.ComboFS = 9										-- combo point and class points font sizeÁ¬»÷µãºÍÖ°Òµµã×ÖÌå´óĞ¡
-	cfg.RaidFS = 12											-- font size for numbers (aura, class tags) on raid framesÍÅ¶Ó¿òÌåµÄaura»òÖ°Òµ±êÇ©Êı×Ö×ÖÌå´óĞ¡
-	cfg.FontF = "THINOUTLINE"						-- "THINOUTLINE", "OUTLINE MONOCHROME", "OUTLINE" or nil (no outline)4ÖÖÑ¡Ôñ·Ö±ğÊÇÏ¸Ãè±ß£¬ÏñËØÃè±ß£¬´ÖÃè±ß£¬ÎŞÃè±ß
+	cfg.NameFont = STANDARD_TEXT_FONT				-- font used for text (names)å§“åæ–‡å­—çš„å­—ä½“		
+	cfg.NumbFont = STANDARD_TEXT_FONT, 9, "OUTLINE MONOCHROME"				-- font used for numbersæ•°å­—çš„å­—ä½“		
+	cfg.NameFS = 14											-- name font sizeå§“åå­—ä½“å¤§å°
+	cfg.NumbFS = 13 										-- number font size (power value, etc.)æ•°å­—å­—ä½“å¤§å°(æ¯”å¦‚èƒ½é‡å€¼å­—ä½“)
+	cfg.hpNumbFS = 15										-- health value font size (player, target, focus)ç”Ÿå‘½å€¼å­—ä½“å¤§å°(ç©å®¶,ç›®æ ‡,ç„¦ç‚¹)
+	cfg.CastFS = 14											-- castbar font sizeæ–½æ³•æ¡å­—ä½“å¤§å°		
+	cfg.ComboFS = 9										-- combo point and class points font sizeè¿å‡»ç‚¹å’ŒèŒä¸šç‚¹å­—ä½“å¤§å°
+	cfg.RaidFS = 12											-- font size for numbers (aura, class tags) on raid frameså›¢é˜Ÿæ¡†ä½“çš„auraæˆ–èŒä¸šæ ‡ç­¾æ•°å­—å­—ä½“å¤§å°
+	cfg.FontF = "THINOUTLINE"						-- "THINOUTLINE", "OUTLINE MONOCHROME", "OUTLINE" or nil (no outline)4ç§é€‰æ‹©åˆ†åˆ«æ˜¯ç»†æè¾¹ï¼Œåƒç´ æè¾¹ï¼Œç²—æè¾¹ï¼Œæ— æè¾¹
 	cfg.fontFNum = "THINOUTLINE"							
 	
 ----------------------
 -- general settings --
 ----------------------	
-	cfg.Numberzzz = 1						-- 0 will display 18400k as 18k, 1 = 18.4k, ....0 ½«»á°Ñ 18400 ÏÔÊ¾Îª 18k, 1 = 18.4kµÈµÈ
-	cfg.FadeOutAlpha = 0.3 					-- alpha for out of range units (oUF_SpellRange plugin, required)³¬³ö¾àÀëµ¥Î»Í¸Ã÷¶È(ĞèÒª²å¼şoUF_SpellRange)
-	cfg.BarFadeAlpha = 0.0					-- alpha for oUF_BarFader (required) plugin (can be 0 - 1)oUF_BarFader µÄÍ¸Ã÷¶È
+	cfg.Numberzzz = 1						-- 0 will display 18400k as 18k, 1 = 18.4k, ....0 å°†ä¼šæŠŠ 18400 æ˜¾ç¤ºä¸º 18k, 1 = 18.4kç­‰ç­‰
+	cfg.FadeOutAlpha = 0.3 					-- alpha for out of range units (oUF_SpellRange plugin, required)è¶…å‡ºè·ç¦»å•ä½é€æ˜åº¦(éœ€è¦æ’ä»¶oUF_SpellRange)
+	cfg.BarFadeAlpha = 0.0					-- alpha for oUF_BarFader (required) plugin (can be 0 - 1)oUF_BarFader çš„é€æ˜åº¦
 	
 	-- switches -- true/false (on/off)
-	cfg.useCastbar = true					-- show/hide player, target, focus castbarÏÔÊ¾/Òş²Ø Íæ¼Ò,Ä¿±ê,½¹µãÊ©·¨Ìõ
-	cfg.useSpellIcon = true					-- show/hide castbar spelliconÏÔÊ¾/Òş²Ø Ê©·¨ÌõÍ¼±ê
-	cfg.Castbarsafe = false 				-- Ê©·¨ÌõÑÓ³Ù
-	cfg.showXpRep = false					-- show/hide xp/rep display on mouseover (player)ÏÔÊ¾/Òş²Ø Êó±ê×ó¼üµã»÷ÏÔÊ¾Íæ¼ÒµÄ¾­Ñé/ÉùÍû
-	cfg.delay = 2							-- delay in seconds until xp/rep is shownÏÔÊ¾ ¾­Ñé/ÉùÍûµÄÑÓ³Ù
+	cfg.useCastbar = true					-- show/hide player, target, focus castbaræ˜¾ç¤º/éšè— ç©å®¶,ç›®æ ‡,ç„¦ç‚¹æ–½æ³•æ¡
+	cfg.useSpellIcon = true					-- show/hide castbar spelliconæ˜¾ç¤º/éšè— æ–½æ³•æ¡å›¾æ ‡
+	cfg.Castbarsafe = false 				-- æ–½æ³•æ¡å»¶è¿Ÿ
+	cfg.showXpRep = false					-- show/hide xp/rep display on mouseover (player)æ˜¾ç¤º/éšè— é¼ æ ‡å·¦é”®ç‚¹å‡»æ˜¾ç¤ºç©å®¶çš„ç»éªŒ/å£°æœ›
+	cfg.delay = 2							-- delay in seconds until xp/rep is shownæ˜¾ç¤º ç»éªŒ/å£°æœ›çš„å»¶è¿Ÿ
 	
-	cfg.buSize = 20							-- aura size for all frames except raidËùÓĞ¿ò¼Ü(³ıÁËÍÅ¶Ó)µÄaura´óĞ¡
-	cfg.buSizeRaid = 22						-- aura size for raidÍÅ¶Ó¿ò¼ÜµÄaura´óĞ¡
-	cfg.buHeightMulti = 1					-- aura size height multiplier (1 = square), rectangle ftw :p auraµÄ¿í¸ß±ÈÀı (1 = Õı·½ĞÎ), Ò²ĞíÄã»áÏ²»¶³¤·½ĞÎ :p
+	cfg.buSize = 20							-- aura size for all frames except raidæ‰€æœ‰æ¡†æ¶(é™¤äº†å›¢é˜Ÿ)çš„auraå¤§å°
+	cfg.buSizeRaid = 22						-- aura size for raidå›¢é˜Ÿæ¡†æ¶çš„auraå¤§å°
+	cfg.buHeightMulti = 1					-- aura size height multiplier (1 = square), rectangle ftw :p auraçš„å®½é«˜æ¯”ä¾‹ (1 = æ­£æ–¹å½¢), ä¹Ÿè®¸ä½ ä¼šå–œæ¬¢é•¿æ–¹å½¢ :p
 	
 ------------
 -- player --
 ------------
-	cfg.showDebuff = false					--ÔÚoUFÍ·ÏñÉÏÏÔÊ¾Íæ¼Ò×ÔÉíµÄdebuff
-	cfg.PlayerRightSideSpellIcon = true		-- switch player's castbars spell icon position from left to right°ÑÍæ¼ÒµÄÊ©·¨ÌõÍ¼±ê´Ó×ó±ßÒÆ¶¯µ½ÓÒ±ß
+	cfg.showDebuff = false					--åœ¨oUFå¤´åƒä¸Šæ˜¾ç¤ºç©å®¶è‡ªèº«çš„debuff
+	cfg.PlayerRightSideSpellIcon = true		-- switch player's castbars spell icon position from left to rightæŠŠç©å®¶çš„æ–½æ³•æ¡å›¾æ ‡ä»å·¦è¾¹ç§»åŠ¨åˆ°å³è¾¹
 		
 ------------
 -- target --
 ------------
-	cfg.totot = false						--Ä¿±êµÄÄ¿±êµÄÄ¿±ê
-	cfg.TargetRightSideSpellIcon = false	-- switch target's castbars spell icon position from left to right°ÑÄ¿±êµÄÊ©·¨ÌõÍ¼±ê´Ó×ó±ßÒÆ¶¯µ½ÓÒ±ß
+	cfg.totot = false						--ç›®æ ‡çš„ç›®æ ‡çš„ç›®æ ‡
+	cfg.TargetRightSideSpellIcon = false	-- switch target's castbars spell icon position from left to rightæŠŠç›®æ ‡çš„æ–½æ³•æ¡å›¾æ ‡ä»å·¦è¾¹ç§»åŠ¨åˆ°å³è¾¹
 	
-	cfg.onlyShowPlayerBuffs = false 		-- only show buffs casted by player (target and focus)(¶ÔÄ¿±êºÍ½¹µãÉúĞ§)
-	cfg.onlyShowPlayerDebuffs = false		-- only show debuffs casted by player (target and focus)(¶ÔÄ¿±êºÍ½¹µãÉúĞ§)	
+	cfg.onlyShowPlayerBuffs = false 		-- only show buffs casted by player (target and focus)(å¯¹ç›®æ ‡å’Œç„¦ç‚¹ç”Ÿæ•ˆ)
+	cfg.onlyShowPlayerDebuffs = false		-- only show debuffs casted by player (target and focus)(å¯¹ç›®æ ‡å’Œç„¦ç‚¹ç”Ÿæ•ˆ)	
 	
 -----------
 -- focus --
 -----------
-	cfg.FocusRightSideSpellIcon = false		-- switch focus's castbars spell icon position from left to right½¹µãµÄÊ©·¨ÌõÍ¼±ê´Ó×ó±ßÒÆ¶¯µ½ÓÒ±ß
+	cfg.FocusRightSideSpellIcon = false		-- switch focus's castbars spell icon position from left to rightç„¦ç‚¹çš„æ–½æ³•æ¡å›¾æ ‡ä»å·¦è¾¹ç§»åŠ¨åˆ°å³è¾¹
 	
 -----------
 -- party --
 -----------
-	cfg.PartyFrames = true				-- set to false to disable party framesÆôÓÃ/½ûÓÃ Ğ¡¶Ó¿ò¼Ü
-	cfg.PartyTarget = true			--¶ÓÎéÄ¿±ê
+	cfg.PartyFrames = true				-- set to false to disable party frameså¯ç”¨/ç¦ç”¨ å°é˜Ÿæ¡†æ¶
+	cfg.PartyTarget = true			--é˜Ÿä¼ç›®æ ‡
 ----------
 -- raid --
 ----------
-	cfg.RaidFrames = false	 				-- set to false to disable raid frame groups 1-5 ÆôÓÃ/½ûÓÃ ÍÅ¶Ó¿ò¼Ü(¶ÓÎé1-5)
-	cfg.RaidFrames2 = false	 				-- set to false to disable raid frame groups 6-8 ÆôÓÃ/½ûÓÃ ÍÅ¶Ó¿ò¼Ü(¶ÓÎé6-8)
-	cfg.disableRaidFrameManager = false		-- enable/disable blizzards raidframe managerÆôÓÃ/½ûÓÃ blizzardsÍÅ¶Ó¹ÜÀí
-	cfg.RaidDebuffNumb = 2					-- maximum number of visible debuffs on raidframesÍÅ¶Ó¿ò¼ÜÖĞ¿ÉÏÔÊ¾µÄdebuff×î´óÊıÁ¿
+	cfg.RaidFrames = false	 				-- set to false to disable raid frame groups 1-5 å¯ç”¨/ç¦ç”¨ å›¢é˜Ÿæ¡†æ¶(é˜Ÿä¼1-5)
+	cfg.RaidFrames2 = false	 				-- set to false to disable raid frame groups 6-8 å¯ç”¨/ç¦ç”¨ å›¢é˜Ÿæ¡†æ¶(é˜Ÿä¼6-8)
+	cfg.disableRaidFrameManager = false		-- enable/disable blizzards raidframe managerå¯ç”¨/ç¦ç”¨ blizzardså›¢é˜Ÿç®¡ç†
+	cfg.RaidDebuffNumb = 2					-- maximum number of visible debuffs on raidframeså›¢é˜Ÿæ¡†æ¶ä¸­å¯æ˜¾ç¤ºçš„debuffæœ€å¤§æ•°é‡
 	
 -----------
 -- arena --
 -----------
-	cfg.ArenaFrames = false	 				-- set to false to disable arena framesÆôÓÃ/½ûÓÃ ¾º¼¼³¡¿ò¼Ü
+	cfg.ArenaFrames = false	 				-- set to false to disable arena frameså¯ç”¨/ç¦ç”¨ ç«æŠ€åœºæ¡†æ¶
 	
 ---------------
 -- main tank --
 ---------------
-	cfg.MTFrames = false	 					-- set to false to disable main tank framesÆôÓÃ/½ûÓÃ Ö÷Ì¹¿Ë¿ò¼Ü
+	cfg.MTFrames = false	 					-- set to false to disable main tank frameså¯ç”¨/ç¦ç”¨ ä¸»å¦å…‹æ¡†æ¶
 
 ----------
 -- boss --
 ----------
-	cfg.BossFrames = false	 				-- set to false to disable boss frames	ÆôÓÃ/½ûÓÃ Boss¿ò¼Ü
+	cfg.BossFrames = false	 				-- set to false to disable boss frames	å¯ç”¨/ç¦ç”¨ Bossæ¡†æ¶
 
 -------------------
 -- aura specific --
 -------------------
-	cfg.HideBlizzardAuras = false			-- hide blizzard buff, debuff and weapon enchant frame AND replace them with oUF's buffs/debuffs½ûÓÃ/ÆôÓÃ×ÔÉíµÄbuff/debuffÖ»ÏÔÊ¾oUFÍ·ÏñµÄ
-	cfg.HideAuraTimer = 180					-- spell timer is shown for shorter durations, than set value, hidden otherwise³¬¹ıÉè¶¨ÖµÔò·¨Êõ¼ÆÊ±Æ÷ÏÔÊ¾½Ï¶ÌµÄÊ±¼ä,·ñÔòÒş²Ø
-	cfg.FilterAuras = true					-- filter arena, party and raid auras by applying a whitelist (the whitelist can be found in Slim_AuraFilterList.lua)Í¨¹ıÌá¹©Ò»·İ°×Ãûµ¥À´¹ıÂË¾º¼¼³¡,Ğ¡¶ÓºÍÍÅ¶Ó Auras (°×Ãûµ¥ÁĞ±íÔÚSlim_AuraFilterList.luaÖĞ)
+	cfg.HideBlizzardAuras = false			-- hide blizzard buff, debuff and weapon enchant frame AND replace them with oUF's buffs/debuffsç¦ç”¨/å¯ç”¨è‡ªèº«çš„buff/debuffåªæ˜¾ç¤ºoUFå¤´åƒçš„
+	cfg.HideAuraTimer = 180					-- spell timer is shown for shorter durations, than set value, hidden otherwiseè¶…è¿‡è®¾å®šå€¼åˆ™æ³•æœ¯è®¡æ—¶å™¨æ˜¾ç¤ºè¾ƒçŸ­çš„æ—¶é—´,å¦åˆ™éšè—
+	cfg.FilterAuras = true					-- filter arena, party and raid auras by applying a whitelist (the whitelist can be found in Slim_AuraFilterList.lua)é€šè¿‡æä¾›ä¸€ä»½ç™½åå•æ¥è¿‡æ»¤ç«æŠ€åœº,å°é˜Ÿå’Œå›¢é˜Ÿ Auras (ç™½åå•åˆ—è¡¨åœ¨Slim_AuraFilterList.luaä¸­)
 	
 ---------------	
 -- framesize --
 ---------------
 	-- height
-	cfg.heightP = 14		-- playerÍæ¼Ò
-	cfg.heightT = 14		-- targetÄ¿±ê
-	cfg.heightF = 12		-- Focus½¹µã	
-	cfg.heightS = 14 		-- ToT, FocusTarget, petÄ¿±êµÄÄ¿±ê, ½¹µãÄ¿±ê, ³èÎï
-	cfg.heightM = 10 		-- MT, boss frames	Ö÷Ì¹¿Ë, Boss¿òÌå	
-	cfg.heightPA = 11		-- party, party pet - arenaĞ¡¶Ó, Ğ¡¶Ó³èÎï - ¾º¼¼³¡
-	cfg.heightR = 24		-- raidÍÅ¶Ó
-	cfg.heightCB = 4		-- class bar Ö°ÒµÌõ¸ß¶È
+	cfg.heightP = 14		-- playerç©å®¶
+	cfg.heightT = 14		-- targetç›®æ ‡
+	cfg.heightF = 12		-- Focusç„¦ç‚¹	
+	cfg.heightS = 14 		-- ToT, FocusTarget, petç›®æ ‡çš„ç›®æ ‡, ç„¦ç‚¹ç›®æ ‡, å® ç‰©
+	cfg.heightM = 10 		-- MT, boss frames	ä¸»å¦å…‹, Bossæ¡†ä½“	
+	cfg.heightPA = 11		-- party, party pet - arenaå°é˜Ÿ, å°é˜Ÿå® ç‰© - ç«æŠ€åœº
+	cfg.heightR = 24		-- raidå›¢é˜Ÿ
+	cfg.heightCB = 4		-- class bar èŒä¸šæ¡é«˜åº¦
 
 	-- width
-	cfg.widthP = 225		-- playerÍæ¼Ò
-	cfg.widthT = 225		-- targetÄ¿±ê
-	cfg.widthF = 200		-- Focus	½¹µã	
-	cfg.widthM = 180 		-- MT, boss framesÖ÷Ì¹¿Ë, Boss¿òÌå
-	cfg.widthS = 46 		-- ToT, FocusTarget, pet, party petÄ¿±êµÄÄ¿±ê, ½¹µãÄ¿±ê, ³èÎï, Ğ¡¶Ó³èÎï
-	cfg.widthPA = 200 		-- party - arenaĞ¡¶Ó - ¾º¼¼³¡
-	cfg.widthR = 64 		-- raidÍÅ¶Ó
+	cfg.widthP = 225		-- playerç©å®¶
+	cfg.widthT = 225		-- targetç›®æ ‡
+	cfg.widthF = 200		-- Focus	ç„¦ç‚¹	
+	cfg.widthM = 180 		-- MT, boss framesä¸»å¦å…‹, Bossæ¡†ä½“
+	cfg.widthS = 46 		-- ToT, FocusTarget, pet, party petç›®æ ‡çš„ç›®æ ‡, ç„¦ç‚¹ç›®æ ‡, å® ç‰©, å°é˜Ÿå® ç‰©
+	cfg.widthPA = 200 		-- party - arenaå°é˜Ÿ - ç«æŠ€åœº
+	cfg.widthR = 64 		-- raidå›¢é˜Ÿ
 	cfg.widthCB = 30		-- class bar
 	
 	-- hp|pp height, pp|info offset (optional)
 	cfg.heightHP = 18		-- change frame height above, instead
-	cfg.heightPP = 3.5		-- power heightÀ¶Ìõ¸ß¶È
-	cfg.PPyOffset = 3.5		-- power y-Offset, can be a positiv/negative (down/up) valueÀ¶ÌõµÄÎ»ÖÃ
+	cfg.heightPP = 3.5		-- power heightè“æ¡é«˜åº¦
+	cfg.PPyOffset = 3.5		-- power y-Offset, can be a positiv/negative (down/up) valueè“æ¡çš„ä½ç½®
 	
 --------------------------------	
--- oUF_WeaponEnchant settings ----oUFÎäÆ÷¸½Ä§Ä£¿éoUF_WeaponEnchantÉèÖÃ
+-- oUF_WeaponEnchant settings ----oUFæ­¦å™¨é™„é­”æ¨¡å—oUF_WeaponEnchantè®¾ç½®
 --------------------------------
-	cfg.WeapEnchantIconSize	= 30			-- oUF_WeaponEnchant icon sizeÎäÆ÷¸½Ä§Í¼±ê´óĞ¡(ĞèoUF_WeaponEnchant)
+	cfg.WeapEnchantIconSize	= 30			-- oUF_WeaponEnchant icon sizeæ­¦å™¨é™„é­”å›¾æ ‡å¤§å°(éœ€oUF_WeaponEnchant)
 
 	
-ns.cfg = cfg	-- don't touch this ...±ğÅöÕâÀï
+ns.cfg = cfg	-- don't touch this ...åˆ«ç¢°è¿™é‡Œ

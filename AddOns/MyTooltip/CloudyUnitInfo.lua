@@ -10,14 +10,15 @@ local currentUNIT, currentGUID
 local GearDB, SpecDB = {}, {}
 
 local nextInspectRequest = 0
-local lastInspectRequest = 0
+lastInspectRequest = 0
 
-local prefixColor = '|cffF9D700'
+local prefixColor = '|cffffeeaa'
 local detailColor = '|cffffffff'
 
 local gearPrefix = STAT_AVERAGE_ITEM_LEVEL .. ': '
 local specPrefix = SPECIALIZATION .. ': '
 local _
+
 
 --- Create Frame ---
 local f = CreateFrame('Frame', 'CloudyUnitInfo')
@@ -67,9 +68,62 @@ local function SetUnitInfo(gear, spec)
 	GameTooltip:Show()
 end
 
+
+--- Upgraded Item Bonus ---
+local UGBonus = {
+	[001] =  8, [373] =  4, [374] =  8, [375] =  4,
+	[376] =  4, [377] =  4, [379] =  4, [380] =  4,
+	[446] =  4, [447] =  8, [452] =  8, [454] =  4,
+	[455] =  8, [457] =  8, [459] =  4, [460] =  8,
+	[461] = 12, [462] = 16, [466] =  4, [467] =  8,
+	[469] =  4, [470] =  8, [471] = 12, [472] = 16,
+	[492] =  4, [493] =  8, [494] =  4, [495] =  8,
+	[496] =  8, [497] = 12, [498] = 16, [504] = 12,
+	[505] = 16, [506] = 20, [507] = 24,
+}
+
+
+--- Old BOA List ---
+local OldBOA = {
+	[42943] = 1, [42944] = 1, [42945] = 1, [42946] = 1, [42947] = 1,
+	[42948] = 1, [42949] = 1, [42950] = 1, [42951] = 1, [42952] = 1,
+	[42984] = 1, [42985] = 1, [42991] = 1, [42992] = 1, [44091] = 1,
+	[44092] = 1, [44093] = 1, [44094] = 1, [44095] = 1, [44096] = 1,
+	[44097] = 1, [44098] = 1, [44099] = 1, [44100] = 1, [44101] = 1,
+	[44102] = 1, [44103] = 1, [44105] = 1, [44107] = 1, [48677] = 1,
+	[48683] = 1, [48685] = 1, [48687] = 1, [48689] = 1, [48691] = 1,
+	[48716] = 1, [48718] = 1, [50255] = 1,
+}
+
+
+--- BOA Item Level ---
+local function BOALevel(level, id)
+	if (level > 80) and OldBOA[id] then
+		level = 80
+	elseif (level > 85) then
+		level = 85
+	end
+
+	if (level > 83) then
+		level = 333 - (85 - level) * 8
+	elseif (level > 80) then
+		level = 317 - (83 - level) * 17
+	elseif (level >= 68) then
+		level = 187 - (80 - level) * 4
+	elseif (level >= 58) then
+		level = 109 - (68 - level) * 3
+	else
+		level = level + 5
+	end
+
+	return level
+end
+
+
 --- PVP Item Detect ---
 local function IsPVPItem(link)
 	local itemStats = GetItemStats(link)
+
 	for stat in pairs(itemStats) do
 		if (stat == 'ITEM_MOD_RESILIENCE_RATING_SHORT') or (stat == 'ITEM_MOD_PVP_POWER_SHORT') then
 			return true
@@ -79,25 +133,6 @@ local function IsPVPItem(link)
 	return false
 end
 
--- iLevel retrieval
-local S_ITEM_LEVEL = "^" .. gsub(ITEM_LEVEL, "%%d", "(%%d+)")
-local scantip = CreateFrame("GameTooltip", "ItemLevelScanTooltip", nil, "GameTooltipTemplate")
-scantip:SetOwner(UIParent, "ANCHOR_NONE")
-
-local function GetItemLevel(itemLink)
-	scantip:SetOwner(UIParent, "ANCHOR_NONE")
-	scantip:SetHyperlink(itemLink)
-	for i = 2, scantip:NumLines() do -- Line 1 = name so skip
-		local text = _G["ItemLevelScanTooltipTextLeft"..i]:GetText()
-		if text and text ~= "" then
-			local currentLevel = strmatch(text, S_ITEM_LEVEL)
-			if currentLevel then
-				return currentLevel
-			end
-		end
-	end
-	scantip:Hide()
-end
 
 --- Unit Gear Info ---
 local function UnitGear(unit)
@@ -121,23 +156,27 @@ local function UnitGear(unit)
 					delay = true
 				else
 					local _, _, quality, level, _, _, _, _, slot = GetItemInfo(itemLink)
-					
+
 					if (not quality) or (not level) then
 						delay = true
 					else
-						local currentLevel = GetItemLevel(itemLink)
-						if currentLevel then
-							total = total + currentLevel
-						else
-							total = total + level
-						end
-						
-						if quality == 7 then
+						if (quality == 7) then
 							boa = boa + 1
+							local bid = tonumber(strmatch(itemLink, 'item:(%d+)'))
+							total = total + BOALevel(ulvl, bid)
 						else
 							if IsPVPItem(itemLink) then
 								pvp = pvp + 1
 							end
+
+							if (level >= 458) then
+								local uid = tonumber(strmatch(itemLink, '.+:(%d+)'))
+								if UGBonus[uid] then
+									level = level + UGBonus[uid]
+								end
+							end
+
+							total = total + level
 						end
 
 						if (i >= 16) then
@@ -220,29 +259,22 @@ local function ScanUnit(unit, forced)
 		if (not unit) or (UnitGUID(unit) ~= currentGUID) then return end
 
 		cachedGear = GearDB[currentGUID]
-		--cachedSpec = SpecDB[currentGUID]
-		--always to get spec
-		cachedSpec = UnitSpec('player')
+		cachedSpec = SpecDB[currentGUID]
 
-		--cachedGear? ok...skip get gear
-		if cachedGear and not forced then
-			SetUnitInfo(cachedGear, cachedSpec or CONTINUED)
+		if cachedGear or forced then
+			SetUnitInfo(cachedGear or CONTINUED, cachedSpec)
 		end
 
 		if not (IsShiftKeyDown() or forced) then
+			if cachedGear and cachedSpec then return end
 			if UnitAffectingCombat('player') then return end
 		end
 
 		if (not UnitIsVisible(unit)) then return end
 		if UnitIsDeadOrGhost('player') or UnitOnTaxi('player') then return end
 		if InspectFrame and InspectFrame:IsShown() then return end
-		
-		--press shift To refresh
-		if IsShiftKeyDown() then
-			SetUnitInfo(CONTINUED, CONTINUED)
-		else
-			SetUnitInfo(cachedGear or CONTINUED, cachedSpec or CONTINUED)
-		end
+
+		SetUnitInfo(CONTINUED, cachedSpec or CONTINUED)
 
 		local timeSinceLastInspect = GetTime() - lastInspectRequest
 		if (timeSinceLastInspect >= 1.5) then

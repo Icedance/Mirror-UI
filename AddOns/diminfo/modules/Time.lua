@@ -9,7 +9,7 @@ local panel = CreateFrame("Frame", nil, UIParent)
 if cfg.Time == true then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
-	Stat:SetFrameStrata("HIGH")
+	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = panel:CreateFontString(nil, "OVERLAY")

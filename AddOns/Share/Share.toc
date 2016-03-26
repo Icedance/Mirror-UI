@@ -38,5 +38,8 @@ TradeTabs.lua
 ##拍卖行增强
 AuctionPlus.lua
 
-##聊天按钮（已删）
-##chatbar.lua
+##幻化增强
+Closeup.lua
+
+##框体移动
+DragEmAll

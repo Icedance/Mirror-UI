@@ -1,4 +1,4 @@
-﻿local addon, ns = ...
+local addon, ns = ...
 local DebuffWhiteList = {        --DEBUFF白名单（不在下面列表的全部不显示）
 
 	
@@ -36,6 +36,7 @@ local DebuffWhiteList = {        --DEBUFF白名单（不在下面列表的全部
 
 		[GetSpellInfo(55078)] = true,----血疾病
 		[GetSpellInfo(55095)] = true,----冰疾病
+		[GetSpellInfo(155159)] = true,----死疽 
 
 
 		[GetSpellInfo(31803)] = true,----责罚

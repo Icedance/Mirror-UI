@@ -1,6 +1,6 @@
 --[[
 Name: LibBossIDs-1.0
-Revision: $Revision: 95 $
+Revision: $Revision: 96 $
 Author: Elsia
 Website: http://www.wowace.com/addons/libbossids-1-0/
 Documentation:
@@ -10,7 +10,7 @@ Dependencies: LibStub
 License: Public Domain, Absolutely no Warranty.
 ]]
 
-local MAJOR, MINOR = "LibBossIDs-1.0", "$Revision: 95 $"
+local MAJOR, MINOR = "LibBossIDs-1.0", "$Revision: 96 $"
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
@@ -516,6 +516,30 @@ local BossIDs = {
 	[63191]	= true,	-- Garalon
 	[62397]	= true,	-- Wind Lord Mel'jarak
 	[62980]	= true,	-- Zorlok
+
+	-------------------------------------------------------------------------------
+	-- Hellfire Citadel (Draenor)
+	-------------------------------------------------------------------------------
+	-- Hellbreach
+	[95068]	= true,	-- Hellfire Assault - Siegemaster Mar'tak
+	[90284]	= true,	-- Iron Reaver
+	[90776]	= true,	-- Kormrok
+	-- Halls of Blood
+	[90378]	= true,	-- Kilrogg Deadeye
+	[92144]	= true,	-- Hellfire High Council - Dia Darkwhisper
+	[92146]	= true,	-- Hellfire High Council - Gurtogg Bloodboil
+	[93713]	= true,	-- Hellfire High Council - Blademaster Jubei'thos
+	[91809]	= true,	-- Gorefiend
+	-- Bastion of Shadows
+	[95067]	= true,	-- Shadow-Lord Iskar
+	[90296]	= true,	-- Socrethar the Eternal - Soulbound Construct
+	[93439]	= true,	-- Tyrant Velhari
+	-- Destructor’s Rise
+	[89890]	= true,	-- Fel Lord Zakuun
+	[93068]	= true,	-- Xhul'horac
+	[91349]	= true,	-- Mannoroth
+	-- The Black Gate
+	[91331]	= true,	-- Archimonde
 
 	-------------------------------------------------------------------------------
 	-- Hellfire Citadel: Hellfire Ramparts
@@ -1152,6 +1176,11 @@ local BossIDs = {
 	[25315]	= true,	-- Kil'jaeden
 	[25840]	= true,	-- Entropius
 	[24892]	= true,	-- Sathrovarr the Corruptor
+
+	-------------------------------------------------------------------------------
+	-- Tanaan Jungle
+	-------------------------------------------------------------------------------
+	[94015]	= true,	-- Supreme Lord Kazzak
 
 	-------------------------------------------------------------------------------
 	-- Tempest Keep: The Arcatraz

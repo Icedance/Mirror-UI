@@ -42,7 +42,7 @@ ChatTypeInfo["SAY"].sticky  = 1; -- 说
 ChatTypeInfo["PARTY"].sticky 	= 1; -- 小队
 ChatTypeInfo["GUILD"].sticky 	= 1; -- 公会
 ChatTypeInfo["WHISPER"].sticky 	= 1; -- 密语
-ChatTypeInfo.BN_WHISPER.sticky   = 1; -- 战网好友密语
+ChatTypeInfo["BN_WHISPER"].sticky   = 1; -- 战网好友密语
 ChatTypeInfo["RAID"].sticky 	= 1; -- 团队
 ChatTypeInfo["OFFICER"].sticky 	= 1; -- 官员
 ChatTypeInfo["CHANNEL"].sticky 	= 1; -- 频道
@@ -59,8 +59,8 @@ CHAT_FRAME_TAB_ALERTING_NOMOUSE_ALPHA = 0     -- 鼠标离开时,标签闪动时
 
 
   --don't cut the toastframe
-  BNToastFrame:SetClampedToScreen(true)
-  BNToastFrame:SetClampRectInsets(-15,15,15,-15)
+  --BNToastFrame:SetClampedToScreen(true)
+  --BNToastFrame:SetClampRectInsets(-15,15,15,-15)
 
   --ChatFontNormal:SetFont(STANDARD_TEXT_FONT, 12, "THINOUTLINE")
   --ChatFontNormal:SetShadowOffset(1,-1)
@@ -327,7 +327,6 @@ local chn, rplc
 		"[%1組隊]",   
 		"[%1世界]",   
 		"[%1招募]",
-                "[%1世界]",  
                 "[%1自定义]",    -- 自定义频道缩写请自行修改
 	}
         end
@@ -364,8 +363,7 @@ local chn, rplc
 		chn[4] = "%[%d+%. 尋求組隊%]"
                 chn[5] = "%[%d+%. 世界防務%]"	
 		chn[6] = "%[%d+%. 公會招募.-%]"
-                chn[7] = "%[%d+%. 大脚世界頻道.-%]"
-                chn[8] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
+                chn[7] = "%[%d+%. 自定义频道.-%]"   -- 请修改频道名对应你游戏里的频道
 	end
 	
 local function AddMessage(frame, text, ...)
@@ -1345,6 +1343,7 @@ local _xBNSendConversationMessage=BNSendConversationMessage
 	Written by Junxx EU-Khaz'goroth <addons@colordesigns.de>
 	http://wow.curseforge.com/addons/chattooltips/
 ----------------------------------------------------------------------]]
+local WoD = select(4, GetBuildInfo()) >= 6e4
 
 local supportedType = {
 	item = true,
@@ -1355,7 +1354,12 @@ local supportedType = {
 	glyph = true,
 	unit = true,
 	talent = true,
+
 }
+
+if ( not self ) then
+	self = GameTooltip;
+end
 
 local CompareShowing
 
@@ -1364,11 +1368,13 @@ f:RegisterEvent("MODIFIER_STATE_CHANGED")
 f:SetScript("OnEvent", function(self, event, key, state)
 	if CompareShowing and (key == "LSHIFT" or key == "RSHIFT") and not GameTooltip:IsEquippedItem() then
 		if state == 1 then
-			GameTooltip_ShowCompareItem(GameTooltip, 1)
+			GameTooltip_ShowCompareItem(GameTooltip)
 		else
 			ShoppingTooltip1:Hide()
 			ShoppingTooltip2:Hide()
-			ShoppingTooltip3:Hide()
+			if(not WoD) then
+				ShoppingTooltip3:Hide()
+			end
 		end
 	end
 end)
@@ -1499,7 +1505,6 @@ elseif (GetLocale() == "zhTW") then
 	cf.L = {
 		["You"] = "你",
 		["Space"] = "、",
-		["Channel"] = "大腳世界頻道",
 		["RaidAlert"] = "%*%*(.+)%*%*",
 		["QuestReport"] = "任務進度%s?[:：]",
 		["Achievement"] = "[%s]獲得了成就%s!",
@@ -1518,7 +1523,7 @@ cf.Config = {
 	["Enabled"] = true, --Enable the ChatFilter. // 是否开启本插件
 
 	["noprofanityFilter"] = true, --Disable the profanityFilter. // 关闭语言过滤器
-	["nowhisperSticky"] = true, --Disable the sticky of Whisper. // 取消持续密语
+	["nowhisperSticky"] = false, --Disable the sticky of Whisper. // 取消持续密语
 	["noaltArrowkey"] = false, --Disable the AltArrowKeyMode. // 取消按住ALT才能移动光标
 	["nojoinleaveChannel"] = true, --Disable the alert joinleaveChannel. // 关闭进出频道提示
 
@@ -1526,14 +1531,14 @@ cf.Config = {
 	["FilterPetTalentSpec"] = false, --Filter the messages:"Your pet has learned/unlearned..." // 不显示“你的宠物学会了/忘却了…”
 
 	["MergeAchievement"] = true, --Merge the messages:"...has earned the achievement..." // 合并显示获得成就
-	["MergeManufacturing"] = true, --Merge the messages:"You has created..." // 合并显示“你制造了…”
+	["MergeManufacturing"] = false, --Merge the messages:"You has created..." // 合并显示“你制造了…”
 
 	["FilterRaidAlert"] = true, --Filter the bullshit messages from RaidAlert. // 过滤煞笔RaidAlert的脑残信息
 	["FilterQuestReport"] = true, --Filter the bullshit messages from QuestReport. // 过滤掉烦人的任务通报信息
 
 	["FilterDuelMSG"] = true, --Filter the messages:"... has defeated/fled from ... in a duel." // 过滤“...在决斗中战胜了...”
-	["FilterDrunkMSG"] = true, --Filter the drunk messages:"... has drunked ..."// 过滤“...喝醉了.”
-	["FilterAuctionMSG"] = true, --Filter the messages:"Auction created/cancelled."// 过滤“已开始拍卖/拍卖取消.”
+	["FilterDrunkMSG"] = false, --Filter the drunk messages:"... has drunked ..."// 过滤“...喝醉了.”
+	["FilterAuctionMSG"] = false, --Filter the messages:"Auction created/cancelled."// 过滤“已开始拍卖/拍卖取消.”
 
 	["FilterAdvertising"] = true, --Filter the advertising messages. // 过滤广告信息
 	["AllowMatchs"] = 2, --How many words can be allowd to use. // 允许的关键字配对个数
@@ -1541,7 +1546,7 @@ cf.Config = {
 	["IgnoreMore"] = false, --When the ignorelist is full, you can still ignore players. // 当屏蔽列表满了后仍然可以屏蔽玩家
 
 	["FilterMultiLine"] = false, --Filter the multiple messages. // 过滤多行信息
-	["AllowLines"] = 4, --How many lines can be allowd. // 允许的最大行数
+	["AllowLines"] = 6, --How many lines can be allowd. // 允许的最大行数
 
 	["FilterRepeat"] = true, --Filter the repeat messages. // 过滤重复聊天信息
 	["RepeatAlike"] = 100, --Set the similarity between the messages. // 设定重复信息相似度
@@ -1565,7 +1570,7 @@ cf.Config = {
 		"boss",
 		"dps",
 	},
-	["DangerWords"] = {"大尾巴","平台交易","担保","承接","工作室","纯手工","游戏币","代打","代练","战点","手工金","手工G","托管","带级","皇冠店","一赔","套装消费","點心","冲钻","店铺","皇冠","小卡","大卡","大饼","小饼","特惠","服务","加盟","七煌","套餐","手工带","塞纳","尘埃","Style","落叶","代刷","代抓","带刷","牛肉","专业","毕业","大桥","QQ","企鹅","联系","点心","-60","-100","-90","2200","2400","3200","0元","消保","好评","优惠","付款","默默","续费","充值","大桥","美味","梦想","黄金","战场","征服","打扰","小花","大花","出货","丫丫","声旺","一波流","小號","渃葉","熵会","落夜","天意","佰圆","二佰","二二","金币","收金","万G","點訫","军装","浅唱","吖妹","续费","大时间","小时间","660","保驾护航","贰百","0万","W金","PJ40","肖废","万金","0块","3015","點芯","-100","90-","美味","W=","可散卖","一百","⒈","⒐","⒉","⒎","萬G","畅游","￥","代刷","陶宝","點訫","宝儿","宝搜","點.卡","饼干","老牌经营","G出售","买G","重.拳.戈.隆","全.网.最.低","荣.誉_征.服","RMB=","包团包毕业","风神无敌","无敌0灯","小可爱","刷红玉","荣.誉","征.服","荣.征","誉.服","波塞冬斯","的Q","小-可","可-爱","H副本","抱团","最后一波","站神","小.甜.心","大/小","小.可","可.爱","十万G","带红玉","接招募","二.佰","42.W","千与千寻","夕瑶歌尽","大{rt2}","小{rt2}","刷屏[勿见]","扰屏[勿见]","月下G","包团","包毕业","挑Z","雪亽","陶{rt2}","{rt2}shop","冰{rt2}","点{rt2}","冰{@}点","挑{@}战","上.陶","锈水财阀","水财阀","{*}冰","{*}点","{*}竞{*}技","月下G团","月下G","牛牛","冰封H黑","封H黑石","大尾巴","内销G团","价格公道","强力老板","躺尸老板","价格便宜啦","黑石G团","皇朝","老板无竞争","强力消费","来老板","跨服H黑石","G团包过","消费老板","消费的老板","支F宝","纵横魔兽","支持躺尸","⑥","⑤","黑石铸造厂","$带走","比例1W","马云消费","散卖","正负","消废","黑石G团","职业老板","清倉","H畢業","黑手门票","内销","赈灾团","畢業","可散"},
+	["DangerWords"] = {"大尾巴","平台交易","担保","承接","工作室","纯手工","游戏币","代打","代练","战点","手工金","手工G","托管","带级","皇冠店","一赔","套装消费","點心","冲钻","店铺","皇冠","小卡","大卡","大饼","小饼","特惠","加盟","七煌","套餐","手工带","塞纳","尘埃","Style","落叶","代刷","代抓","带刷","牛肉","专业","毕业","大桥","QQ","企鹅","联系","点心","-60","-100","-90","2200","2400","3200","0元","消保","好评","优惠","付款","默默","续费","充值","大桥","美味","梦想","黄金","战场","征服","打扰","小花","大花","出货","丫丫","声旺","一波流","小號","渃葉","熵会","落夜","天意","佰圆","二佰","二二","金币","收金","万G","點訫","军装","浅唱","吖妹","续费","大时间","小时间","660","保驾护航","贰百","0万","W金","PJ40","肖废","万金","0块","3015","點芯","-100","90-","美味","W=","可散卖","一百","⒈","⒐","⒉","⒎","萬G","畅游","￥","代刷","陶宝","點訫","宝儿","宝搜","點.卡","饼干","老牌经营","G出售","买G","重.拳.戈.隆","全.网.最.低","全网","荣.誉_征.服","RMB=","包团包毕业","风神无敌","无敌0灯","小可爱","刷红玉","荣.誉","征.服","荣.征","誉.服","波塞冬斯","的Q","小-可","可-爱","H副本","抱团","最后一波","站神","小.甜.心","大/小","小.可","可.爱","十万G","带红玉","接招募","二.佰","42.W","千与千寻","夕瑶歌尽","大{rt2}","小{rt2}","刷屏[勿见]","扰屏[勿见]","月下G","包团","包毕业","挑Z","雪亽","陶{rt2}","{rt2}shop","冰{rt2}","点{rt2}","冰{@}点","挑{@}战","上.陶","锈水财阀","水财阀","{*}冰","{*}点","{*}竞{*}技","月下G团","月下G","牛牛","冰封H黑","封H黑石","大尾巴","内销G团","价格公道","强力老板","躺尸老板","价格便宜啦","黑石G团","皇朝","老板无竞争","强力消费","来老板","跨服H黑石","G团包过","消费老板","消费的老板","支F宝","纵横魔兽","支持躺尸","⑥","⑤","黑石铸造厂","$带走","比例1W","马云消费","散卖","正负","消废","黑石G团","职业老板","清倉","H畢業","黑手门票","内销","赈灾团","畢業","可散"},
 	["WhiteList"] = {
 	},
 	["BlackList"] = {

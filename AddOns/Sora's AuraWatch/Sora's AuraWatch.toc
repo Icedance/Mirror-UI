@@ -1,8 +1,9 @@
 ## Interface: 60200
 ## Title: |cff70C0F5Sora's|r AuraWatch
-## Title-zhTW: |cff70C0F5Sora's|r AuraWatch
+## Notes: Sora's O(กษ_กษ)O
 ## Notes: Neavo
 ## Notes-zhTW: Neavo
+## SavedVariablesPerCharacter: sRawDB
 
 ## X-Email:neavo7@Gmail.com
 

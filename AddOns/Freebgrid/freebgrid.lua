@@ -275,11 +275,11 @@ end
 
 function ns:IsHealer(class )
 
-	return (class == "PALADIN" and IsSpellKnown(31821))
+	return (class == "PALADIN" and IsSpellKnown(20473))
 	or (class == "SHAMAN" and IsSpellKnown(77130))
-	or (class == "DRUID" and IsSpellKnown(48438))
+	or (class == "DRUID" and IsSpellKnown(88423))
 	or (class == "PRIEST" and IsSpellKnown(527))
-	or (class == "MONK" and IsSpellKnown(115450))
+	or (class == "MONK" and IsSpellKnown(115070))
 
 end
 
@@ -293,12 +293,12 @@ function ns:GetDispelClass()
 	local class = ns.general.class
 	local spec = GetSpecialization() or 0
 	local dispelClass = {				
-		["PRIEST"] 	= { Magic = true, Disease = self:IsHealer(class ) },
-		["SHAMAN"] 	= { Curse = true, Magic = self:IsHealer(class ) },
-		["PALADIN"] = { Poison = true, Disease = true,  Magic = self:IsHealer(class ) },
-		["MAGE"] = { Curse = true,  Magic = self:IsHealer(class )},
-		["DRUID"] = { Curse = true, Poison = true,  Magic = self:IsHealer(class ) },
-		["MONK"] = { Poison = true, Disease = true,  Magic = self:IsHealer(class ) },
+		["PRIEST"]	= { Magic = true, Disease = self:IsHealer(class ) },
+		["SHAMAN"]	= { Curse = true, Magic = self:IsHealer(class ) },
+		["PALADIN"]	= { Poison = true, Disease = true, Magic = self:IsHealer(class ) },
+		["MAGE"]	= { Curse = true },
+		["DRUID"]	= { Curse = true, Poison = true, Magic = self:IsHealer(class ) },
+		["MONK"]	= { Poison = true, Disease = true, Magic = self:IsHealer(class ) },
 	}
 
 	return dispelClass[class] or {}
@@ -1087,7 +1087,8 @@ function ns:UpdateRoleIcon(self)
 			elseif role == 'HEALER' then
 				self.RoleIcon:SetTexture([[Interface\AddOns\Freebgrid\media\healer.tga]])
 			elseif role == 'DAMAGER' then
-				self.RoleIcon:SetTexture([[Interface\AddOns\Freebgrid\media\dps.tga]])
+				self.RoleIcon:SetTexture("")
+				--self.RoleIcon:SetTexture([[Interface\AddOns\Freebgrid\media\dps.tga]])
 			end
 			self.RoleIcon:SetTexCoord(0, 1, 0, 1)
 			self.RoleIcon:Show()
@@ -1834,21 +1835,32 @@ function ns:UpdateIndicatorTimer(self, elapsed)
 					tbl[k].expires = nil
 					tbl[k]:Hide()
 				else
-					if text ~= "" then
-						text = text.."-"..FormatTime(timeLeft)
+					if text ~= "" and timeLeft < 5 and tbl[k].mine then
+						if text:find("|cff") then
+							local te = string.sub(text, 11, 11)
+							text = ns:hex(210/255, 100/255, 100/255)..te.."|r"
+						end
+						--tbl[k]:SetTextColor(210/255, 100/255, 100/255)
+						
+						--text = text.."-"..FormatTime(timeLeft)
 					else
-						text = FormatTime(timeLeft)
-					end
-					if timeLeft > 5 then
-						text = ns:hex(0.0, 1, 0.0)..text.."|r"
-					else
-						text = ns:hex(1, 0.0, 0.0)..text.."|r"
+						--tbl[k]:SetTextColor(1, 204/255, 0)
+						--text = FormatTime(timeLeft)
 					end
 				end
-			end		
+			end	
+			if (k == "Cen") and tbl[k].expires then
+				local timeLeft = tbl[k].expires - GetTime()
+				if timeLeft > 5 then
+					text = "|cff50e646"..FormatTime(timeLeft).."|r"
+				else
+					text = "|cffd26464"..FormatTime(timeLeft).."|r"
+				end
+			end
 		end
 		if text ~= "" then
 			tbl[k]:SetText(text)
+			text = ""
 		end
 	end
 end
@@ -1880,26 +1892,32 @@ function ns:UpdateIndicators(self)
 	local unit = self.displayedUnit or self.unit
 	if not UnitExists(unit) then return end
 	if string.match(unit, "pet") or not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit) then return end
-
+	local tlent = GetSpecialization() or -1
 	local text = ""
 	local r, g, b
 	for k, _ in pairs(self.Indicators) do
 		text = ""
 		if type(ns.general.IndicatorsSet[k]) == "table" then		
 			for i, v in pairs(ns.general.IndicatorsSet[k]) do
-				if v.talent and v.talent == GetSpecialization() then break end
-				--if v.talent and v.talent ~= GetSpecialization() then break end
+				
 				if type(ns.general.IndicatorsSet[k][i]) == "table" then	
+					
 					if type(v.color) == "table" then
 						r, g, b = v.color.r, v.color.g, v.color.b
 					else
 						r, g, b = 0.0, 1, 0.0
 					end
-
 					local name, rank, texture, count, dtype, duration, expires, caster = UpdateIndicatorsAura(self, v.id, v.isbuff)																	
+					if caster == "player" then self.Indicators[k].mine = true else self.Indicators[k].mine = false end
 					if not name then	
 						if v.lack then
-							text = text..ns:hex(r, g, b)..i.."|r"
+							if v.talent then
+								if v.talent == tlent then
+									text = text..ns:hex(r, g, b)..i.."|r"
+								end
+							else
+								text = text..ns:hex(r, g, b)..i.."|r"
+							end
 						end
 						self.Indicators[k].expires = nil
 						self.Indicators[k].count = nil
@@ -1914,7 +1932,13 @@ function ns:UpdateIndicators(self)
 								end
 							else
 								if not v.lack then
-									text = text..ns:hex(r, g, b)..i.."|r"
+									if v.talent then
+										if v.talent == tlent then
+											text = text..ns:hex(r, g, b)..i.."|r"
+										end
+									else
+										text = text..ns:hex(r, g, b)..i.."|r"
+									end
 								end
 								if not v.count and not v.etime then
 									self.Indicators[k].expires = nil

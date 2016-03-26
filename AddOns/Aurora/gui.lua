@@ -92,36 +92,36 @@ local title = gui:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 title:SetPoint("TOP", 0, -26)
 title:SetText("Aurora "..GetAddOnMetadata("Aurora", "Version"))
 
-local features = addSubCategory(gui, "普通选项")
+local features = addSubCategory(gui, "Features")
 features:SetPoint("TOPLEFT", 16, -80)
 
-local bagsBox = createToggleBox(gui, "bags", "背包框架")
+local bagsBox = createToggleBox(gui, "bags", "Bags")
 bagsBox:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -20)
 
-local chatBubbleBox = createToggleBox(gui, "chatBubbles", "聊天气泡")
+local chatBubbleBox = createToggleBox(gui, "chatBubbles", "Chat bubbles")
 chatBubbleBox:SetPoint("LEFT", bagsBox, "RIGHT", 90, 0)
 
-local lootBox = createToggleBox(gui, "loot", "拾取框架")
+local lootBox = createToggleBox(gui, "loot", "Loot")
 lootBox:SetPoint("TOPLEFT", bagsBox, "BOTTOMLEFT", 0, -8)
 
-local tooltipsBox = createToggleBox(gui, "tooltips", "鼠标提示框架")
+local tooltipsBox = createToggleBox(gui, "tooltips", "Tooltips")
 tooltipsBox:SetPoint("LEFT", lootBox, "RIGHT", 90, 0)
 
-local appearance = addSubCategory(gui, "美化选项")
+local appearance = addSubCategory(gui, "Appearance")
 appearance:SetPoint("TOPLEFT", lootBox, "BOTTOMLEFT", 0, -30)
 
-local fontBox = createToggleBox(gui, "enableFont", "替换默认字体")
+local fontBox = createToggleBox(gui, "enableFont", "Replace default game fonts")
 fontBox:SetPoint("TOPLEFT", appearance, "BOTTOMLEFT", 0, -20)
 
-local colourBox = createToggleBox(gui, "useCustomColour", "使用自定义颜色高亮而不是根据职业颜色")
+local colourBox = createToggleBox(gui, "useCustomColour", "Custom highlight colour")
 colourBox:SetPoint("TOPLEFT", fontBox, "BOTTOMLEFT", 0, -8)
 
 local colourButton = CreateFrame("Button", nil, gui, "UIPanelButtonTemplate")
 colourButton:SetPoint("LEFT", colourBox.Text, "RIGHT", 20, 0)
 colourButton:SetSize(128, 25)
-colourButton:SetText("选色...")
+colourButton:SetText("Change...")
 
-local useButtonGradientColourBox = createToggleBox(gui, "useButtonGradientColour", "按钮渐变样式")
+local useButtonGradientColourBox = createToggleBox(gui, "useButtonGradientColour", "Gradient button style")
 useButtonGradientColourBox:SetPoint("TOPLEFT", colourBox, "BOTTOMLEFT", 0, -8)
 
 local alphaSlider = CreateFrame("Slider", "AuroraOptionsAlpha", gui, "OptionsSliderTemplate")
@@ -129,7 +129,7 @@ alphaSlider:SetPoint("TOPLEFT", useButtonGradientColourBox, "BOTTOMLEFT", 0, -40
 BlizzardOptionsPanel_Slider_Enable(alphaSlider)
 alphaSlider:SetMinMaxValues(0, 1)
 alphaSlider:SetValueStep(0.1)
-AuroraOptionsAlphaText:SetText("调节背景透明度 ")
+AuroraOptionsAlphaText:SetText("Backdrop opacity *")
 
 local line = gui:CreateTexture(nil, "ARTWORK")
 line:SetSize(600, 1)
@@ -138,12 +138,12 @@ line:SetTexture(1, 1, 1, .2)
 
 local reloadText = gui:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 reloadText:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 0, -40)
-reloadText:SetText("这些设置需要重新加载游戏界面才能生效。")
+reloadText:SetText("Settings not marked with an asterisk (*) require a UI reload.")
 
 local reloadButton = CreateFrame("Button", nil, gui, "UIPanelButtonTemplate")
 reloadButton:SetPoint("LEFT", reloadText, "RIGHT", 20, 0)
 reloadButton:SetSize(128, 25)
-reloadButton:SetText("重置界面")
+reloadButton:SetText("Reload UI")
 
 local credits = gui:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 credits:SetText("Aurora by Lightsword @ Argent Dawn - EU / Haleth on wowinterface.com")

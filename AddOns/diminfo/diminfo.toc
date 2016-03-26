@@ -1,9 +1,9 @@
 ## Interface: 60200
-## Author: Tushu
-## Credits-to:Loshine,Tukz, Katae
+## Author: Loshine
+## Credits-to:Tukz, Katae
 ## Title: |cff777777dim|rinfo
-## Notes: Info Text,Fans update
-## Version: v2.3
+## Notes: Info Text
+## Version: v1.3
 ## SavedVariables: diminfo
 
 cfg.lua
@@ -15,7 +15,6 @@ locale\taiwan.lua
 
 modules\Bags.lua
 modules\Coords.lua
-modules\Goodfortune.lua
 modules\Durability.lua
 modules\Friends.lua
 modules\Gold.lua

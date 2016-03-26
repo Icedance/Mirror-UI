@@ -57,7 +57,7 @@ if cfg.Bags == true then
 			for b = 0, 4 do
 				for s = 1, GetContainerNumSlots(b) do
 					local l = GetContainerItemLink(b, s)
-					if l and (select(11, GetItemInfo(l)) ~= nil) and (select(2, GetContainerItemInfo(b, s))~=nil) then
+					if l and GetItemInfo(l) ~= nil then
 						local p = select(11, GetItemInfo(l)) * select(2, GetContainerItemInfo(b, s))
 						if select(3, GetItemInfo(l)) == 0 and p > 0 then
 							UseContainerItem(b, s)
